@@ -10,6 +10,8 @@ from .models import *
 from .forms import *
 from .services import selection_by_filters
 
+from transliterate import slugify
+
 
 class SelectionView(View):
     """
@@ -123,7 +125,7 @@ def one_hairdresser_view(requset, slug_name):
     pers = Hairdresser.objects.get(slug=slug_name)
     skills = pers.skills.all().order_by('name')
     context = {
-        'title': f'{pers.name} {pers.surname}',
+        'title': f'{pers.name.capitalize()} {pers.surname.capitalize()}',
         'avatar': pers.avatar,
         'rating': pers.rating,
         'city': pers.city,
@@ -151,10 +153,10 @@ class RegistrationUserView(CreateView):
         user = form.save()
         Hairdresser.objects.create(
             owner=user,
-            name=user.first_name,
-            surname=user.last_name,
+            name=user.first_name.capitalize(),
+            surname=user.last_name.capitalize(),
             email=user.email,
-            # slug=user.username
+            slug=slugify(user.username)
         )
         login(self.request, user)
         return redirect('users_app:homepage')

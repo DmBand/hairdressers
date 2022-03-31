@@ -4,7 +4,8 @@ from django.db import models
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
-from slugify import slugify
+# from slugify import slugify
+# from django.utils.text import slugify
 
 
 class Skill(models.Model):
@@ -56,9 +57,9 @@ class Hairdresser(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(f'{self.name} {self.surname}')
-        return super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(f'{self.name} {self.surname}', allow_unicode=True)
+    #     return super().save(*args, **kwargs)
 
 
 # class SimpleUser(models.Model):

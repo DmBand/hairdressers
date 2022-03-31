@@ -6,6 +6,7 @@ from .models import Hairdresser
 
 
 class RegistrationUserForm(UserCreationForm):
+    username = forms.CharField(label='Логин', max_length=30)
 
     class Meta:
         model = User
