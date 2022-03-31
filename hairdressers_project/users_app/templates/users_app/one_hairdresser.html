@@ -1,0 +1,66 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="main1">
+    <section class="main-title">
+        <div class="photo-and-rating">
+            {% if avatar %}
+            <img src="{{ avatar.url }}." alt="Аватар" class="photo-person">
+            {% else %}
+            <img src="{% static 'users_app/assets/img/person/4+.jpg' %}." alt="Аватар" class="photo-person">
+            {% endif %}
+            <div class="rating-person">{{ rating }}</div>
+        </div>
+        <div class="main-name-city">
+            <h1 class="name-surname">{{ title }}</h1>
+            <h2 class="city">{{ city }}</h2>
+        </div>
+    </section>
+    <section class="skills-and-info">
+        <div class="info">
+            <div class="title-info all-skills">Специализация</div>
+            <ul class="common-style">
+                {% for skill in skills %}
+                <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="info">
+            <div class="title-info phone-number">Номер телефона</div>
+            <div class="common-style">{{ phone }}</div>
+        </div>
+        <div class="info">
+            <div class="title-info email">E-mail</div>
+            <div class="common-style">{{ email }}</div>
+        </div>
+        <div class="info">
+            <div class="title-info instagram">Instagram</div>
+            {% if instagram %}
+            <a href="#" class="common-style">{{ instagram }}</a>
+            {% else %}
+            <span class="common-style">-</span>
+            {% endif %}
+        </div>
+        <div class="info">
+            <div class="title-info another-info">Дополнительная информация</div>
+            {% if another_info %}
+            <div class="common-style">{{ another_info }}</div>
+            {% else %}
+            <span class="common-style">-</span>
+            {% endif %}
+        </div>
+    </section>
+    <section class="portfolio">
+        <div class="portolio-title">Портфолио</div>
+        <div class="portfolio-items">
+            <img src="{% static 'users_app/assets/img/person/3+.jpg' %}" alt="img1" class="ptf-item">
+            <img src="{% static 'users_app/assets/img/person/bg1+.jpg' %}" alt="img2" class="ptf-item">
+            <img src="{% static 'users_app/assets/img/person/bg3+.jpg' %}" alt="img3" class="ptf-item">
+            <img src="{% static 'users_app/assets/img/person/bg4+.jpg' %}" alt="img4" class="ptf-item">
+            <img src="{% static 'users_app/assets/img/person/2+.jpg' %}" alt="img5" class="ptf-item">
+            <img src="{% static 'users_app/assets/img/person/bg2+.jpg' %}" alt="img6" class="ptf-item">
+        </div>
+    </section>
+</main>
+{% endblock content %}

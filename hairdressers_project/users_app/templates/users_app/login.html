@@ -1,0 +1,20 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block header %}
+<a class="description-link" href="#description" title="Описание">
+    <img class="description-link-logo" src="{% static 'users_app/assets/svg/main-description.svg' %}" alt="language">
+</a>
+{% endblock header %}
+
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    <div style="color: red;">{{ form.non_field_errors }}</div>
+    {% for f in form %}
+    <p style="color: #fff;">{{ f.label }} {{ f }}</p>
+    <div style="color: red;">{{ f.errors }}</div>
+    {% endfor %}
+    <button type="submit">Вход</button>
+</form>
+{% endblock content %}

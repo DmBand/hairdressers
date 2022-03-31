@@ -1,0 +1,13 @@
+{% extends 'users_app/base.html' %}
+
+{% block content %}
+<form method="post" action="{% url 'users_app:register' %}">
+  {% csrf_token %}
+  {% for f in form %}
+  <p style="color: #fff;">{{ f.name }} {{ f }}</p>
+  <div style="color: red;">{{ f.errors }}</div>
+  {% endfor %}
+  <p><input type="submit" value="create my account"></p>
+
+</form>
+{% endblock %}

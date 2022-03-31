@@ -1,0 +1,49 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block header %}
+<a class="description-link" href="#description" title="Описание">
+    <img class="description-link-logo" src="{% static 'users_app/assets/svg/main-description.svg' %}" alt="language">
+</a>
+{% endblock header %}
+
+{% block content %}
+<main class="main">
+    <section class="main-page">
+        <div class="main-photo">
+            <div class="photo-item"></div>
+            <div class="photo-item"></div>
+        </div>
+        <div class="title-container">
+            <h1 class="title-text" data-i18n="">Твой парикмахер</h1>
+            <a href="{% url 'users_app:selection' %}" class="selection-link">
+                <div class="selection-text">Подобрать</div>
+            </a>
+        </div>
+        <div class="photo-item2"></div>
+    </section>
+    <section class="description" id="description">
+        <div class="description-container">
+            <div class="description-item">
+                <div class="description-title">Ищете парикмахера / барбера?</div>
+                <div class="description-text">
+                    Здесь вы найдёте себе профессионала по вкусу! Просматривайте работы мастеров и выбирайте того, кто максимально
+                    подходит под ваши требования. Удобные фильтры помогут максимально упростить процесс поиска. Связывайтесь
+                    напрямую с понравившимся мастером и договаривайтесь на удобное для вас время. И не забывайте оценивать работы
+                    мастеров, так как это в будущем поможет вам и другим людям найти именно то, что нужно!
+                </div>
+            </div>
+            <div class="description-item">
+                <div class="description-title">Вы парикмахер / барбер?</div>
+                <div class="description-text">
+                    Этот сайт поможет вам заявить о себе и ваших навыках, что позволит вам получить ещё больше новых заказов! Сооставьте
+                    портфолио своих работ, что поможет потенциальным клиентам выбрать именно вас. Укажите свои контакты и клиенты
+                    смогут связываться с вами напрямую удобным для вас способом.
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="footer">
+</footer>
+{% endblock content %}

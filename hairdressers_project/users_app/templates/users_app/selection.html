@@ -1,0 +1,68 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block content %}
+        
+<main class="main2">
+    <div class="filters">
+        <div class="filters-title">Критерии отбора</div>
+        <form class="filter-city" action="{% url 'users_app:selection' %}" method="get">
+            <p class="form-title">Город / населенный пункт</p>
+            <div class="city-form-container">
+                <select name="city" class="select">
+                    <option selected value="{{ current_city.id }}" class="option">{{ current_city }}</option>
+                    {% for c in city %}
+                    <option value="{{ c.id }}" class="option">{{ c.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <p class="form-title">Специализаия</p>
+            <div class="skill-form-container">
+                {% for skill in skills %}
+                    {% if skill.id in chosen_skills %}
+                    <label class="label-name">
+                        <input checked value="{{ skill.id }}" name="skill" type="checkbox" class="input-variant">
+                        {{ skill }}
+                    </label>
+                    {% else %}
+                    <label class="label-name">
+                        <input value="{{ skill.id }}" name="skill" type="checkbox" class="input-variant">
+                        {{ skill }}
+                    </label>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="form-buttons">
+                <button class="selection-btn" type="submit">Применить</button>
+                <div class="selection-btn">
+                    <a href="{% url 'users_app:selection' %}" class="reset-link">Сброс</a>
+                </div>
+            </div>
+        </form>
+        <form class="filter-skills" action="#"></form>
+    </div>
+    <div class="result">
+        <div class="filters-title">Результат</div>
+        <ul class="result-items" id="items">
+            {% for h in hairdresser %}
+            <a href="{% url 'users_app:one_hairdresser' h.slug %}" class="result-link">
+                <li class="result-item">
+                    {% if h.avatar %}
+                     <img src="{{ h.avatar.url }}" alt="Avatar" class="result-photo">
+                    {% else %}
+                    <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Avatar" class="result-photo">
+                    {% endif %}
+                    <div class="result-rating-container">
+                        <img src="{% static 'users_app/assets/svg/rait_24.svg' %}" alt="rating" class="rating-logo">
+                        <p class="rating-value">{{ h.rating }}</p>
+                    </div>
+                    <div class="result-name-surname">
+                        <p class="result-name">{{ h.name }}</p>
+                        <p class="result-name">{{ h.surname }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</main>
+{% endblock content %}

@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'users_app/css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'users_app/assets/svg/icon.svg' %}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <nav class="nav">
+                <a class="main-page-link" href="{% url 'users_app:homepage' %}" title="Главная страница">
+                    <img class="main-page-logo" src="{% static 'users_app/assets/svg/main-page.svg' %}" alt="logo">
+                </a>
+                {% if request.user.is_authenticated %}
+                <ul class="reg-list">
+                    <li>
+                        <a class="user-container" href="">
+                            <img class="avatar" src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Фото">
+                            <p class="login-name" data-i18n="">{{ user.username }}</p>
+                        </a>
+                    </li>
+                    <li><a class="reg-item" href="" data-i18n="">Портфолио</a></li>
+                    <li><a class="reg-item" href="{% url 'users_app:logout' %}" data-i18n="">Выход</a></li>
+                </ul>
+                {% else %}
+                <ul class="reg-list">
+                    <li><a class="reg-item" href="{% url 'users_app:login' %}" data-i18n="">Вход</a></li>
+                    <li><a class="reg-item" href="{% url 'users_app:register' %}" data-i18n="">Регистрация</a></li>
+                </ul>
+                {% endif %}
+{% block header %}
+{% endblock header %}
+            </nav>
+        </header>
+{% block content %}
+{% endblock content %}
+        <footer class="footer">
+            
+        </footer>
+    </div>
+<script type="module" src="./index.js"></script>
+</body>
+</html>
