@@ -8,9 +8,17 @@ from django.views.generic import CreateView
 
 from .models import *
 from .forms import *
-from .services import selection_by_filters
+from .services import get_selection_by_filters
 
-from transliterate import slugify
+
+def homepage_view(request):
+    """Возвращает главную страницу сайта"""
+
+    context = {
+        'title': 'Парикмахеры Беларуси'
+    }
+
+    return render(request, 'users_app/index.html', context=context)
 
 
 class SelectionView(View):
@@ -48,7 +56,7 @@ class SelectionView(View):
                 new_context['chosen_skills'] = [int(id_) for id_ in chosen_skill]
 
             # Фильтруем результат в зависимости от переданных данных
-            new_context = selection_by_filters(
+            new_context = get_selection_by_filters(
                 model=Hairdresser,
                 context=new_context,
                 city=chosen_city,
@@ -109,16 +117,6 @@ class SelectionView(View):
 #     return render(request, 'users_app/selection.html', context)
 
 
-def homepage_view(request):
-    """Возвращает главную страницу сайта"""
-
-    context = {
-        'title': 'Парикмахеры Беларуси'
-    }
-
-    return render(request, 'users_app/index.html', context=context)
-
-
 def one_hairdresser_view(requset, slug_name):
     """Возвращает страницу парикмахера"""
 
@@ -156,7 +154,7 @@ class RegistrationUserView(CreateView):
             name=user.first_name.capitalize(),
             surname=user.last_name.capitalize(),
             email=user.email,
-            slug=slugify(user.username)
+            slug=user.username
         )
         login(self.request, user)
         return redirect('users_app:homepage')
