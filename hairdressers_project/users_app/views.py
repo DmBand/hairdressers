@@ -1,5 +1,5 @@
 from django.contrib.auth import login, logout
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.urls import reverse_lazy, reverse
@@ -149,15 +149,40 @@ class RegistrationUserView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
-        Hairdresser.objects.create(
+        SimpleUser.objects.create(
             owner=user,
+            username=user.username,
             name=user.first_name.capitalize(),
             surname=user.last_name.capitalize(),
             email=user.email,
-            slug=user.username
+            slug=user.username,
         )
         login(self.request, user)
+        # return redirect('users_app:homepage')
+        return redirect('users_app:avatar')
+
+
+def add_avatar_view(request):
+    if request.POST.get('avatar') == 'yes':
+        form = AddAvatarForm(
+            request.POST,
+            request.FILES,
+            instance=request.user.simpleuser
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect('users_app:homepage')
+
+    elif request.POST.get('avatar') == 'no':
         return redirect('users_app:homepage')
+
+    else:
+        form = AddAvatarForm()
+
+    context = {'form': form, 'title': 'Добавить фото'}
+
+    return render(request, 'users_app/add_avatar.html', context)
 
 
 class LoginUserView(LoginView):

@@ -14,13 +14,13 @@ class HairdresserAdmin(admin.ModelAdmin):
 
 
 class SimpleUserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'surname', 'slug', 'phone', 'email')
-    list_display_links = ('name', 'surname')
-    list_filter = ('name',)
-    prepopulated_fields = {'slug': ('name', 'surname')}
+    list_display = ('id', 'username', 'name', 'surname', 'email', 'is_hairdresser', 'avatar')
+    list_display_links = ('username',)
+    # list_filter = ('name',)
+    prepopulated_fields = {'slug': ('username',)}
 
 
 admin.site.register(Skill)
 admin.site.register(City)
 admin.site.register(Hairdresser, HairdresserAdmin)
-# admin.site.register(SimpleUser, SimpleUserAdmin)
+admin.site.register(SimpleUser, SimpleUserAdmin)

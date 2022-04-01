@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 
-from .models import Hairdresser
+from .models import Hairdresser, SimpleUser
 
 
 class RegistrationUserForm(UserCreationForm):
@@ -11,13 +11,15 @@ class RegistrationUserForm(UserCreationForm):
 
     # Валидатор для username
     username_validator = RegexValidator(
-        regex=r'^[0-9a-zA-Z_-]*$',
-        message='Используйте символы латинского алфавита, цифры 0-9, символ "_"'
+        regex=r'^[0-9a-zA-Z._-]*$',
+        message='Используйте символы латинского алфавита, цифры 0-9, символ "_"',
     )
     username = forms.CharField(
         label='Логин',
         max_length=30,
         validators=[username_validator])
+
+    # avatar = forms.ImageField(label='Аватар')
 
     class Meta:
         model = User
@@ -43,3 +45,10 @@ class AddPortfolioForm(forms.ModelForm):
     class Meta:
         model = Hairdresser
         exclude = ['slug', 'date_of_registration', 'owner']
+
+
+class AddAvatarForm(forms.ModelForm):
+
+    class Meta:
+        model = SimpleUser
+        fields = ['avatar']

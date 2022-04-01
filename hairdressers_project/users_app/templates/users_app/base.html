@@ -22,7 +22,11 @@
                 <ul class="reg-list">
                     <li>
                         <a class="user-container" href="">
+                            {% if user.simpleuser.avatar %}
+                            <img class="avatar" src="{{ user.simpleuser.avatar.url }}" alt="Фото">
+                            {% else %}
                             <img class="avatar" src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Фото">
+                            {% endif %}
                             <p class="login-name" data-i18n="">{{ user.username }}</p>
                         </a>
                     </li>

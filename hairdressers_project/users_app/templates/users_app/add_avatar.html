@@ -1,0 +1,16 @@
+{% extends 'users_app/base.html' %}
+
+{% block content %}
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <label style="color: #fff;">
+        <input style="color: #fff;" type="submit" name="avatar" value="yes">
+        Загрузить
+    </label>
+    <label style="color: #fff;">
+      <input style="color: #fff;" type="submit" name="avatar" value="no">
+        Пропустить
+    </label>
+</form>
+{% endblock content %}
