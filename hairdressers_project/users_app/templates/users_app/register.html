@@ -1,13 +1,26 @@
 {% extends 'users_app/base.html' %}
 
 {% block content %}
-<form method="post" action="{% url 'users_app:register' %}">
-  {% csrf_token %}
-  {% for f in form %}
-  <p style="color: #fff;">{{ f.name }} {{ f }}</p>
-  <div style="color: red;">{{ f.errors }}</div>
-  {% endfor %}
-  <p><input type="submit" value="create my account"></p>
-
-</form>
-{% endblock %}
+<main class="main-reg">
+    <section class="reg-title">
+        <h1 class="reg-title-text">Регистрация</h1>
+    </section>
+    <section class="reg-fields">
+        <form method="post" action="{% url 'users_app:register' %}" class="reg-form">
+            {% csrf_token %}
+            <ul class="all-rows">
+                {% for f in form %}
+                <li class="form-row">
+                    <label for="{{ f.id_for_label }}" class="reg-form-label">{{ f.label }}*</label>
+                    {{ f }}
+                </li>
+                <div class="errors-msg">{{ f.errors }}</div>
+                {% endfor %}
+            </ul>
+            <div class="reg-btn-container">
+                <button type="submit" class="reg-btn">Зарегестрироваться</button>
+            </div>
+        </form>
+    </section>
+</main>
+{% endblock content %}

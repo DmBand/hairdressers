@@ -1,0 +1,52 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="main-profile">
+    <section class="profile-buttons">
+        <ul class="btn-list">
+            <a href="{% url 'users_app:get_main_profile' user.username %}" class="btn-block-active">
+                <li class="btn-item">Главный профиль</li>
+            </a>
+            {% if user.simpleuser.is_hairdresser %}
+            <a href="{% url 'users_app:get_hairdresser' user.username %}" class="btn-block">
+                <li class="btn-item">Портфолио</li>
+            </a>
+            {% else %}
+            <a href="" class="btn-block">
+                <li class="btn-item">Создать портфолио</li>
+            </a>
+            {% endif %}
+        </ul>
+    </section>
+    <section class="all-dada">
+        <div class="data-container">
+            <ul class="data-list">
+                <li class="data-item">
+                    <p class="data-label">Логин</p>
+                    <p class="data-text">{{ username }}</p>
+                </li>
+                <li class="data-item">
+                    <p class="data-label">Имя</p>
+                    <p class="data-text">{{ name }}</p>
+                </li>
+                <li class="data-item">
+                    <p class="data-label">Фамилия</p>
+                    <p class="data-text">{{ surname }}</p>
+                </li>
+                <li class="data-item">
+                    <p class="data-label">Эл. адрес</p>
+                    <p class="data-text">{{ email }}</p>
+                </li>
+            </ul>
+            <div class="data-img">
+                {% if avatar %}
+                <img src="{{ avatar.url }}" alt="avatar" class="prof-img">
+                {% else %}
+                <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="avatar" class="prof-img">
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}

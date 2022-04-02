@@ -2,11 +2,11 @@
 {% load static %}
 
 {% block content %}
-        
+
 <main class="main2">
     <div class="filters">
         <div class="filters-title">Критерии отбора</div>
-        <form class="filter-city" action="{% url 'users_app:selection' %}" method="get">
+        <form class="filter-city" action="{% url 'selection_app:selection' %}" method="get">
             <p class="form-title">Город / населенный пункт</p>
             <div class="city-form-container">
                 <select name="city" class="select">
@@ -35,7 +35,7 @@
             <div class="form-buttons">
                 <button class="selection-btn" type="submit">Применить</button>
                 <div class="selection-btn">
-                    <a href="{% url 'users_app:selection' %}" class="reset-link">Сброс</a>
+                    <a href="{% url 'selection_app:selection' %}" class="reset-link">Сброс</a>
                 </div>
             </div>
         </form>
@@ -61,6 +61,7 @@
                         <p class="result-name">{{ h.surname }}</p>
                     </div>
                 </li>
+            </a>
             {% endfor %}
         </ul>
     </div>

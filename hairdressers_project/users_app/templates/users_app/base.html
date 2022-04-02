@@ -30,13 +30,12 @@
                             <p class="login-name" data-i18n="">{{ user.username }}</p>
                         </a>
                     </li>
-                    <li><a class="reg-item" href="" data-i18n="">Портфолио</a></li>
+                    <li><a class="reg-item" href="{% url 'users_app:get_main_profile' user.username  %}" data-i18n="">Профиль</a></li>
                     <li><a class="reg-item" href="{% url 'users_app:logout' %}" data-i18n="">Выход</a></li>
                 </ul>
                 {% else %}
                 <ul class="reg-list">
-                    <li><a class="reg-item" href="{% url 'users_app:login' %}" data-i18n="">Вход</a></li>
-                    <li><a class="reg-item" href="{% url 'users_app:register' %}" data-i18n="">Регистрация</a></li>
+                    <li><a class="reg-item" href="{% url 'users_app:login' %}" data-i18n="">Вход | Регистрация</a></li>
                 </ul>
                 {% endif %}
 {% block header %}

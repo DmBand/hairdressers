@@ -152,7 +152,6 @@ body {
 }
 
 .reg-item, .login-name {
-	text-transform: uppercase;
 	padding: 15px 15px;
 	font-family: 'Inter';
 	font-weight: 400;
@@ -163,6 +162,7 @@ body {
 }
 
 .reg-item {
+    text-transform: uppercase;
 	border: 2px solid #fff;
 	color: #fff;
 	font-size: 15px;
@@ -763,6 +763,238 @@ body {
 
 .result-name {
 }
+
+/* !!!!!!!!! РЕГИСТРАЦИЯ / ВХОД !!!!!!!!!!!!!! */
+
+.main-reg {
+	padding-top: 30px;
+	display: flex;
+	flex-direction: column;
+}
+
+.reg-title {
+	margin: 0 auto;
+}
+
+.reg-title-text {
+	font-family: 'Merriwaether';
+	font-weight: 700;
+	font-size: 40px;
+	text-transform: uppercase;
+	color: #BDAE82;
+	letter-spacing: 4px;
+}
+
+.reg-fields {
+	padding: 30px 10px;
+}
+
+.reg-form {
+	font-family: 'Inter';
+	font-weight: 400;
+	color: #fff;
+	letter-spacing: 2px;
+}
+
+.all-rows {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+}
+
+.form-row {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	column-gap: 20px;
+}
+
+.reg-form-label {
+	width: 370px;
+	font-size: 30px;
+	text-align: end;
+	text-transform: uppercase;
+	color: #BBA9A9;
+}
+
+.reg-form-input {
+	width: 650px;
+	height: 50px;
+	background-color: #fff;
+	padding: 5px 15px;
+	font-family: 'Inter';
+	font-weight: 400;
+	font-size: 30px;
+}
+
+.reg-form-input:focus {
+    font-family: 'Inter';
+    font-weight: 400;
+	font-size: 30px;
+}
+
+.errors-msg {
+	color: red;
+	text-align: center;
+}
+
+.other-errors {
+	color: red;
+	text-align: center;
+	margin-bottom: 30px;
+	text-transform: uppercase;
+}
+
+.reg-btn-container, .reg-btn-container2 {
+	width: 260px;
+	margin: 0 auto;
+	padding-top: 30px;
+}
+
+.reg-btn-container {
+    height: 50px;
+}
+
+.reg-btn-container2 {
+	height: 150px;
+	display: flex;
+	flex-direction: column;
+	row-gap: 50px;
+}
+
+.reg-btn {
+	width: 260px;
+	height: 50px;
+	font-family: 'Merriweather';
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 50px;
+	letter-spacing: 1px;
+	cursor: pointer;
+	background-color: #BDAE82;
+	transition: 0.3s;
+	color: #000;
+	text-align: center;
+}
+
+.reg-btn:hover {
+	letter-spacing: 3px;
+}
+
+.reg-btn:active {
+	background-color: #fff;
+}
+
+.reg-btn2 {
+	text-transform: uppercase;
+	text-align: center;
+	padding: 15px 15px;
+	font-family: 'Inter';
+	font-weight: 400;
+	transition: 0.3s;
+	letter-spacing: 3px;
+	border: 2px solid #fff;
+	color: #fff;
+	font-size: 15px;
+}
+
+.reg-btn2:hover {
+    color: #BDAE82;
+	border: 2px solid #BDAE82;
+	border-radius: 20px;
+}
+
+/* !!!!!!!! ПРОФИЛЬ / ПОРТФОЛИО !!!!!!!! */
+
+.profile-buttons {
+	padding-top: 40px;
+}
+
+.btn-list {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	column-gap: 70px;
+}
+
+.btn-block, .btn-block-active {
+	width: 300px;
+	height: 50px;
+	border: 2px solid #fff;
+	font-family: 'Inter';
+	font-weight: 400;
+	font-size: 15px;
+	text-transform: uppercase;
+	text-align: center;
+	transition: 0.3s;
+}
+
+.btn-block {
+	color: #fff;
+}
+
+.btn-block-active {
+	background-color: #BBA9A9;
+	font-weight: 700;
+	color: #000;
+}
+
+
+.btn-item {
+	padding: 15px;
+	letter-spacing: 3px;
+}
+
+.btn-block:hover {
+    color: #BBA9A9;
+	border: 2px solid #BBA9A9;
+}
+
+.all-dada {
+	padding-top: 50px;
+}
+.data-container {
+	padding: 0px 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	column-gap: 300px;
+	font-family: 'Merriwaether';
+	font-weight: 350;
+
+
+}
+.data-list {
+	display: flex;
+	flex-direction: column;
+	row-gap: 25px;
+
+}
+.data-item {
+	display: flex;
+	column-gap: 50px;
+}
+.data-label {
+	width: 160px;
+	color: #BDAE82;
+	font-size: 24px;
+	text-transform: uppercase;
+	letter-spacing: 3px;
+}
+.data-text {
+    font-weight: 700;
+	color: #BBA9A9;
+	font-size: 24px;
+	letter-spacing: 3px;
+}
+
+.prof-img {
+	width: 350px;
+	height: 350px;
+	border-radius: 350px;
+	object-fit: cover;
+}
+
 
 /*___FOOTER________________________*/
 

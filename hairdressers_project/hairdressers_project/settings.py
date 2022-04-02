@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    # Default apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,8 +41,9 @@ INSTALLED_APPS = [
 
     # My apps
     'users_app.apps.UsersAppConfig',
+    'selection_app.apps.SelectionAppConfig',
 
-    # Other apps
+    # third party apps
     'phonenumber_field',
 ]
 
