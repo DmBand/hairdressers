@@ -13,7 +13,7 @@
                 <li class="btn-item">Портфолио</li>
             </a>
             {% else %}
-            <a href="" class="btn-block">
+            <a href="{% url 'users_app:create_portfolio' user.username %}" class="btn-block">
                 <li class="btn-item">Создать портфолио</li>
             </a>
             {% endif %}

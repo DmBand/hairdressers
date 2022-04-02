@@ -4,8 +4,8 @@ from .models import *
 
 class HairdresserAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'name', 'surname', 'slug', 'city', 'rating', 'phone', 'email', 'date_of_registration', 'portfolio',
-        'another_info'
+        'id', 'name', 'surname', 'slug', 'city',
+        'rating', 'phone', 'email', 'portfolio', 'another_info'
     )
     list_display_links = ('name', 'surname')
     list_filter = ('name',)
@@ -14,7 +14,10 @@ class HairdresserAdmin(admin.ModelAdmin):
 
 
 class SimpleUserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'username', 'name', 'surname', 'email', 'is_hairdresser', 'avatar')
+    list_display = (
+        'id', 'username', 'name', 'surname', 'email',
+        'is_hairdresser', 'avatar', 'date_of_registration'
+    )
     list_display_links = ('username',)
     # list_filter = ('name',)
     prepopulated_fields = {'slug': ('username',)}

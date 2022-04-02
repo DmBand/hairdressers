@@ -14,9 +14,6 @@ class RegistrationUserForm(UserCreationForm):
         regex=r'^[0-9a-zA-Z._-]*$',
         message='Не более 30 символов. Только латинские буквы, цифры и символы ./-/_',
     )
-    first_and_last_name_validator = RegexValidator(
-        regex=r'^[0-9a-zA-Z._-]*$'
-    )
 
     username = forms.CharField(
         label='Логин',
@@ -44,17 +41,6 @@ class LoginUserForm(AuthenticationForm):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'reg-form-input'}))
 
 
-class AddPortfolioForm(forms.ModelForm):
-    """ Форма создания портфолио """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    class Meta:
-        model = Hairdresser
-        exclude = ['slug', 'date_of_registration', 'owner']
-
-
 class AddAvatarForm(forms.ModelForm):
     """ Форма добавления аватарки пользователя """
 
@@ -63,8 +49,15 @@ class AddAvatarForm(forms.ModelForm):
         fields = ['avatar']
 
 
-class MainProfileForm(forms.ModelForm):
+class CreatePortfolioForm(forms.ModelForm):
+    """ Форма создания портфолио """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
     class Meta:
-        model = User
-        exclude = ['password1', 'password2']
+        model = Hairdresser
+        fields = [
+            'city', 'phone', 'skills', 'instagram',
+            'another_info', 'portfolio'
+        ]

@@ -1,8 +1,8 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 
 from .forms import *
 
@@ -19,13 +19,18 @@ def homepage_view(request):
 
 class RegistrationUserView(CreateView):
     """
-    Возвращает форму решистрации пользователя и, в случае успешной регистрации,
+    Возвращает форму регистрации пользователя и, в случае успешной регистрации,
     перенаправляет пользователя на главную страницу сайта
     """
 
     form_class = RegistrationUserForm
     template_name = 'users_app/register.html'
     success_url = reverse_lazy('users_app:homepage')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Регистрация'
+        return context
 
     def form_valid(self, form):
         user = form.save()
@@ -38,7 +43,7 @@ class RegistrationUserView(CreateView):
             slug=user.username,
         )
         login(self.request, user)
-        # return redirect('users_app:homepage')
+        # редирект на страницу добавления аватарки
         return redirect('users_app:avatar')
 
 
@@ -97,7 +102,8 @@ def logout_user(request):
     """
 
     logout(request)
-    return redirect(request.META.get('HTTP_REFERER'))
+    # return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('users_app:homepage')
 
 
 def get_one_hairdresser(requset, slug_name):
@@ -119,21 +125,10 @@ def get_one_hairdresser(requset, slug_name):
 
     return render(requset, 'users_app/portfolio.html', context)
 
-# class GetmMainProfile(DetailView):
-#
-#     model = SimpleUser
-#     template_name = 'users_app/main_profile.html'
-#     slug_url_kwarg = 'slug_name'
-#     context_object_name = 'profile'
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super().get_context_data(*kwargs)
-#         context['title'] = 'Профиль'
-#         context['username'] = profile.username
-#         return context
-
 
 def get_main_profile(request, slug_name):
+    """ Возвращает страницу главного профиля пользователя """
+
     pers = SimpleUser.objects.get(slug=slug_name)
     context = {
         'title': 'Главный профиль',
@@ -145,3 +140,20 @@ def get_main_profile(request, slug_name):
     }
 
     return render(request, 'users_app/main_profile.html', context)
+
+
+class CreatePortfolioView(CreateView):
+    form_class = CreatePortfolioForm
+    template_name = 'users_app/add_portfolio.html'
+    success_url = reverse_lazy('get_hairdresser')
+    slug_url_kwarg = 'slag_name'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Создание портфолио'
+        return context
+
+    def form_valid(self, form):
+        form.save()
+        user = SimpleUser.objects.get(slug=self.slug_url_kwarg)
+        user.simpleuser.is_hairdresser = True

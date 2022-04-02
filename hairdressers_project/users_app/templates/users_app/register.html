@@ -17,8 +17,9 @@
                 <div class="errors-msg">{{ f.errors }}</div>
                 {% endfor %}
             </ul>
-            <div class="reg-btn-container">
-                <button type="submit" class="reg-btn">Зарегестрироваться</button>
+             <div class="reg-btn-container">
+                <button type="submit" class="reg-btn">Регистрация</button>
+                <a href="{% url 'users_app:login' %}"><p class="reg-btn3">Вход</p></a>
             </div>
         </form>
     </section>

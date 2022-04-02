@@ -37,6 +37,7 @@ class SimpleUser(models.Model):
     avatar = models.ImageField(upload_to='avatars/%Y/%m/%d/', blank=True, verbose_name='фото профиля')
     slug = models.SlugField(max_length=50, unique=True, db_index=True, verbose_name='URL')
     is_hairdresser = models.BooleanField(default=False, verbose_name='парикмахер')
+    date_of_registration = models.DateField(auto_now_add=True, verbose_name='дата регистрации')
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -61,7 +62,6 @@ class Hairdresser(models.Model):
     instagram = models.URLField(max_length=255, blank=True, verbose_name='инстаграм')
     another_info = models.TextField(max_length=1000, blank=True, verbose_name='дополнительная информация')
     portfolio = models.ImageField(upload_to='portfolio/%Y/%m/%d/', blank=True, verbose_name='портфолио')
-    date_of_registration = models.DateField(auto_now_add=True, verbose_name='дата регистрации')
     owner = models.OneToOneField(SimpleUser, on_delete=models.CASCADE)
 
     class Meta:

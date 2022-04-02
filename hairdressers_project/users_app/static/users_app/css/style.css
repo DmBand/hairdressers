@@ -790,6 +790,8 @@ body {
 }
 
 .reg-form {
+	display: flex;
+	flex-direction: column;
 	font-family: 'Inter';
 	font-weight: 400;
 	color: #fff;
@@ -804,7 +806,6 @@ body {
 
 .form-row {
 	display: flex;
-	justify-content: start;
 	align-items: center;
 	column-gap: 20px;
 }
@@ -845,18 +846,19 @@ body {
 	text-transform: uppercase;
 }
 
-.reg-btn-container, .reg-btn-container2 {
-	width: 260px;
-	margin: 0 auto;
-	padding-top: 30px;
-}
-
-.reg-btn-container {
-    height: 50px;
+.reg-btn-container{
+	margin-top: 30px;
+	margin-left: 31%;
+	height: 60px;
+	display: flex;
+	flex-wrap: wrap;
+	column-gap: 50px;
 }
 
 .reg-btn-container2 {
-	height: 150px;
+	width: 260px;
+	margin: 0 auto;
+	margin-top: 30px;
 	display: flex;
 	flex-direction: column;
 	row-gap: 50px;
@@ -864,7 +866,7 @@ body {
 
 .reg-btn {
 	width: 260px;
-	height: 50px;
+	height: 53px;
 	font-family: 'Merriweather';
 	font-weight: 700;
 	font-size: 18px;
@@ -899,6 +901,26 @@ body {
 }
 
 .reg-btn2:hover {
+    color: #BDAE82;
+	border: 2px solid #BDAE82;
+	border-radius: 20px;
+}
+
+.reg-btn3 {
+	width: 260px;
+	text-transform: uppercase;
+	text-align: center;
+	padding: 15px 15px;
+	font-family: 'Inter';
+	font-weight: 400;
+	transition: 0.3s;
+	letter-spacing: 3px;
+	border: 2px solid #fff;
+	color: #fff;
+	font-size: 15px;
+}
+
+.reg-btn2:hover, .reg-btn3:hover {
     color: #BDAE82;
 	border: 2px solid #BDAE82;
 	border-radius: 20px;
