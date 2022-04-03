@@ -103,7 +103,7 @@ def logout_user(request):
 
     logout(request)
     # return redirect(request.META.get('HTTP_REFERER'))
-    return redirect('users_app:homepage')
+    return redirect('users_app:login')
 
 
 def get_one_hairdresser(requset, slug_name):
