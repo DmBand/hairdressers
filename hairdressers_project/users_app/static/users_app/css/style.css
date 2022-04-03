@@ -1017,6 +1017,228 @@ body {
 	object-fit: cover;
 }
 
+/* !!!!!!!!!! СОЗДАНИЕ ПОРТФОЛИО !!!!!!!!! */
+
+.add-portfolio-section {
+	padding: 30px 20px 0px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.add-portfolio-form {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	padding-top: 30px;
+	font-family: 'Merriweather';
+	font-weight: 400;
+	row-gap: 30px;
+	background: url('../assets/img/form-bg.png');
+	background-repeat: no-repeat;
+	background-position: 100% 30px;
+	background-size: contain;
+}
+
+.one-field {
+	display: flex;
+	flex-direction: column;
+}
+
+.portf-form-label {
+	color: #BBA9A9;
+	letter-spacing: 3px;
+	font-size: 20px;
+}
+
+.portf-form-label-mini {
+    padding-top: 5px;
+	color: #BBA9A9;
+	letter-spacing: 3px;
+	font-size: 15px;
+}
+
+.portf-form-input {
+	margin-top: 10px;
+	padding: 5px 10px;
+	max-width: 600px;
+	height: 40px;
+	background-color: #BDAE82;
+	font-family: 'Merriweather';
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 40px;
+	letter-spacing: 2px;
+}
+
+.portfolio-city-select {
+	font-family: 'Merriweather';
+	font-weight: 400;
+	font-size: 18px;
+	letter-spacing: 2px;
+	line-height: 40px;
+	padding: 5px 10px;
+	margin-top: 10px;
+	max-width: 600px;
+	height: 40px;
+	background-color: #BDAE82;
+	cursor: pointer;
+
+}
+.portfolio-city-option {
+	background-color: #BDAE82;
+}
+
+.skills-container {
+	max-width: 600px;
+	height: 100px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	overflow: auto;
+	margin-top: 10px;
+}
+
+.portf-form-label-cb {
+	color: #BDAE82;
+	margin: 0 5px 5px 0;
+	cursor: pointer;
+}
+
+.portf-form-input-cb {
+	cursor: pointer;
+}
+
+.portfolio-textarea {
+	margin-top: 10px;
+	padding: 10px 10px;
+	background-color: #BDAE82;
+	max-width: 600px;
+	height: 150px;
+	resize: vertical;
+	font-family: 'Merriweather';
+	font-weight: 400;
+	font-size: 18px;
+	letter-spacing: 2px;
+	text-align: justify;
+}
+
+/* !!!!! */
+
+/* .input__wrapper {
+	width: 100%;
+	position: relative;
+	margin: 15px 0;
+	text-align: center;
+} */
+
+.input__file {
+	opacity: 0;
+	visibility: hidden;
+	position: absolute;
+}
+
+.input__file-icon-wrapper {
+	height: 60px;
+	width: 60px;
+	margin-right: 15px;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+		-ms-flex-align: center;
+			align-items: center;
+	-webkit-box-pack: center;
+		-ms-flex-pack: center;
+			justify-content: center;
+	border-right: 1px solid #000;
+}
+
+.input__file-button-text {
+	line-height: 1;
+	margin-top: 1px;
+}
+
+.input__file-button {
+	max-width: 290px;
+	height: 40px;
+	background: #BDAE82;
+	color: #000;
+	font-size: 1.125rem;
+	font-weight: 700;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+		-ms-flex-align: center;
+			align-items: center;
+	-webkit-box-pack: start;
+		-ms-flex-pack: start;
+			justify-content: flex-start;
+	cursor: pointer;
+	margin-top: 10px;
+}
+
+::placeholder {
+	font-size: 15px;
+	letter-spacing: normal;
+}
+
+.portf-btns-container {
+	margin-top: 10px;
+	max-width: 600px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	column-gap: 60px;
+}
+.portf-btn-sumbit {
+	font-family: 'Inter';
+	font-weight: 400;
+	font-size: 15px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	width: 200px;
+	height: 40px;
+	background-color: #000;
+	color: #fff;
+	border: 2px solid #fff;
+	cursor: pointer;
+	transition: 0.5s;
+}
+
+.portf-btn-sumbit:hover {
+	border-color: #BDAE82;
+	color: #BDAE82;
+}
+
+.portf-btn-reset {
+	width: 200px;
+	height: 40px;
+	border: 2px solid #fff;
+	text-align: center;
+	cursor: pointer;
+	transition: 0.5s;
+}
+
+.portf-btn-reset:hover {
+	border-color: #8f0c0c;
+}
+
+.portf-reset-link {
+	font-family: 'Inter';
+	font-weight: 400;
+	font-size: 15px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	color: #fff;
+	line-height: 38px;
+	transition: 0.5s;
+}
+
+.portf-reset-link:hover {
+	color: #8f0c0c;
+}
 
 /*___FOOTER________________________*/
 

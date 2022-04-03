@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from .forms import *
+from .models import City, Skill
 
 
 def homepage_view(request):
@@ -143,6 +144,8 @@ def get_main_profile(request, slug_name):
 
 
 class CreatePortfolioView(CreateView):
+    """ Возвращает страницу создания портфолио """
+
     form_class = CreatePortfolioForm
     template_name = 'users_app/add_portfolio.html'
     success_url = reverse_lazy('get_hairdresser')
@@ -151,6 +154,8 @@ class CreatePortfolioView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Создание портфолио'
+        context['cities'] = City.objects.all()
+        context['skills'] = Skill.objects.all()
         return context
 
     def form_valid(self, form):

@@ -1,10 +1,255 @@
 {% extends 'users_app/base.html' %}
+{% load static %}
 
 {% block content %}
 
-<form action="{% url 'users_app:create_portfolio' user.username %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-</form>
+<main class="main-portfolio">
+    <section class="profile-buttons">
+        <ul class="btn-list">
+            <a href="" class="btn-block-active">
+                <li class="btn-item">Главный профиль</li>
+            </a>
+            <a href="" class="btn-block">
+                <li class="btn-item">Портфолио</li>
+            </a>
+        </ul>
+    </section>
+    <section class="add-portfolio-section">
+        <h1 class="reg-title-text">Создание портфолио</h1>
+            <form class="add-portfolio-form" action="" method="post" enctype="multipart/form-data">
+                <div class="one-field">
+                    <label class="portf-form-label" for="phone">Номер телефона</label>
+                    <input name="phone" type="tel" id="phone" class="portf-form-input" placeholder="Пример: +375291112233">
+                </div>
+                <div class="one-field">
+                    <p class="portf-form-label">Выберите ваш город</p>
+                    <select name="city" class="portfolio-city-select">
+                        <option disabled selected class="portfolio-city-option">Город не выбран</option>
+                        <option value="" class="portfolio-city-option">1</option>
+                        <option value="" class="portfolio-city-option">2</option>
+                        <option value="" class="portfolio-city-option">3</option>
+                        <option value="" class="portfolio-city-option">4</option>
+                    </select>
+                </div>
+                <div class="one-field">
+                    <p class="portf-form-label">Выберите ваши навыки</p>
+                    <div class="skills-container">
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Стрижка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Милирование
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Окраска
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Челка
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Милирование
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Милирование
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Милирование
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Милирование
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Милирование
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Милирование
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Милирование
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Милирование
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Милирование
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Милирование
+                        </label>
+                        <label class="portf-form-label-cb">
+                            <input class="portf-form-input-cb" type="checkbox">
+                            Милирование
+                        </label>
+
+                    </div>
+                </div>
+                <div class="one-field">
+                    <p class="portf-form-label">Дополнительная информация</p>
+                    <textarea name="" class="portfolio-textarea"
+                    placeholder="Укажите доплнительную информацию о себе: стоимость услуг, возмжен ли выезд к клиенту, стаж, ссылки на электронные сертификаты и т.д."
+                    ></textarea>
+                </div>
+                <div class="one-field">
+                    <label class="portf-form-label" for="inst">Instagram</label>
+                    <input name="instagram" type="url" id="inst" class="portf-form-input" placeholder="url-адрес">
+                </div>
+                <div class="one-field">
+                    <p class="portf-form-label">Добавьте свои работы</p>
+                    <p class="portf-form-label-mini">(не более 20 файлов формата jpeg и png)</p>
+                    <div class="input__wrapper">
+                        <input name="file" type="file" id="input__file" accept="image/png, image/jpeg" class="input input__file" multiple>
+                        <label for="input__file" class="input__file-button">
+                            <span class="input__file-icon-wrapper"><img class="input__file-icon" src="{% static 'users_app/assets/svg/file_upload_black_48dp.svg' %}" alt="Выбрать файл" width="25"></span>
+                            <span class="input__file-button-text">Выберите файл</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="portf-btns-container">
+                    <button class="portf-btn-sumbit" type="submit">Сохранить</button>
+                    <a class="portf-btn-reset" href="">
+                        <div class="portf-reset-link">Сброс</div>
+                    </a>
+                </div>
+            </form>
+    </section>
+</main>
 
 {% endblock content %}
