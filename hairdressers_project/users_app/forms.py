@@ -20,6 +20,7 @@ class RegistrationUserForm(UserCreationForm):
         message='Допускаются буквы /а-яА-Я/, /a-zA-Z/'
     )
 
+    # Валидатор пароля
     password_validator = RegexValidator(
         regex=r'^[^а-яА-Я]*$',
         message='Символы кириллицы /а-яА-Я/ не допускаются'
