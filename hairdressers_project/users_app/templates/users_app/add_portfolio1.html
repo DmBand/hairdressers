@@ -1,0 +1,57 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main class="main-portfolio">
+    <section class="profile-buttons">
+        <ul class="btn-list">
+            <a href="{% url 'users_app:get_main_profile' user.username %}" class="btn-block-active">
+                <li class="btn-item">Главный профиль</li>
+            </a>
+            <a href="{% url 'users_app:get_hairdresser' user.username %}" class="btn-block">
+                <li class="btn-item">Портфолио</li>
+            </a>
+        </ul>
+    </section>
+    <section class="add-portfolio-section">
+        <h1 class="reg-title-text">Создание портфолио</h1>
+            <form class="add-portfolio-form" action="{% url 'users_app:create_portfolio' user.username %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="one-field">
+                    {{ form.phone.errors }}
+                    <label for="{{ form.phone.id_for_label }}" class="portf-form-label">Номер телефона</label>
+                    {{ form.phone }}
+                </div>
+                <div class="one-field">
+                    <p class="portf-form-label">Выберите ваш город</p>
+                    {{ form.city.errors }}
+                    <label for="{{ form.city.id_for_label }}" class="portf-form-label">{{ city.name }}</label>
+                    {{ form.city }}
+                </div>
+                <div class="one-field">
+                    <p class="portf-form-label">Выберите ваши навыки</p>
+                    {{ form.skills.errors }}
+                    <div class="skills-container">
+                        {% for skill in form.skills.field.choices.queryset %}
+                        <label class="portf-form-label-cb">
+                            <input name="skills" value="{{ skill.name }}" class="portf-form-input-cb" type="checkbox">
+                            {{ skill.name }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+                <div class="portf-btns-container">
+                    <button class="portf-btn-sumbit" type="submit">Сохранить</button>
+                    <a class="portf-btn-reset" href="">
+                        <div class="portf-reset-link">Сброс</div>
+                    </a>
+                </div>
+            </form>
+    </section>
+</main>
+
+{% endblock content %}

@@ -7,7 +7,7 @@ class HairdresserAdmin(admin.ModelAdmin):
         'id', 'name', 'surname', 'slug', 'city',
         'rating', 'phone', 'email', 'portfolio', 'another_info'
     )
-    list_display_links = ('name', 'surname')
+    list_display_links = ('id', 'name', 'surname')
     list_filter = ('name',)
     list_editable = ('rating',)
     prepopulated_fields = {'slug': ('name', 'surname')}
@@ -19,7 +19,7 @@ class SimpleUserAdmin(admin.ModelAdmin):
         'is_hairdresser', 'avatar', 'date_of_registration'
     )
     list_display_links = ('username',)
-    # list_filter = ('name',)
+    list_editable = ('is_hairdresser',)
     prepopulated_fields = {'slug': ('username',)}
 
 
