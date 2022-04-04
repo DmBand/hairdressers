@@ -1,4 +1,4 @@
-<form action="{% url 'users_app:create_portfolio' user.username %}" method="post">
+<form action="{% url 'users_app:create_portfolio' %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit"></button>

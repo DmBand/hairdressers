@@ -143,91 +143,73 @@ def get_main_profile(request, slug_name):
     return render(request, 'users_app/main_profile.html', context)
 
 
-class CreatePortfolioView(CreateView):
-    """ Возвращает страницу создания портфолио """
-
-    form_class = CreatePortfolioForm
-    template_name = 'users_app/add_portfolio3.html'
-    success_url = reverse_lazy('get_hairdresser')
-    slug_url_kwarg = 'slug_name'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Создание портфолио'
-        context['cities'] = City.objects.all()
-        context['skills'] = Skill.objects.all()
-        return context
-
-    def form_valid(self, form):
-        user = SimpleUser.objects.get()
-        the_hairdresser = Hairdresser.objects.create(
-            name=user.name,
-            surname=user.surname,
-            slug=user.slug,
-            city=form.cleaned_data.get('city'),
-            phone=form.cleaned_data.get('phone'),
-            email=user.email,
-            avatar=user.avatar,
-            instagram=form.cleaned_data.get('instagram'),
-            another_info=form.cleaned_data.get('another_info'),
-            owner=user,
-        )
-
-        # Получаем все переданные навыки
-        all_skills = form.cleaned_data.get('skills')
-        the_hairdresser.skills.add(*all_skills)
-
-        # Меняем флаг пользователя - он теперь парикмахер
-        user.is_hairdresser = True
-        user.save()
-
-        return redirect('/')
-
-
-
-# def create_portfolio_view(request, slug_name):
-#     context = {
-#         'title': 'Создание портфолио',
-#         'cities': City.objects.all().order_by('name'),
-#         'skills': Skill.objects.all()
-#     }
+# class CreatePortfolioView(CreateView):
+#     """ Возвращает страницу создания портфолио """
 #
-#     if request.method != "POST":
-#         # print(request.FILES.getlist('file'))
-#         form = CreatePortfolioForm()
-#     else:
-#         # print(request.POST)
-#         # print(dir(request.POST))
-#         # print(request.POST.getlist(key='skills'))
-#         form = CreatePortfolioForm(data=request.POST)
-#         if form.is_valid():
-#             print('YES!!!!!!!!!!!')
-#             print(form.cleaned_data)
+#     form_class = CreatePortfolioForm
+#     template_name = 'users_app/add_portfolio3.html'
+#     # success_url = reverse_lazy('get_hairdresser')
+#     slug_url_kwarg = 'slug_name'
 #
-#             user = SimpleUser.objects.get(slug=slug_name)
-#             # all_skills = form.cleaned_data.get('skills')
-#             # h = Hairdresser.objects.create(owner=user)
-#             # h.skills.add(*all_skills)
-#             # user = SimpleUser.objects.get(slug=slug_name)
-#             # h = Hairdresser.objects.create(
-#             #     name=user.name,
-#             #     surname=user.surname,
-#             #     slug=user.slug,
-#             #     phone=request.POST.get('phone'),
-#             #     email=user.email,
-#             #     avatar=user.avatar,
-#             #     instagram=request.POST.get('instagram'),
-#             #     another_info=request.POST.get('another_info'),
-#             #     portfolio=request.FILES.getlist('file'),
-#             #     owner=user
-#             # )
-#             # h.skills.add(*all_skills)
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['title'] = 'Создание портфолио'
+#         context['cities'] = City.objects.all()
+#         context['skills'] = Skill.objects.all()
+#         return context
 #
+#     def form_valid(self, form):
+#         user = SimpleUser.objects.get()
+#         the_hairdresser = Hairdresser.objects.create(
+#             name=user.name,
+#             surname=user.surname,
+#             slug=user.slug,
+#             city=form.cleaned_data.get('city'),
+#             phone=form.cleaned_data.get('phone'),
+#             email=user.email,
+#             avatar=user.avatar,
+#             instagram=form.cleaned_data.get('instagram'),
+#             another_info=form.cleaned_data.get('another_info'),
+#             owner=user,
+#         )
 #
-#             form.save()
-#             return redirect('users_app:get_hairdresser slug_name')
-#         else:
-#             print(form.errors)
-#     context['form'] = form
+#         # Получаем все переданные навыки
+#         all_skills = form.cleaned_data.get('skills')
+#         the_hairdresser.skills.add(*all_skills)
 #
-#     return render(request, 'users_app/add_portfolio3.html', context)
+#         # Меняем флаг пользователя - он теперь парикмахер
+#         user.is_hairdresser = True
+#         user.save()
+
+
+def create_portfolio_view(request):
+
+    if request.method != 'POST':
+        form = CreatePortfolioForm()
+    else:
+        form = CreatePortfolioForm(data=request.POST)
+        if form.is_valid():
+            user = SimpleUser.objects.get(slug=request.user.username)
+            the_hairdresser = Hairdresser.objects.create(
+                name=user.name,
+                surname=user.surname,
+                slug=user.slug,
+                city=form.cleaned_data.get('city'),
+                phone=form.cleaned_data.get('phone'),
+                email=user.email,
+                avatar=user.avatar,
+                instagram=form.cleaned_data.get('instagram'),
+                another_info=form.cleaned_data.get('another_info'),
+                owner=user,
+            )
+            all_skills = form.cleaned_data.get('skills')
+            the_hairdresser.skills.add(*all_skills)
+            user.is_hairdresser = True
+            user.save()
+
+            return redirect('users_app:get_hairdresser', slug_name=request.user.username)
+
+    context = {'title': 'Регистрация формы', 'form': form}
+
+    return render(request, 'users_app/add_portfolio3.html', context)
+
