@@ -4,8 +4,10 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
+from hairdressers_project.settings import MEDIA_ROOT, MEDIA_URL
 from .forms import *
-from .models import City, Skill
+
+import os
 
 
 def homepage_view(request):
@@ -108,21 +110,33 @@ def logout_user(request):
 
 
 def get_one_hairdresser(requset, slug_name):
-    """Возвращает страницу парикмахера"""
+    """ Возвращает страницу парикмахера (портфолио) """
 
-    pers = Hairdresser.objects.get(slug=slug_name)
-    skills = pers.skills.all().order_by('name')
+    person = Hairdresser.objects.get(slug=slug_name)
+    skills = person.skills.all().order_by('name')
     context = {
-        'title': f'{pers.name.capitalize()} {pers.surname.capitalize()}',
-        'avatar': pers.avatar,
-        'rating': pers.rating,
-        'city': pers.city,
+        'title': f'{person.name.capitalize()} {person.surname.capitalize()}',
+        'avatar': person.avatar,
+        'rating': person.rating,
+        'city': person.city,
         'skills': [skill.name for skill in skills],
-        'phone': pers.phone,
-        'email': pers.email,
-        'instagram': pers.instagram,
-        'another_info': pers.another_info,
+        'phone': person.phone,
+        'email': person.email,
+        'instagram': person.instagram,
+        'another_info': person.another_info,
     }
+
+    # Получаем директорию хранения файлов пользователя
+    directory = f'{MEDIA_ROOT}/portfolio/{person.slug}'
+    # Получаем список имен файлов из найденной директории
+    files = os.listdir(directory)
+    # URL, по которому будут находиться фото пользователя
+    url_for_photo = f'{MEDIA_URL}portfolio/{person.slug}'
+    # Сохраняем в context имена файлов и путь к файлам,
+    # после чего в шаблоне проходим циклом по всем файлам
+    # и загружаем их на страницу
+    context['files'] = files
+    context['url_for_photo'] = url_for_photo
 
     return render(requset, 'users_app/portfolio.html', context)
 
@@ -130,14 +144,14 @@ def get_one_hairdresser(requset, slug_name):
 def get_main_profile(request, slug_name):
     """ Возвращает страницу главного профиля пользователя """
 
-    pers = SimpleUser.objects.get(slug=slug_name)
+    person = SimpleUser.objects.get(slug=slug_name)
     context = {
         'title': 'Главный профиль',
-        'username': pers.username,
-        'name': pers.name,
-        'surname': pers.surname,
-        'email': pers.email,
-        'avatar': pers.avatar
+        'username': person.username,
+        'name': person.name,
+        'surname': person.surname,
+        'email': person.email,
+        'avatar': person.avatar
     }
 
     return render(request, 'users_app/main_profile.html', context)

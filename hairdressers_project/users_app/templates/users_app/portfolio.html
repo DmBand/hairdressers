@@ -37,7 +37,7 @@
         <div class="info">
             <div class="title-info instagram">Instagram</div>
             {% if instagram %}
-            <a href="#" class="common-style">{{ instagram }}</a>
+            <a href="{{ instagram }}" class="common-style">{{ instagram }}</a>
             {% else %}
             <span class="common-style">-</span>
             {% endif %}
@@ -54,13 +54,9 @@
     <section class="portfolio">
         <div class="portolio-title">Портфолио</div>
         <div class="portfolio-items">
-            {% for f in heirdresser %}
-<!--            <img src="{% static 'users_app/assets/img/person/3+.jpg' %}" alt="img1" class="ptf-item">-->
-<!--            <img src="{% static 'users_app/assets/img/person/bg1+.jpg' %}" alt="img2" class="ptf-item">-->
-<!--            <img src="{% static 'users_app/assets/img/person/bg3+.jpg' %}" alt="img3" class="ptf-item">-->
-<!--            <img src="{% static 'users_app/assets/img/person/bg4+.jpg' %}" alt="img4" class="ptf-item">-->
-<!--            <img src="{% static 'users_app/assets/img/person/2+.jpg' %}" alt="img5" class="ptf-item">-->
-<!--            <img src="{% static 'users_app/assets/img/person/bg2+.jpg' %}" alt="img6" class="ptf-item">-->
+            {% for f in files %}
+            <img src="{{url_for_photo}}/{{ f }}" alt="img1" class="ptf-item">
+            {% endfor %}
         </div>
     </section>
 </main>
