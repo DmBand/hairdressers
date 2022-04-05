@@ -1,11 +1,13 @@
 from hairdressers_project.settings import MEDIA_ROOT
 import os
 
+MAX_COUNT = 20
+
 
 def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
     """
     Проверяет уже имеющееся количество файлов в портфолио пользователя.
-    Один пользователь может загружать не более 20 фотографий в портфолио.
+    Один пользователь может загружать не более 20 фотографий в портфолио (MAX_COUNT).
     По мере добавлений новых фотографий, старые будут удаляться.
     """
 
@@ -29,15 +31,15 @@ def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
 
     # Если портфолио полное, то удаляем нужное количество старых файлов,
     # равное количеству новых файлов
-    elif number_of_files_in_portfolio == 20:
+    elif number_of_files_in_portfolio == MAX_COUNT:
         files_to_be_deleted = the_oldest[-number_of_recived_files:]
         for f in files_to_be_deleted:
             os.remove(f'{directory}/{f}')
 
     # Если после добавления новых файлов общее количество станет > 20,
     # то удаляем лишние старые файлы
-    elif number_of_files_in_portfolio + number_of_recived_files > 20:
-        number_of_files_to_delete = (number_of_files_in_portfolio + number_of_recived_files) - 20
+    elif number_of_files_in_portfolio + number_of_recived_files > MAX_COUNT:
+        number_of_files_to_delete = (number_of_files_in_portfolio + number_of_recived_files) - MAX_COUNT
         files_to_be_deleted = the_oldest[-number_of_files_to_delete:]
         for f in files_to_be_deleted:
             os.remove(f'{directory}/{f}')
