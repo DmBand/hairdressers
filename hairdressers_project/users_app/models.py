@@ -1,9 +1,10 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
-from django.core.files.storage import FileSystemStorage
 
-file_storage = FileSystemStorage(location=f'media/portfolio/{User.username}')
+
+def user_directory_path(instance, filename):
+    return 'portfolio/{0}/{1}'.format(instance.slug, filename)
 
 
 class Skill(models.Model):
@@ -47,8 +48,8 @@ class SimpleUser(models.Model):
         return self.username
 
     class Meta:
-        verbose_name_plural = 'Пользователи'
-        verbose_name = 'Пользователя'
+        verbose_name_plural = 'простые пользователи'
+        verbose_name = 'простого пользователя'
 
 
 class Hairdresser(models.Model):
@@ -64,7 +65,7 @@ class Hairdresser(models.Model):
     rating = models.IntegerField(default=1, verbose_name='рейтинг')
     instagram = models.URLField(max_length=255, blank=True, verbose_name='инстаграм')
     another_info = models.TextField(max_length=1000, blank=True, verbose_name='дополнительная информация')
-    portfolio = models.ImageField(storage=file_storage, blank=True, verbose_name='портфолио')
+    portfolio = models.ImageField(upload_to=user_directory_path, blank=True, verbose_name='портфолио')
     owner = models.OneToOneField(SimpleUser, on_delete=models.CASCADE)
 
     class Meta:

@@ -83,11 +83,6 @@ class CreatePortfolioForm(forms.ModelForm):
             'phone', 'city', 'skills',
             'another_info', 'instagram', 'portfolio'
         ]
-        # widgets = {
-        #     'phone': forms.NumberInput(attrs={'class': 'portf-form-input', 'placeholder': 'Пример: +375291112233'}),
-        #     'city': forms.Select(attrs={'class': 'portfolio-city-select'}),
-        #     'skills': forms.CheckboxInput(),
-        # }
-        # exclude = [
-        #     'slug', 'rating', 'owner'
-        # ]
+        widgets = {
+            'portfolio': forms.ClearableFileInput(attrs={'multiple': True})
+        }

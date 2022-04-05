@@ -45,7 +45,7 @@
         <div class="filters-title">Результат</div>
         <ul class="result-items" id="items">
             {% for h in hairdresser %}
-            <a href="{% url 'users_app:one_hairdresser' h.slug %}" class="result-link">
+            <a href="{% url 'users_app:get_hairdresser' h.slug %}" class="result-link">
                 <li class="result-item">
                     {% if h.avatar %}
                      <img src="{{ h.avatar.url }}" alt="Avatar" class="result-photo">
