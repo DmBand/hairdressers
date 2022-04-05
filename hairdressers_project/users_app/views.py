@@ -6,6 +6,7 @@ from django.views.generic import CreateView
 
 from hairdressers_project.settings import MEDIA_ROOT, MEDIA_URL
 from .forms import *
+from .services import check_number_of_files_in_portfolio
 
 import os
 
@@ -187,6 +188,7 @@ def create_portfolio_view(request):
             # Если передавались файлы в портфолио, то обрабатываем их и сохраняем
             files = request.FILES.getlist('portfolio')
             if files:
+                check_number_of_files_in_portfolio(person_slug=user.slug, received_files=files)
                 for f in files:
                     the_hairdresser.portfolio = f
                     the_hairdresser.save()

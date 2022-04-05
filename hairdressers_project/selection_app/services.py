@@ -16,3 +16,4 @@ def get_selection_by_filters(model, context, city=None, skills=None, sort_option
         ).distinct().order_by(sort_option)
 
     return context
+
