@@ -188,7 +188,7 @@ def create_portfolio_view(request):
             # Если передавались файлы в портфолио, то обрабатываем их и сохраняем
             files = request.FILES.getlist('portfolio')
             if files:
-                check_number_of_files_in_portfolio(person_slug=user.slug, received_files=files)
+                check_number_of_files_in_portfolio(person_slug=user.slug, new_files=files)
                 for f in files:
                     the_hairdresser.portfolio = f
                     the_hairdresser.save()
