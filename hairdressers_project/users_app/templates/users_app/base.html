@@ -21,14 +21,14 @@
                 {% if request.user.is_authenticated %}
                 <ul class="reg-list">
                     <li>
-                        <a class="user-container" href="">
-                            {% if user.simpleuser.avatar %}
-                            <img class="avatar" src="{{ user.simpleuser.avatar.url }}" alt="Фото">
+                        <div class="user-container">
+                            {% if request.user.simpleuser.avatar %}
+                            <a href="{% url 'users_app:avatar' %}" title="Изменить фото профиля"><img class="avatar" src="{{ user.simpleuser.avatar.url }}" alt="Фото"></a>
                             {% else %}
                             <img class="avatar" src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Фото">
                             {% endif %}
                             <p class="login-name" data-i18n="">{{ user.username }}</p>
-                        </a>
+                        </div>
                     </li>
                     <li><a class="reg-item" href="{% url 'users_app:get_main_profile' user.username  %}" data-i18n="">Профиль</a></li>
                     <li><a class="reg-item" href="{% url 'users_app:logout' %}" data-i18n="">Выход</a></li>

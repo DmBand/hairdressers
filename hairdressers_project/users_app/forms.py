@@ -71,6 +71,22 @@ class AddAvatarForm(forms.ModelForm):
         fields = ['avatar']
 
 
+# class CreatePortfolioForm(forms.ModelForm):
+#     """ Форма создания портфолио """
+#
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#
+#     class Meta:
+#         model = Hairdresser
+#         fields = [
+#             'phone', 'city', 'skills',
+#             'another_info', 'instagram', 'portfolio'
+#         ]
+#         widgets = {
+#             'portfolio': forms.ClearableFileInput(attrs={'multiple': True})
+#         }
+
 class CreatePortfolioForm(forms.ModelForm):
     """ Форма создания портфолио """
 
@@ -84,5 +100,18 @@ class CreatePortfolioForm(forms.ModelForm):
             'another_info', 'instagram', 'portfolio'
         ]
         widgets = {
-            'portfolio': forms.ClearableFileInput(attrs={'multiple': True})
+            'phone': forms.NumberInput(attrs={'class': 'portf-form-input',
+                                              'placeholder': 'Пример: +375291112233',
+                                              'required': True}),
+            'city': forms.Select(attrs={'class': 'portfolio-city-select'}, ),
+            'skills': forms.CheckboxSelectMultiple(attrs={'class': 'portf-form-input-cb'}),
+            'another_info': forms.Textarea(attrs={'class': 'portfolio-textarea',
+                                                  'placeholder': 'Укажите доплнительную информацию о себе: '
+                                                                 'стоимость услуг, возмжен ли выезд к клиенту, '
+                                                                 'стаж, ссылки на электронные сертификаты и т.д.'}),
+            'instagram': forms.URLInput(attrs={'class': 'portf-form-input',
+                                               'placeholder': 'url-адрес'}),
+            'portfolio': forms.ClearableFileInput(attrs={'multiple': True,
+                                                         'class': 'input input__file',
+                                                         'id': 'input__file'}),
         }

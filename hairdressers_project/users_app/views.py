@@ -75,7 +75,7 @@ def add_avatar_view(request):
     else:
         form = AddAvatarForm()
 
-    context = {'form': form, 'title': 'Добавить фото'}
+    context = {'form': form, 'title': 'Добавить фото профиля'}
 
     return render(request, 'users_app/add_avatar.html', context)
 
@@ -127,17 +127,25 @@ def get_one_hairdresser(requset, slug_name):
         'another_info': person.another_info,
     }
 
-    # Получаем директорию хранения файлов пользователя
+    # Получаем путь к директории хранения файлов пользователя
     directory = f'{MEDIA_ROOT}/portfolio/{person.slug}'
-    # Получаем список имен файлов из найденной директории
-    files = os.listdir(directory)
-    # URL, по которому будут находиться фото пользователя
-    url_for_photo = f'{MEDIA_URL}portfolio/{person.slug}'
-    # Сохраняем в context имена файлов и путь к файлам,
-    # после чего в шаблоне проходим циклом по всем файлам
-    # и загружаем их на страницу
-    context['files'] = files
-    context['url_for_photo'] = url_for_photo
+
+    # Если пользователь первый раз добавляет фотографии, то файлов
+    # в директории и самой директории ещё не будет. В этом случае
+    # передаём в шаблон пустой список фотографий
+    try:
+        # Получаем список имен файлов из найденной директории
+        files = os.listdir(directory)
+    except FileNotFoundError:
+        context['files'] = []
+    else:
+        # URL, по которому будут находиться фото пользователя
+        url_for_photo = f'{MEDIA_URL}portfolio/{person.slug}'
+        # Сохраняем в context имена файлов и путь к файлам,
+        # после чего в шаблоне проходим циклом по всем файлам
+        # и загружаем их на страницу
+        context['files'] = files
+        context['url_for_photo'] = url_for_photo
 
     return render(requset, 'users_app/portfolio.html', context)
 
@@ -200,6 +208,9 @@ def create_portfolio_view(request):
             # Редирект на страницу портфолио
             return redirect('users_app:get_hairdresser', slug_name=request.user.username)
 
+        else:
+            print(form.errors)
+
     context = {'title': 'Регистрация формы', 'form': form}
 
-    return render(request, 'users_app/add_portfolio3.html', context)
+    return render(request, 'users_app/add_portfolio.html', context)

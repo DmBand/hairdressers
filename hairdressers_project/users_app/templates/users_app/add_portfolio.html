@@ -3,60 +3,66 @@
 
 {% block content %}
 
-<main class="main-portfolio">
+<main class="main">
     <section class="profile-buttons">
         <ul class="btn-list">
             <a href="{% url 'users_app:get_main_profile' user.username %}" class="btn-block-active">
                 <li class="btn-item">Главный профиль</li>
             </a>
+            {% if user.simpleuser.is_hairdresser %}
             <a href="{% url 'users_app:get_hairdresser' user.username %}" class="btn-block">
                 <li class="btn-item">Портфолио</li>
             </a>
+            {% else %}
+            <a href="{% url 'users_app:create_portfolio' %}" class="btn-block">
+                <li class="btn-item">Создать портфолио</li>
+            </a>
+            {% endif %}
         </ul>
     </section>
     <section class="add-portfolio-section">
         <h1 class="reg-title-text">Создание портфолио</h1>
-            <form class="add-portfolio-form" action="{% url 'users_app:create_portfolio' user.username %}" method="post" enctype="multipart/form-data">
+            <form class="add-portfolio-form" action="{% url 'users_app:create_portfolio' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
+                {{ form.non_field_errors }}
                 <div class="one-field">
-                    <label class="portf-form-label" for="phone">Номер телефона</label>
-                    <input name="phone" type="tel" id="phone" class="portf-form-input" placeholder="Пример: +375291112233">
+                    <label for="{{ form.phone.id_for_label }}" class="portf-form-label">Номер телефона</label>
+                    {{ form.phone.errors }}
+                    {{ form.phone }}
                 </div>
                 <div class="one-field">
                     <p class="portf-form-label">Выберите ваш город</p>
-                    <select name="city" class="portfolio-city-select">
-                        <option disabled selected class="portfolio-city-option">Город не выбран</option>
-                        {% for city in cities %}
-                        <option value="{{ city.name }}" class="portfolio-city-option">{{ city.name }}</option>
-                        {% endfor %}
-                    </select>
+                    {{ form.city.errors }}
+                    {{ form.city }}
                 </div>
                 <div class="one-field">
                     <p class="portf-form-label">Выберите ваши навыки</p>
+                    {{ form.skills.errors }}
                     <div class="skills-container">
-                        {% for skill in skills %}
+                        {% for skill in form.skills.field.choices.queryset %}
                         <label class="portf-form-label-cb">
                             <input name="skills" value="{{ skill.id }}" class="portf-form-input-cb" type="checkbox">
-                            {{ skill }}
+                            {{ skill.name }}
                         </label>
                         {% endfor %}
                     </div>
                 </div>
                 <div class="one-field">
                     <p class="portf-form-label">Дополнительная информация</p>
-                    <textarea name="another_info" class="portfolio-textarea"
-                    placeholder="Укажите доплнительную информацию о себе: стоимость услуг, возмжен ли выезд к клиенту, стаж, ссылки на электронные сертификаты и т.д."
-                    ></textarea>
+                    {{ form.another_info.errors }}
+                    {{ form.another_info }}
                 </div>
                 <div class="one-field">
-                    <label class="portf-form-label" for="inst">Instagram</label>
-                    <input name="instagram" type="url" id="inst" class="portf-form-input" placeholder="url-адрес">
+                    {{ form.instagram.errors }}
+                    <label class="portf-form-label" for="{{ form.instagram.id_for_label }}">Instagram</label>
+                    {{ form.instagram }}
                 </div>
                 <div class="one-field">
-                    <p class="portf-form-label">Добавьте свои работы</p>
-                    <p class="portf-form-label-mini">(не более 20 файлов формата jpeg и png)</p>
+                    <p class="portf-form-label">Добавьте свои работы (не более 20 файлов)</p>
+                    <p class="portf-form-label-add">*при превышении допустимого количества файлов, автоматически будут удалены самые старые файлы в портфолио</p>
+                    {{ form.portfolio.errors }}
                     <div class="input__wrapper">
-                        <input name="file" type="file" id="input__file" accept="image/png, image/jpeg" class="input input__file" multiple>
+                        {{ form.portfolio }}
                         <label for="input__file" class="input__file-button">
                             <span class="input__file-icon-wrapper"><img class="input__file-icon" src="{% static 'users_app/assets/svg/file_upload_black_48dp.svg' %}" alt="Выбрать файл" width="25"></span>
                             <span class="input__file-button-text">Выберите файл</span>

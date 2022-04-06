@@ -12,7 +12,7 @@ def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
     """
 
     # Опеределяем путь к файлам и название файлов в портфолио.
-    # Если директория не найден, значит пользователь добавляет файлы первый раз -
+    # Если директория не найдена, значит пользователь добавляет файлы первый раз -
     # прекращаем работу функции
     directory = f'{MEDIA_ROOT}/portfolio/{person_slug}'
     try:
@@ -24,7 +24,7 @@ def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
     # 1) формируем словарь, в котором ключ - название файла, значение - дата создания файла;
     # 2) Сотрируем словарь по убыванию (у старых файлов время создания меньше, чем у новых);
     # 3) Получаем список названий файлов, отсортированный по дате создания
-    the_oldest = sorted({str(f): os.path.getctime(f'{directory}\\{f}') for f in files}, reverse=True)
+    the_oldest = sorted({str(f): os.path.getctime(f'{directory}/{f}') for f in files}, reverse=True)
 
     # Определяем количество файлов в портфолио и количество новых файлов
     number_of_files_in_portfolio = len(files)

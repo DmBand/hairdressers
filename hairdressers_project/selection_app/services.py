@@ -1,4 +1,4 @@
-def get_selection_by_filters(model, context, city=None, skills=None, sort_option: str = '-rating'):
+def get_selection_by_filters(model, context, city=None, skills=None, sort_option='-rating'):
     """Возвращает результат фильтрации парикмахеров по городу и навыкам"""
 
     if city and skills:

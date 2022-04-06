@@ -22,7 +22,6 @@ class SelectionView(View):
     }
 
     def get(self, request):
-
         if request.GET.get('reset'):
             return render(request, 'selection_app/selection.html', self.context)
 
@@ -52,50 +51,3 @@ class SelectionView(View):
 
         else:
             return render(request, 'selection_app/selection.html', self.context)
-
-# def selection(request):
-#     city_id = False
-#     skill_id = False
-#     context = {
-#         'title': 'Подбор',
-#         'city': City.objects.all().order_by('name'),
-#         'skills': Skill.objects.order_by('name'),
-#         'hairdresser': Hairdresser.objects.order_by('-rating'),
-#         'current_city': 'Город не выбран',
-#         'chosen_skills': [],
-#     }
-#
-#     if request.method == 'POST':
-#         # Если в запросе есть reset, то просто обновляем страницу, ничего не меняя в context
-#         if 'reset' in request.POST:
-#             context = context
-#         else:
-#             # Проверяем, передавался ли город
-#             chosen_city = request.POST['city']
-#             if chosen_city:
-#                 city_id = True
-#                 context['current_city'] = City.objects.get(id=chosen_city)
-#                 # Убираем из списка городов выбранный город, чтобы он не отображался 2 раза
-#                 context['city'] = City.objects.filter(~Q(id=chosen_city)).order_by('name')
-#
-#             # Проверяем, передавался ли навык
-#             chosen_skill = [skill for skill in request.POST.getlist(key='skill')]
-#             if chosen_skill:
-#                 skill_id = True
-#                 # Для определения, какой навык передали, чтобы он отмечался как выбранный после применения фильтра
-#                 context['chosen_skills'] = [int(id_) for id_ in chosen_skill]
-#
-#             # Фильтруем результат в зависимости от переданных данных
-#             if city_id and skill_id:
-#                 context['hairdresser'] = Hairdresser.objects.filter(
-#                     city=chosen_city,
-#                     skills__in=chosen_skill
-#                 ).distinct().order_by('-rating')
-#             elif city_id and not skill_id:
-#                 context['hairdresser'] = Hairdresser.objects.filter(city=chosen_city).order_by('-rating')
-#             elif not city_id and skill_id:
-#                 context['hairdresser'] = Hairdresser.objects.filter(
-#                     skills__in=chosen_skill
-#                 ).distinct().order_by('-rating')
-#
-#     return render(request, 'users_app/selection.html', context)

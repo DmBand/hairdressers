@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<main class="main1">
+<main class="main">
     <section class="main-title">
         <div class="photo-and-rating">
             {% if avatar %}
@@ -54,9 +54,13 @@
     <section class="portfolio">
         <div class="portolio-title">Портфолио</div>
         <div class="portfolio-items">
-            {% for f in files %}
-            <img src="{{url_for_photo}}/{{ f }}" alt="img1" class="ptf-item">
-            {% endfor %}
+            {% if files %}
+                {% for f in files %}
+                <img src="{{url_for_photo}}/{{ f }}" alt="img1" class="ptf-item">
+                {% endfor %}
+            {% else %}
+                <p style="color: red">Нет работ в портфолио</p>
+            {% endif %}
         </div>
     </section>
 </main>

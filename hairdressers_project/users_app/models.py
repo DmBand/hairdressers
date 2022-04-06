@@ -69,8 +69,8 @@ class Hairdresser(models.Model):
     owner = models.OneToOneField(SimpleUser, on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name_plural = 'Парикмахеры'
-        verbose_name = 'Парикмахера'
+        verbose_name_plural = 'парикмахеры'
+        verbose_name = 'парикмахер'
 
     def __str__(self):
         return self.name
