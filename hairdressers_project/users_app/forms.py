@@ -70,22 +70,11 @@ class AddAvatarForm(forms.ModelForm):
         model = SimpleUser
         fields = ['avatar']
 
+        widgets = {
+            'avatar': forms.ClearableFileInput(attrs={'class': 'input input__file2',
+                                                      'id': 'input__file2'})
+        }
 
-# class CreatePortfolioForm(forms.ModelForm):
-#     """ Форма создания портфолио """
-#
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#
-#     class Meta:
-#         model = Hairdresser
-#         fields = [
-#             'phone', 'city', 'skills',
-#             'another_info', 'instagram', 'portfolio'
-#         ]
-#         widgets = {
-#             'portfolio': forms.ClearableFileInput(attrs={'multiple': True})
-#         }
 
 class CreatePortfolioForm(forms.ModelForm):
     """ Форма создания портфолио """
