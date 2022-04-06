@@ -5,7 +5,7 @@ from .models import *
 class HairdresserAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'name', 'surname', 'slug', 'city',
-        'rating', 'phone', 'email', 'portfolio', 'another_info'
+        'rating', 'phone', 'email', 'another_info'
     )
     list_display_links = ('id', 'name', 'surname')
     list_filter = ('name',)
