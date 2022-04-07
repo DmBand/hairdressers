@@ -1,5 +1,6 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView

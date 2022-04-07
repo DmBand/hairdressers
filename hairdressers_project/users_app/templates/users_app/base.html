@@ -12,7 +12,7 @@
     <link rel="shortcut icon" href="{% static 'users_app/assets/svg/icon.svg' %}">
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="main">
         <header class="header">
             <nav class="nav">
                 <a class="main-page-link" href="{% url 'users_app:homepage' %}" title="Главная страница">
@@ -45,7 +45,16 @@
 {% block content %}
 {% endblock content %}
         <footer class="footer">
-            
+            <div class="footer-elements">
+                <p class="footer-year">2022</p>
+                <a href="mailto:d.bandysik@gmail.com" class="footer-link" title="Написать">
+                    <p class="footer-name">Дмитрий Бандысик</p>
+                    <img src="{% static 'users_app/assets/svg/mail.svg' %}" alt="Написать" class="footer-img">
+                </a>
+                <a href="#main" class="footer-up-link" title="Вернуться в начало">
+                    <img src="{% static 'users_app/assets/svg/arrow_upward_white_24dp.svg' %}" alt="В начало">
+                </a>
+            </div>
         </footer>
     </div>
 <script type="module" src="{% static 'users_app/js/index.js' %}"></script>
