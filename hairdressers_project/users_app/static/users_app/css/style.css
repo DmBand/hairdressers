@@ -356,6 +356,47 @@ h1, h2, h3, h4, h5, h6 {
 	filter: none;
 }
 
+/* __ TOP-10____ */
+
+.top10 {
+	padding: 40px 20px 0;
+}
+
+.top10-title {
+	font-family: 'Merriwaether';
+	font-weight: 700;
+	font-size: 40px;
+	color: #BDAE82;
+	text-align: center;
+	margin-bottom: 30px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+}
+
+.top10-items {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	row-gap: 40px;
+}
+
+.top10-item {
+	width: 270px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	word-wrap: break-word;
+}
+
+.top10-city {
+	padding-top: 5px;
+	font-family: 'Merriweather';
+	font-weight: 400;
+	letter-spacing: 3px;
+	color: #fff;
+	font-size: 12px;
+}
+
 /* ___DESCRIPTION_______ */
 
 .description {
@@ -366,7 +407,7 @@ h1, h2, h3, h4, h5, h6 {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
-	padding-top: 10px;
+	padding-top: 40px;
 	column-gap: 10px;
 }
 .description-item {

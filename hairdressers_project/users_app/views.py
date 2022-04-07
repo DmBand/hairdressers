@@ -15,8 +15,10 @@ import os
 def homepage_view(request):
     """Возвращает главную страницу сайта"""
 
+    top10 = Hairdresser.objects.order_by('-rating')[:10]
     context = {
-        'title': 'Парикмахеры Беларуси'
+        'title': 'Парикмахеры Беларуси',
+        'top10': top10
     }
 
     return render(request, 'users_app/index.html', context=context)
