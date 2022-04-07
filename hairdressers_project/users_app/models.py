@@ -64,7 +64,7 @@ class Hairdresser(models.Model):
     surname = models.CharField(max_length=50, verbose_name='фамилия')
     slug = models.SlugField(max_length=50, verbose_name='URL', unique=True, db_index=True)
     city = models.ForeignKey(City, on_delete=models.PROTECT, null=True)
-    phone = PhoneNumberField(verbose_name='номер телефона', blank=True)
+    phone = PhoneNumberField(verbose_name='номер телефона')
     email = models.EmailField(verbose_name='фдрес эл. почты')
     avatar = models.ImageField(upload_to='avatars/%Y/%m/%d/', blank=True, verbose_name='фото профиля')
     skills = models.ManyToManyField(Skill, verbose_name='навыки')
