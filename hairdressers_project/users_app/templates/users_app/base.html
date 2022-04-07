@@ -25,7 +25,7 @@
                             {% if request.user.simpleuser.avatar %}
                             <a href="{% url 'users_app:avatar' %}" title="Изменить фото профиля"><img class="avatar" src="{{ user.simpleuser.avatar.url }}" alt="Фото"></a>
                             {% else %}
-                            <img class="avatar" src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Фото">
+                            <a href="{% url 'users_app:avatar' %}" title="Изменить фото профиля"><img class="avatar" src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Фото"></a>
                             {% endif %}
                             <p class="login-name" data-i18n="">{{ user.username }}</p>
                         </div>

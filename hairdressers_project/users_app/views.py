@@ -6,7 +6,7 @@ from django.views.generic import CreateView
 
 from hairdressers_project.settings import MEDIA_ROOT, MEDIA_URL
 from .forms import *
-from .services import check_number_of_files_in_portfolio
+from .services import check_number_of_files_in_portfolio, check_number_of_files_in_avatar_directory
 
 import os
 
@@ -66,6 +66,8 @@ def add_avatar_view(request):
         )
 
         if form.is_valid():
+            # Удаляем старую аватарку из хранилища
+            check_number_of_files_in_avatar_directory(person_slug=request.user.simpleuser.slug)
             form.save()
             return redirect('users_app:homepage')
 
@@ -125,6 +127,7 @@ def get_one_hairdresser(requset, slug_name):
         'email': person.email,
         'instagram': person.instagram,
         'another_info': person.another_info,
+        'slug': person.slug,
     }
 
     # Получаем путь к директории хранения файлов пользователя

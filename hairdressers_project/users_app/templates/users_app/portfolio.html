@@ -3,6 +3,24 @@
 
 {% block content %}
 <main class="main">
+    {% if request.user.simpleuser.slug == slug %}
+    <section class="profile-buttons">
+        <ul class="btn-list">
+            <a href="{% url 'users_app:get_main_profile' user.username %}" class="btn-block">
+                <li class="btn-item">Главный профиль</li>
+            </a>
+            {% if user.simpleuser.is_hairdresser %}
+            <a href="{% url 'users_app:get_hairdresser' user.username %}" class="btn-block-active">
+                <li class="btn-item">Портфолио</li>
+            </a>
+            {% else %}
+            <a href="{% url 'users_app:create_portfolio' %}" class="btn-block">
+                <li class="btn-item">Создать портфолио</li>
+            </a>
+            {% endif %}
+        </ul>
+    {% endif %}
+    </section>
     <section class="main-title">
         <div class="photo-and-rating">
             {% if avatar %}
@@ -59,7 +77,7 @@
                 <img src="{{url_for_photo}}/{{ f }}" alt="img1" class="ptf-item">
                 {% endfor %}
             {% else %}
-                <p style="color: red">Нет работ в портфолио</p>
+                <p class="p-info">Пользователь ещё не добавил работы в портфолио...</p>
             {% endif %}
         </div>
     </section>

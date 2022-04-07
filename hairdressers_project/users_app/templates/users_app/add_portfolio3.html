@@ -1,5 +1,0 @@
-<form action="{% url 'users_app:create_portfolio' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit"></button>
-</form>

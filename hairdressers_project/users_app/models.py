@@ -3,8 +3,12 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
 
 
-def user_directory_path(instance, filename):
+def user_portfolio_directory_path(instance, filename):
     return 'portfolio/{0}/{1}'.format(instance.slug, filename)
+
+
+def user_avatar_directory_path(instance, filename):
+    return 'avatars/{0}/{1}'.format(instance.slug, filename)
 
 
 class Skill(models.Model):
@@ -38,7 +42,7 @@ class SimpleUser(models.Model):
     name = models.CharField(max_length=50, verbose_name='имя')
     surname = models.CharField(max_length=50, verbose_name='фамилия')
     email = models.EmailField(verbose_name='адрес эл. почты')
-    avatar = models.ImageField(upload_to='avatars/%Y/%m/%d/', blank=True, verbose_name='фото профиля')
+    avatar = models.ImageField(upload_to=user_avatar_directory_path, blank=True, verbose_name='фото профиля')
     slug = models.SlugField(max_length=50, unique=True, db_index=True, verbose_name='URL')
     is_hairdresser = models.BooleanField(default=False, verbose_name='парикмахер')
     date_of_registration = models.DateField(auto_now_add=True, verbose_name='дата регистрации')
@@ -65,7 +69,7 @@ class Hairdresser(models.Model):
     rating = models.IntegerField(default=1, verbose_name='рейтинг')
     instagram = models.URLField(max_length=255, blank=True, verbose_name='инстаграм')
     another_info = models.TextField(max_length=1000, blank=True, verbose_name='дополнительная информация')
-    portfolio = models.ImageField(upload_to=user_directory_path, blank=True, verbose_name='портфолио')
+    portfolio = models.ImageField(upload_to=user_portfolio_directory_path, blank=True, verbose_name='портфолио')
     owner = models.OneToOneField(SimpleUser, on_delete=models.CASCADE)
 
     class Meta:

@@ -8,7 +8,7 @@ def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
     """
     Проверяет уже имеющееся количество файлов в портфолио пользователя.
     Один пользователь может загружать не более 20 фотографий в портфолио (MAX_COUNT).
-    По мере добавлений новых фотографий, старые будут удаляться.
+    По мере добавления новых фотографий, старые будут удаляться.
     """
 
     # Опеределяем путь к файлам и название файлов в портфолио.
@@ -20,10 +20,10 @@ def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
     except FileNotFoundError:
         return
 
-    # Формируем список файлов по дате создания (самые старые идут в конце):
+    # Формируем список файлов по дате создания (самые старые идут в конце списка):
     # 1) формируем словарь, в котором ключ - название файла, значение - дата создания файла;
     # 2) Сотрируем словарь по убыванию (у старых файлов время создания меньше, чем у новых);
-    # 3) Получаем список названий файлов, отсортированный по дате создания
+    # 3) Получаем список названий файлов, отсортированный по дате создания.
     the_oldest = sorted({str(f): os.path.getctime(f'{directory}/{f}') for f in files}, reverse=True)
 
     # Определяем количество файлов в портфолио и количество новых файлов
@@ -48,3 +48,20 @@ def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
         files_to_be_deleted = the_oldest[-number_of_files_to_delete:]
         for f in files_to_be_deleted:
             os.remove(f'{directory}/{f}')
+
+
+def check_number_of_files_in_avatar_directory(person_slug: str):
+    """
+    Проверяет наличие аватара в папке пользователя и,
+    в случае загрузки нового аватара, удаляет старый их папки хранения
+    """
+
+    # Определяем директорию хранения файлов
+    directory = f'{MEDIA_ROOT}/avatars/{person_slug}'
+    try:
+        files = os.listdir(directory)
+    # Если директории нет, то пользователь добавляет фото первый раз - останавливаем работу функции
+    except FileNotFoundError:
+        return
+    else:
+        os.remove(f'{directory}/{files[0]}')
