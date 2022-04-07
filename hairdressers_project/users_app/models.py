@@ -3,24 +3,25 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
 
 
-def user_portfolio_directory_path(instance, filename):
+def path_to_user_portfolio_directory(instance, filename):
     return 'portfolio/{0}/{1}'.format(instance.slug, filename)
 
 
-def user_avatar_directory_path(instance, filename):
+def path_to_user_avatar_directory(instance, filename):
     return 'avatars/{0}/{1}'.format(instance.slug, filename)
 
 
 class Skill(models.Model):
     """ Модель навыков парикмахеров """
+
     name = models.CharField(max_length=50, verbose_name='навык', db_index=True)
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name_plural = 'Навыки'
-        verbose_name = 'Навык'
+        verbose_name_plural = 'навыки'
+        verbose_name = 'навык'
 
 
 class City(models.Model):
@@ -31,8 +32,8 @@ class City(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Город'
-        verbose_name_plural = 'Города'
+        verbose_name = 'город'
+        verbose_name_plural = 'города'
 
 
 class SimpleUser(models.Model):
@@ -42,7 +43,7 @@ class SimpleUser(models.Model):
     name = models.CharField(max_length=50, verbose_name='имя')
     surname = models.CharField(max_length=50, verbose_name='фамилия')
     email = models.EmailField(verbose_name='адрес эл. почты')
-    avatar = models.ImageField(upload_to=user_avatar_directory_path, blank=True, verbose_name='фото профиля')
+    avatar = models.ImageField(upload_to=path_to_user_avatar_directory, blank=True, verbose_name='фото профиля')
     slug = models.SlugField(max_length=50, unique=True, db_index=True, verbose_name='URL')
     is_hairdresser = models.BooleanField(default=False, verbose_name='парикмахер')
     date_of_registration = models.DateField(auto_now_add=True, verbose_name='дата регистрации')
@@ -58,6 +59,7 @@ class SimpleUser(models.Model):
 
 class Hairdresser(models.Model):
     """ Модель парикмахера """
+
     name = models.CharField(max_length=50, verbose_name='имя')
     surname = models.CharField(max_length=50, verbose_name='фамилия')
     slug = models.SlugField(max_length=50, verbose_name='URL', unique=True, db_index=True)
@@ -69,7 +71,7 @@ class Hairdresser(models.Model):
     rating = models.IntegerField(default=1, verbose_name='рейтинг')
     instagram = models.URLField(max_length=255, blank=True, verbose_name='инстаграм')
     another_info = models.TextField(max_length=1000, blank=True, verbose_name='дополнительная информация')
-    portfolio = models.ImageField(upload_to=user_portfolio_directory_path, blank=True, verbose_name='портфолио')
+    portfolio = models.ImageField(upload_to=path_to_user_portfolio_directory, blank=True, verbose_name='портфолио')
     owner = models.OneToOneField(SimpleUser, on_delete=models.CASCADE)
 
     class Meta:

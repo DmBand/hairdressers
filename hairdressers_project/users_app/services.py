@@ -53,7 +53,7 @@ def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
 def check_number_of_files_in_avatar_directory(person_slug: str):
     """
     Проверяет наличие аватара в папке пользователя и,
-    в случае загрузки нового аватара, удаляет старый их папки хранения
+    в случае загрузки нового аватара, удаляет старый из папки хранения
     """
 
     # Определяем директорию хранения файлов
