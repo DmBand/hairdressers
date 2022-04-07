@@ -69,10 +69,10 @@ def add_avatar_view(request):
             # Удаляем старую аватарку из хранилища
             check_number_of_files_in_avatar_directory(person_slug=request.user.simpleuser.slug)
             form.save()
-            return redirect('users_app:homepage')
+            return redirect('users_app:get_main_profile', slug_name=request.user.simpleuser.slug)
 
     elif request.POST.get('avatar') == 'no':
-        return redirect('users_app:homepage')
+        return redirect('users_app:get_main_profile', slug_name=request.user.simpleuser.slug)
 
     else:
         form = AddAvatarForm()
