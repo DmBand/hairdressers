@@ -19,8 +19,11 @@
             </a>
             {% endif %}
         </ul>
-    {% endif %}
+        <a href="{% url 'users_app:edit_portfolio' request.user.simpleuser.slug %}" class="btn-block">
+            <p class="btn-item">Редактировать</p>
+        </a>
     </section>
+    {% endif %}
     <section class="main-title">
         <div class="photo-and-rating">
             {% if avatar %}

@@ -220,3 +220,29 @@ def create_portfolio_view(request):
     context = {'title': 'Регистрация формы', 'form': form}
 
     return render(request, 'users_app/add_portfolio.html', context)
+
+
+def edit_portfolio_view(request, slug_name):
+    """ Возвращает страницу изменения портфолио """
+
+    the_hairdresser = Hairdresser.objects.get(slug=slug_name)
+    # Получаем отдельно список навыков, чтобы отметить в форме уже имеющиеся навыки
+    skills = the_hairdresser.skills.all()
+
+    if request.method != 'POST':
+        form = CreatePortfolioForm(instance=the_hairdresser)
+    else:
+        form = CreatePortfolioForm(instance=the_hairdresser, data=request.POST)
+        if form.is_valid():
+            form.save()
+            files = request.FILES.getlist('portfolio')
+            if files:
+                check_number_of_files_in_portfolio(person_slug=the_hairdresser.slug, new_files=files)
+                for f in files:
+                    the_hairdresser.portfolio = f
+                    the_hairdresser.save()
+
+            return redirect('users_app:get_hairdresser', slug_name=the_hairdresser.slug)
+
+    context = {'form': form, 'skills': skills}
+    return render(request, 'users_app/edit_portfolio.html', context)

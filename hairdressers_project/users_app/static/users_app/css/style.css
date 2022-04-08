@@ -539,7 +539,7 @@ h1, h2, h3, h4, h5, h6 {
 	text-align: justify;
 	color: #BBA9A9;
 	line-height: 25px;
-	font-size: 18px;
+	font-size: 20px;
 	display: flex;
 	flex-wrap: wrap;
 	column-gap: 20px;
@@ -1026,13 +1026,20 @@ h1, h2, h3, h4, h5, h6 {
 
 .profile-buttons {
 	padding-top: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 10px;
 }
 
 .btn-list {
 	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
 	justify-content: center;
-	column-gap: 70px;
+	column-gap: 40px;
+	border-bottom: 2px solid #BDAE82;
+	padding-bottom: 10px;
 }
 
 .btn-block, .btn-block-active {
@@ -1245,6 +1252,18 @@ h1, h2, h3, h4, h5, h6 {
 	margin: 15px 0;
 	text-align: center;
 } */
+
+.input__wrapper a {
+    display: none;
+}
+
+.input__wrapper input {
+    display: none;
+}
+
+.input__wrapper br {
+    display: none;
+}
 
 .input__file {
 	opacity: 0;
