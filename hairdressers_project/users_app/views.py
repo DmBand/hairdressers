@@ -1,6 +1,7 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 from django.db.models import F
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -295,6 +296,10 @@ def increase_rating_view(request, slug_name):
     who_do_we_evaluate = Hairdresser.objects.get(slug=slug_name)
     # Кто оценивает
     who_evaluates = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
+
+    # Если парикмахер захочет проголосовать сам за себя, то его перекинет на его портфолио
+    if who_evaluates.slug == who_do_we_evaluate.slug:
+        return redirect('users_app:get_hairdresser', slug_name=who_evaluates.slug)
 
     if request.method != 'POST':
         form = IncreaseRatingForm()
