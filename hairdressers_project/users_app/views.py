@@ -1,6 +1,5 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
-from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -104,7 +103,7 @@ class LoginUserView(LoginView):
         return reverse_lazy('users_app:homepage')
 
 
-def logout_user(request):
+def logout_user_view(request):
     """
     Разлогинивает пользователя. После разлогина пользователь остаётся
     на текущей странице
@@ -115,7 +114,7 @@ def logout_user(request):
     return redirect('users_app:login')
 
 
-def get_one_hairdresser(requset, slug_name):
+def get_one_hairdresser_view(requset, slug_name):
     """ Возвращает страницу парикмахера (портфолио) """
 
     person = Hairdresser.objects.get(slug=slug_name)
@@ -156,7 +155,7 @@ def get_one_hairdresser(requset, slug_name):
     return render(requset, 'users_app/portfolio.html', context)
 
 
-def get_main_profile(request, slug_name):
+def get_main_profile_view(request, slug_name):
     """ Возвращает страницу главного профиля пользователя """
 
     person = SimpleUser.objects.get(slug=slug_name)
@@ -244,5 +243,45 @@ def edit_portfolio_view(request, slug_name):
 
             return redirect('users_app:get_hairdresser', slug_name=the_hairdresser.slug)
 
-    context = {'form': form, 'skills': skills}
+    context = {'title': 'Редактирование портфолио', 'form': form, 'skills': skills}
     return render(request, 'users_app/edit_portfolio.html', context)
+
+
+def edit_main_profile_view(request, slug_name):
+    """ Возвращает страницу редактирования главного профиля """
+
+    # Флаг, показывающий, является ли пользователь парикмахером
+    the_hairdresser = True
+
+    try:
+        hairdresser = Hairdresser.objects.get(slug=slug_name)
+        # Ловим исключение self.model.DoesNotExist, если пользователь
+        # не является парикмахером, и устанавливаем флаг False
+    except:
+        the_hairdresser = False
+
+    simple_user = SimpleUser.objects.get(slug=slug_name)
+    user = User.objects.get(username=slug_name)
+
+    if request.method != 'POST':
+        form = EditProfileForm(instance=user)
+    else:
+        form = EditProfileForm(instance=user, data=request.POST)
+        if form.is_valid():
+            form.save()
+
+            # Меняем данные модели SimpleUser
+            simple_user.name = form.cleaned_data.get('first_name')
+            simple_user.surname = form.cleaned_data.get('last_name')
+            simple_user.save()
+
+            # Если пользователь парикмахер, то меняем данные в портфолио
+            if the_hairdresser:
+                hairdresser.name = form.cleaned_data.get('first_name')
+                hairdresser.surname = form.cleaned_data.get('last_name')
+                hairdresser.save()
+
+            return redirect('users_app:get_main_profile', slug_name=user.username)
+
+    context = {'title': 'Редактирование главного профиля', 'form': form}
+    return render(request, 'users_app/edit_main_profile.html', context)

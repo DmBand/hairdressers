@@ -872,6 +872,10 @@ h1, h2, h3, h4, h5, h6 {
 	margin: 0 auto;
 }
 
+.reg-title2 {
+	margin: 50px auto 0;
+}
+
 .reg-title-text {
 	font-family: 'Merriwaether';
 	font-weight: 700;
@@ -945,6 +949,14 @@ h1, h2, h3, h4, h5, h6 {
 .reg-btn-container{
 	margin-top: 30px;
 	margin-left: 31%;
+	height: 60px;
+	display: flex;
+	flex-wrap: wrap;
+	column-gap: 50px;
+}
+
+.reg-btn-container2{
+	margin: 0 auto;
 	height: 60px;
 	display: flex;
 	flex-wrap: wrap;

@@ -18,7 +18,7 @@
             </a>
             {% endif %}
         </ul>
-        <a href="" class="btn-block">
+        <a href="{% url 'users_app:edit_main_profile' request.user.simpleuser.slug %}" class="btn-block">
             <p class="btn-item">Редактировать</p>
         </a>
     </section>
@@ -44,7 +44,7 @@
             </ul>
             <div class="data-img">
                 {% if avatar %}
-                <img src="{{ avatar.url }}" alt="avatar" class="prof-img">
+                <a href="{% url 'users_app:avatar' %}" title="Изменить фото"><img src="{{ avatar.url }}" alt="avatar" class="prof-img"></a>
                 {% else %}
                 <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="avatar" class="prof-img">
                 {% endif %}

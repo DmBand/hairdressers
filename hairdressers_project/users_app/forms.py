@@ -105,3 +105,21 @@ class CreatePortfolioForm(forms.ModelForm):
                                                          'class': 'input input__file',
                                                          'id': 'input__file'}),
         }
+
+
+class EditProfileForm(forms.ModelForm):
+    """ Форма редактирования портфолио """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    class Meta:
+        model = User
+        fields = [
+            'first_name', 'last_name'
+        ]
+
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'reg-form-input'}),
+            'last_name': forms.TextInput(attrs={'class': 'reg-form-input'})
+        }
