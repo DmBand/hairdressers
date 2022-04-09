@@ -79,4 +79,22 @@ class Hairdresser(models.Model):
         verbose_name = 'парикмахер'
 
     def __str__(self):
-        return self.name
+        return self.slug
+
+
+class Comment(models.Model):
+    autor = models.CharField(max_length=50, verbose_name='автор')
+    belong_to = models.ForeignKey(Hairdresser, on_delete=models.CASCADE, verbose_name='кому')
+    text = models.TextField(max_length=3000, verbose_name='текст комментария')
+    rating_value = models.IntegerField(verbose_name='добавить рейтинг')
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'комментарии'
+        verbose_name = 'комментарий'
+
+    def __str__(self):
+        if len(self.text) > 50:
+            return f'{self.text[:51]}...'
+        else:
+            return self.text
