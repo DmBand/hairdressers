@@ -31,7 +31,10 @@
             {% else %}
             <img src="{% static 'users_app/assets/img/person/4+.jpg' %}." alt="Аватар" class="photo-person">
             {% endif %}
+            <a href="{% url 'users_app:increase_rating' slug %}" title="Оценить / добавить отзыв">
             <div class="rating-person">{{ rating }}</div>
+            <div class="comment">12</div>
+            </a>
         </div>
         <div class="main-name-city">
             <h1 class="name-surname">{{ title }}</h1>

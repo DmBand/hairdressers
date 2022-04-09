@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
-from .models import Hairdresser, SimpleUser
+from .models import Hairdresser, SimpleUser, Comment
 
 
 class RegistrationUserForm(UserCreationForm):
@@ -123,3 +123,22 @@ class EditProfileForm(forms.ModelForm):
             'first_name': forms.TextInput(attrs={'class': 'reg-form-input'}),
             'last_name': forms.TextInput(attrs={'class': 'reg-form-input'})
         }
+
+
+class IncreaseRatingForm(forms.ModelForm):
+    """ Форма повышения рейтинга парикмахера """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    class Meta:
+        model = Comment
+        fields = [
+            'text', 'rating_value'
+        ]
+
+    def clean_rating_value(self):
+        rating_value = self.cleaned_data.get('rating_value')
+        if rating_value < 0 or rating_value > 5:
+            raise ValidationError('Допустимые оценки находятся в диапазоне от 0 до 5')
+        return rating_value

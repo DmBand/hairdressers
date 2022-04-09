@@ -12,6 +12,7 @@ urlpatterns = [
     path('add_avatar/', add_avatar_view, name='avatar'),
     path('create_portfolio/', create_portfolio_view, name='create_portfolio'),
     path('edit_portfolio/<slug:slug_name>/', edit_portfolio_view, name='edit_portfolio'),
+    path('increase_rating/<slug:slug_name>/', increase_rating_view, name='increase_rating'),
     path('hairdressers/<slug:slug_name>/', get_one_hairdresser_view, name='get_hairdresser'),
     path('profile/<slug:slug_name>/', get_main_profile_view, name='get_main_profile'),
 ]

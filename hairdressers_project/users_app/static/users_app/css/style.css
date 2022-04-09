@@ -447,9 +447,11 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: 'Merriweather';
 	font-weight: 700;
 }
+
 .photo-and-rating {
 	display: flex;
 	align-items: flex-end;
+	column-gap: 20px;
 }
 
 .photo-person {
@@ -458,29 +460,38 @@ h1, h2, h3, h4, h5, h6 {
 	height: 300px;
 	border-radius: 200px;
 	object-fit: cover;
-	/* box-shadow: 0px 0px 70px 3px #fff; */
 }
 
-.rating-person {
+.rating-person, .comment {
 	font-size: 30px;
 	color: #BBA9A9;
 	position: relative;
 	transition: 0.3s;
 	cursor: pointer;
+	padding-left: 10px;
 }
 
-.rating-person::before{
+.rating-person::before,
+.comment::before {
 	position: absolute;
 	content: '';
 	top: 8px;
-	left: -27px;
+	left: -20px;
 	width: 24px;
 	height: 24px;
-	background: url('../assets/svg/rait_24.svg');
 	background-size: contain;
 }
 
-.rating-person:hover::before {
+.rating-person::before {
+	background: url('../assets/svg/rait_24.svg');
+}
+
+.comment::before {
+	background: url('../assets/svg/comment.svg');
+}
+
+.rating-person:hover::before,
+.comment:hover::before {
 	filter: invert(26%) sepia(15%) saturate(638%) hue-rotate(7deg) brightness(92%) contrast(87%);
 }
 

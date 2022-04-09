@@ -1,5 +1,6 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
+from django.db.models import F
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -285,3 +286,32 @@ def edit_main_profile_view(request, slug_name):
 
     context = {'title': 'Редактирование главного профиля', 'form': form}
     return render(request, 'users_app/edit_main_profile.html', context)
+
+
+def increase_rating_view(request, slug_name):
+    """ Возвращает страницу повышения рейтинга и добавления отзыва """
+
+    # Кого оцениваем
+    who_do_we_evaluate = Hairdresser.objects.get(slug=slug_name)
+    # Кто оценивает
+    who_evaluates = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
+
+    if request.method != 'POST':
+        form = IncreaseRatingForm()
+    else:
+        form = IncreaseRatingForm(data=request.POST)
+        if form.is_valid():
+            Comment.objects.create(
+                autor=who_evaluates.username,
+                belong_to=who_do_we_evaluate,
+                text=form.cleaned_data.get('text'),
+                rating_value=form.cleaned_data.get('rating_value')
+            )
+            # Увеличиваем значение рейтинга на величину переданного значения
+            who_do_we_evaluate.rating = F('rating') + form.cleaned_data.get('rating_value')
+            who_do_we_evaluate.save()
+
+            return redirect('users_app:get_hairdresser', slug_name=who_do_we_evaluate.slug)
+
+    context = {'title': 'Оценить', 'form': form}
+    return render(request, 'users_app/increase_rating.html', context)
