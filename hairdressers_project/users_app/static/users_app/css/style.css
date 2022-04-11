@@ -896,8 +896,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .result-name-surname {
 	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
+	flex-direction: column;
+	align-items: center;
 	gap: 5px 10px;
 	font-family: 'Merriweather';
 	font-weight: 400;
@@ -1291,18 +1291,26 @@ h1, h2, h3, h4, h5, h6 {
 	cursor: pointer;
 }
 
-.portfolio-textarea {
+.portfolio-textarea, .portfolio-textarea2 {
 	margin-top: 10px;
 	padding: 10px 10px;
 	background-color: #fff;
-	max-width: 600px;
-	height: 150px;
-	resize: vertical;
 	font-family: 'Merriweather';
 	font-weight: 400;
 	font-size: 18px;
 	letter-spacing: 2px;
 	text-align: justify;
+}
+
+.portfolio-textarea {
+    max-width: 600px;
+    height: 150px;
+    resize: vertical;
+}
+
+.portfolio-textarea2 {
+    resize: none;
+	height: 200px;
 }
 
 /* !!!!! */
@@ -1378,14 +1386,22 @@ h1, h2, h3, h4, h5, h6 {
 	letter-spacing: normal;
 }
 
-.portf-btns-container {
+.portf-btns-container, .portf-btns-container2 {
 	margin-top: 10px;
 	max-width: 600px;
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
-	column-gap: 60px;
 }
+
+.portf-btns-container1 {
+    justify-content: center;
+    column-gap: 60px;
+}
+
+.portf-btns-container2 {
+	justify-content: space-between;
+}
+
 .portf-btn-sumbit {
 	font-family: 'Inter';
 	font-weight: 400;
@@ -1565,6 +1581,102 @@ img {
 .av-btn-no:hover {
 	color: #8f0c0c;
 	border: 2px solid #8f0c0c;
+}
+
+/* !!!! ДОБАВИТЬ КОММЕНАТРИЙ !!! */
+
+.increase-rating {
+	margin-top: 50px;
+}
+.rating-comment-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	column-gap: 250px;
+}
+
+.photo-person2 {
+	width: 300px;
+	height: 300px;
+	border-radius: 300px;
+	object-fit: cover;
+}
+
+.photo-rating-name {
+    font-family: 'Merriwaether';
+	font-weight: 700;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 20px;
+	max-width: 300px;
+}
+
+.result-name-surname2 {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 5px 10px;
+	font-family: 'Merriweather';
+	font-weight: 400;
+	letter-spacing: 3px;
+	color: #BBA9A9;
+}
+
+.add-comment-form {
+	color: #fff;
+}
+
+.rating-comment {
+	display: flex;
+	flex-direction: column;
+	font-family: 'Merriwaether';
+	font-weight: 400;
+}
+
+.rating-description {
+	color: #BBA9A9;
+	font-size: 20px;
+	letter-spacing: 2px;
+}
+
+.radio-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin-top: 10px;
+	margin-bottom: 40px;
+}
+
+.l-i {
+	display: flex;
+	align-items: center;
+}
+
+.comment-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.add-rating-label {
+	color: #BDAE82;
+	margin-right: 5px;
+}
+
+.add-rating-input {
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+
+.add-comment-label {
+	text-transform: uppercase;
+	color: #BDAE82;
+}
+
+.add-comment-input {
+	width: 500px;
+	height: 100px;
 }
 
 /*___FOOTER________________________*/

@@ -134,8 +134,13 @@ class IncreaseRatingForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = [
-            'text', 'rating_value'
+            'rating_value', 'text'
         ]
+
+        widgets = {
+            'text': forms.Textarea(attrs={'class': 'portfolio-textarea2',
+                                          'placeholder': 'Необязательное поле'})
+        }
 
     def clean_rating_value(self):
         rating_value = self.cleaned_data.get('rating_value')

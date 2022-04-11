@@ -318,5 +318,10 @@ def increase_rating_view(request, slug_name):
 
             return redirect('users_app:get_hairdresser', slug_name=who_do_we_evaluate.slug)
 
-    context = {'title': 'Оценить', 'form': form}
+    context = {
+        'title': 'Оценить',
+        'form': form,
+        'who_do_we_evaluate': who_do_we_evaluate,
+        'values': [0, 1, 2, 3, 4, 5],
+    }
     return render(request, 'users_app/increase_rating.html', context)
