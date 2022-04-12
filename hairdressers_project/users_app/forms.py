@@ -139,11 +139,11 @@ class IncreaseRatingForm(forms.ModelForm):
 
         widgets = {
             'text': forms.Textarea(attrs={'class': 'portfolio-textarea2',
-                                          'placeholder': 'Необязательное поле'})
+                                          'placeholder': 'Не менее 10 символов!'})
         }
 
-    def clean_rating_value(self):
-        rating_value = self.cleaned_data.get('rating_value')
-        if rating_value < 0 or rating_value > 5:
-            raise ValidationError('Допустимые оценки находятся в диапазоне от 0 до 5')
-        return rating_value
+    def clean_text(self):
+        text = self.cleaned_data.get('text')
+        if len(text) < 10:
+            raise ValidationError('Текст комментария должен содержать не менее 10 символов')
+        return text

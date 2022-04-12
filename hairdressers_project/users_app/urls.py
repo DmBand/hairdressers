@@ -15,4 +15,5 @@ urlpatterns = [
     path('increase_rating/<slug:slug_name>/', increase_rating_view, name='increase_rating'),
     path('hairdressers/<slug:slug_name>/', get_one_hairdresser_view, name='get_hairdresser'),
     path('profile/<slug:slug_name>/', get_main_profile_view, name='get_main_profile'),
+    path('see_reviews/<slug:slug_name>/', see_reviews_view, name='see_reviews'),
 ]

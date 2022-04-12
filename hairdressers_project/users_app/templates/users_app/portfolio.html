@@ -27,17 +27,17 @@
     <section class="main-title">
         <div class="photo-and-rating">
             {% if avatar %}
-            <img src="{{ avatar.url }}." alt="Аватар" class="photo-person">
+            <img src="{{ avatar.url }}" alt="Аватар" class="photo-person">
             {% else %}
             <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Аватар" class="photo-person">
             {% endif %}
-            <a href="">
+            <a href="{% url 'users_app:see_reviews' slug %}">
             <div class="rating-person">{{ rating }}</div>
-            <div class="comment">12</div>
+            <div class="comment">{{ review }}</div>
             </a>
         </div>
         <div class="main-name-city">
-            <h1 class="name-surname">Иван Иванов</h1>
+            <h1 class="name-surname">{{ title }}</h1>
             <h2 class="city">Гродно</h2>
             {% if request.user.simpleuser.slug != slug %}
             <a href="{% url 'users_app:increase_rating' slug %}" title="Оценить / добавить отзыв" class="new-comment">

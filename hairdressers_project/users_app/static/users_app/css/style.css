@@ -458,7 +458,7 @@ h1, h2, h3, h4, h5, h6 {
 	margin-left: 100px;
 	width: 300px;
 	height: 300px;
-	border-radius: 200px;
+	border-radius: 300px;
 	object-fit: cover;
 }
 
@@ -1596,9 +1596,9 @@ img {
 }
 
 .photo-person2 {
-	width: 300px;
-	height: 300px;
-	border-radius: 300px;
+	width: 200px;
+	height: 200px;
+	border-radius: 200px;
 	object-fit: cover;
 }
 
@@ -1628,6 +1628,7 @@ img {
 }
 
 .rating-comment {
+    min-width: 500px;
 	display: flex;
 	flex-direction: column;
 	font-family: 'Merriwaether';
@@ -1661,6 +1662,7 @@ img {
 .add-rating-label {
 	color: #BDAE82;
 	margin-right: 5px;
+	font-size: 18px;
 }
 
 .add-rating-input {
@@ -1677,6 +1679,117 @@ img {
 .add-comment-input {
 	width: 500px;
 	height: 100px;
+}
+
+/* !!! ПРОСМОТР ОТЗЫВОВ !!! */
+
+.review-container {
+	margin-top: 30px;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.photo-rating-name-button {
+	display: flex;
+	flex-direction: column;
+}
+
+.new-comment2 {
+	margin-top: 50px;
+}
+
+.add-comment2 {
+	max-width: 250px;
+	margin: 0 auto;
+	position: relative;
+	font-family: 'Inter';
+	font-weight: 400;
+	color: #fff;
+	text-transform: uppercase;
+	border: 2px solid #fff;
+	padding-left: 62px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	transition: 0.3s;
+}
+
+.add-comment2:hover {
+	border-color: #BDAE82;
+	color: #BDAE82;
+}
+
+.add-comment2::before {
+	position: absolute;
+	content: '';
+	left: 30px;
+	background: url('../assets/svg/add_comment.svg');
+	width: 24px;
+	height: 24px;
+	transition: 0.3s;
+}
+
+.add-comment2:hover::before {
+	filter: invert(26%) sepia(15%) saturate(638%) hue-rotate(7deg) brightness(92%) contrast(87%);
+}
+
+.reviews {
+	display: flex;
+	flex-direction: column;
+	width: 75%;
+	max-height: 600px;
+	overflow: auto;
+	font-family: 'Merriwaether';
+
+}
+
+.one-review-container {
+	width: 98%;
+	display: flex;
+	flex-direction: column;
+	border-bottom: 1px solid #fff;
+	padding: 10px;
+	margin-bottom: 15px;
+	letter-spacing: 1px;
+}
+.review-autor-date {
+	display: flex;
+	justify-content: space-between;
+}
+
+.review-autor {
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 15px;
+}
+.review-date {
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 15px;
+}
+
+.span-review {
+	color: #BBA9A9;
+	font-weight: 700;
+	text-transform: capitalize;
+}
+
+.review-title-text {
+	margin-top: 15px;
+}
+
+.reviw-title {
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 15px;
+}
+.review-text {
+	margin-top: 5px;
+	color: #BDAE82;
+	text-align: justify;
+	font-family: 'Merriwaether';
+	font-weight: 400;
+	font-size: 18px;
 }
 
 /*___FOOTER________________________*/

@@ -15,9 +15,9 @@
                     {% else %}
                     <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Аватар" class="photo-person2">
                     {% endif %}
-                    <a href="" title="">
+                    <a href="{% url 'users_app:see_reviews' who_do_we_evaluate.slug %}" title="">
                         <div class="rating-person">{{ who_do_we_evaluate.rating }}</div>
-                        <div class="comment">12</div>
+                        <div class="comment">{{ review }}</div>
                     </a>
                 </div>
                 <div class="result-name-surname2">

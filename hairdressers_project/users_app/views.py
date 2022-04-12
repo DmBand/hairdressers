@@ -132,6 +132,7 @@ def get_one_hairdresser_view(requset, slug_name):
         'instagram': person.instagram,
         'another_info': person.another_info,
         'slug': person.slug,
+        'review': person.comment_set.count(),
     }
 
     # Получаем путь к директории хранения файлов пользователя
@@ -322,6 +323,19 @@ def increase_rating_view(request, slug_name):
         'title': 'Оценить',
         'form': form,
         'who_do_we_evaluate': who_do_we_evaluate,
+        'review': who_do_we_evaluate.comment_set.count(),
         'values': [0, 1, 2, 3, 4, 5],
     }
     return render(request, 'users_app/increase_rating.html', context)
+
+
+def see_reviews_view(request, slug_name):
+    hairdresser = Hairdresser.objects.get(slug=slug_name)
+    reviews = hairdresser.comment_set.order_by('-date_added')
+    context = {
+        'title': 'Просмотр отзывов',
+        'hairdresser': hairdresser,
+        'reviews': reviews,
+    }
+
+    return render(request, 'users_app/see_reviews.html', context)
