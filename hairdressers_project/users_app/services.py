@@ -1,3 +1,5 @@
+from django.shortcuts import redirect
+
 from hairdressers_project.settings import MEDIA_ROOT
 import os
 
@@ -65,3 +67,13 @@ def check_number_of_files_in_avatar_directory(person_slug: str):
         return
     else:
         os.remove(f'{directory}/{files[0]}')
+
+
+# Декоратор, который проверяет, авторизирован ли пользователь
+def check_is_authenticated(func):
+    def wrapper(request):
+        if request.user.is_authenticated:
+            return redirect('users_app:homepage')
+        return func(request)
+
+    return wrapper

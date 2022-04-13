@@ -5,11 +5,13 @@ from django.db.models import F
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
 
 from hairdressers_project.settings import MEDIA_ROOT, MEDIA_URL
 from .forms import *
-from .services import check_number_of_files_in_portfolio, check_number_of_files_in_avatar_directory
+from .services import \
+    check_number_of_files_in_portfolio, \
+    check_number_of_files_in_avatar_directory, \
+    check_is_authenticated
 
 import os
 
@@ -26,6 +28,7 @@ def homepage_view(request):
     return render(request, 'users_app/index.html', context=context)
 
 
+@check_is_authenticated
 def registration_view(request):
     """
     Возвращает форму регистрации пользователя и, в случае успешной регистрации,
