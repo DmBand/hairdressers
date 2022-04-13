@@ -26,34 +26,36 @@ def homepage_view(request):
     return render(request, 'users_app/index.html', context=context)
 
 
-class RegistrationUserView(CreateView):
+def registration_view(request):
     """
     Возвращает форму регистрации пользователя и, в случае успешной регистрации,
     перенаправляет пользователя на главную страницу сайта
     """
 
-    form_class = RegistrationUserForm
-    template_name = 'users_app/register.html'
-    success_url = reverse_lazy('users_app:homepage')
+    if request.method != 'POST':
+        form = RegistrationUserForm()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Регистрация'
-        return context
+    else:
+        form = RegistrationUserForm(data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            SimpleUser.objects.create(
+                owner=user,
+                username=user.username,
+                name=user.first_name.capitalize(),
+                surname=user.last_name.capitalize(),
+                email=user.email,
+                slug=user.username,
+            )
+            login(request, user)
+            # редирект на страницу добавления аватарки
+            return redirect('users_app:avatar')
+    context = {
+        'title': 'Регистрация',
+        'form': form
+    }
 
-    def form_valid(self, form):
-        user = form.save()
-        SimpleUser.objects.create(
-            owner=user,
-            username=user.username,
-            name=user.first_name.capitalize(),
-            surname=user.last_name.capitalize(),
-            email=user.email,
-            slug=user.username,
-        )
-        login(self.request, user)
-        # редирект на страницу добавления аватарки
-        return redirect('users_app:avatar')
+    return render(request, 'users_app/register.html', context)
 
 
 @login_required(login_url='users_app:login')
