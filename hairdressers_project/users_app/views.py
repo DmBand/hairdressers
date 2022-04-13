@@ -13,8 +13,7 @@ from hairdressers_project.settings import MEDIA_ROOT, MEDIA_URL
 from .forms import *
 from .services import \
     check_number_of_files_in_portfolio, \
-    check_number_of_files_in_avatar_directory, \
-    check_is_authenticated
+    check_number_of_files_in_avatar_directory
 
 import os
 
