@@ -462,37 +462,50 @@ h1, h2, h3, h4, h5, h6 {
 	object-fit: cover;
 }
 
+.main-rating-comment {
+    transition: 0.3s;
+}
+
+.main-rating-comment:hover {
+    filter: invert(26%) sepia(15%) saturate(638%) hue-rotate(7deg) brightness(92%) contrast(87%);
+}
+
 .rating-person, .comment {
-	font-size: 30px;
 	color: #BBA9A9;
-	position: relative;
 	transition: 0.3s;
+	padding-left: 30px;
 	cursor: pointer;
-	padding-left: 10px;
+	font-size: 30px;
 }
 
-.rating-person::before,
-.comment::before {
-	position: absolute;
-	content: '';
-	top: 8px;
-	left: -20px;
-	width: 24px;
-	height: 24px;
-	background-size: contain;
-}
-
-.rating-person::before {
+.rating-person {
 	background: url('../assets/svg/rait_24.svg');
+	background-size: 24px;
+	background-position-y: 8px;
+	background-repeat: no-repeat;
 }
 
-.comment::before {
+.rating-person2 {
+    color: #BBA9A9;
+	transition: 0.3s;
+	padding-left: 30px;
+	cursor: pointer;
+	font-size: 30px;
+	background: url('../assets/svg/rait_24.svg');
+	background-size: 24px;
+	background-position-y: 5px;
+	background-repeat: no-repeat;
+}
+
+.rating-person2:hover {
+    filter: invert(26%) sepia(15%) saturate(638%) hue-rotate(7deg) brightness(92%) contrast(87%);
+}
+
+.comment {
 	background: url('../assets/svg/comment.svg');
-}
-
-.rating-person:hover::before,
-.comment:hover::before {
-	filter: invert(26%) sepia(15%) saturate(638%) hue-rotate(7deg) brightness(92%) contrast(87%);
+	background-size: 24px;
+	background-position-y: 9px;
+	background-repeat: no-repeat;
 }
 
 .main-name-city {
@@ -518,8 +531,11 @@ h1, h2, h3, h4, h5, h6 {
 	letter-spacing: 5px;
 }
 
-.new-comment {
-	margin-top: 20px;
+.comment-btns-container {
+	margin-top: 10px;
+	display: flex;
+	flex-direction: column;
+	row-gap: 15px;
 }
 
 .add-comment {
@@ -537,7 +553,9 @@ h1, h2, h3, h4, h5, h6 {
 	transition: 0.3s;
 }
 
-.add-comment:hover {
+.add-comment:hover,
+.see-comment:hover,
+.see-comment2:hover {
 	border-color: #BDAE82;
 	color: #BDAE82;
 }
@@ -552,7 +570,51 @@ h1, h2, h3, h4, h5, h6 {
 	transition: 0.3s;
 }
 
-.add-comment:hover::before {
+.see-comment {
+	max-width: 250px;
+	margin: 0 auto;
+	position: relative;
+	font-family: 'Inter';
+	font-weight: 400;
+	color: #fff;
+	text-transform: uppercase;
+	border: 2px solid #fff;
+	padding-left: 33px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	transition: 0.3s;
+}
+
+.see-comment2 {
+	width: 250px;
+	margin: 0 auto;
+	position: relative;
+	font-family: 'Inter';
+	font-weight: 400;
+	color: #fff;
+	text-transform: uppercase;
+	border: 2px solid #fff;
+	padding-left: 50px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	transition: 0.3s;
+}
+
+.see-comment::before,
+.see-comment2::before {
+	position: absolute;
+	content: '';
+	left: 18px;
+	top: 14px;
+	background: url('../assets/svg/visibility.svg');
+	width: 24px;
+	height: 24px;
+	transition: 0.3s;
+}
+
+.add-comment:hover::before,
+.see-comment:hover::before,
+.see-comment2:hover::before {
 	filter: invert(26%) sepia(15%) saturate(638%) hue-rotate(7deg) brightness(92%) contrast(87%);
 }
 

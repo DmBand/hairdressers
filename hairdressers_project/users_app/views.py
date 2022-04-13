@@ -317,7 +317,7 @@ def increase_rating_view(request, slug_name):
             who_do_we_evaluate.rating = F('rating') + form.cleaned_data.get('rating_value')
             who_do_we_evaluate.save()
 
-            return redirect('users_app:get_hairdresser', slug_name=who_do_we_evaluate.slug)
+            return redirect('users_app:see_reviews', slug_name=who_do_we_evaluate.slug)
 
     context = {
         'title': 'Оценить',

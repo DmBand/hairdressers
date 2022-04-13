@@ -10,12 +10,14 @@
         <div class="rating-comment-container">
             <div class="photo-rating-name">
                 <div class="photo-and-rating">
+                    <a href="{% url 'users_app:get_hairdresser' who_do_we_evaluate.slug %}">
                     {% if who_do_we_evaluate.avatar %}
                     <img src="{{ who_do_we_evaluate.avatar.url }}" alt="Аватар" class="photo-person2">
                     {% else %}
                     <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Аватар" class="photo-person2">
                     {% endif %}
-                    <a href="{% url 'users_app:see_reviews' who_do_we_evaluate.slug %}" title="">
+                    </a>
+                    <a class="main-rating-comment" href="{% url 'users_app:see_reviews' who_do_we_evaluate.slug %}" title="Просмотр отзывов">
                         <div class="rating-person">{{ who_do_we_evaluate.rating }}</div>
                         <div class="comment">{{ review }}</div>
                     </a>
@@ -24,6 +26,9 @@
                     <p class="top10-name">{{ who_do_we_evaluate.name }}</p>
                     <p class="top10-name">{{ who_do_we_evaluate.surname }}</p>
                 </div>
+                <a href="{% url 'users_app:see_reviews' who_do_we_evaluate.slug %}" title="Просмотр отзывов" class="new-comment">
+                    <p class="see-comment2">Просмотр отзывов</p>
+                </a>
             </div>
             <form action="{% url 'users_app:increase_rating' who_do_we_evaluate.slug %}" method="post" class="add-comment-form">
                 {% csrf_token %}

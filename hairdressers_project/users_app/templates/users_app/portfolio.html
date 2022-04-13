@@ -31,7 +31,7 @@
             {% else %}
             <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Аватар" class="photo-person">
             {% endif %}
-            <a href="{% url 'users_app:see_reviews' slug %}">
+            <a class="main-rating-comment" href="{% url 'users_app:see_reviews' slug %}" title="Просмотр отзывов">
             <div class="rating-person">{{ rating }}</div>
             <div class="comment">{{ review }}</div>
             </a>
@@ -39,11 +39,16 @@
         <div class="main-name-city">
             <h1 class="name-surname">{{ title }}</h1>
             <h2 class="city">Гродно</h2>
-            {% if request.user.simpleuser.slug != slug %}
-            <a href="{% url 'users_app:increase_rating' slug %}" title="Оценить / добавить отзыв" class="new-comment">
-                <p class="add-comment">Добавить отзыв</p>
-            </a>
-            {% endif %}
+            <div class="comment-btns-container">
+                {% if request.user.simpleuser.slug != slug %}
+                <a href="{% url 'users_app:increase_rating' slug %}" title="Оценить / добавить отзыв" class="new-comment">
+                    <p class="add-comment">Добавить отзыв</p>
+                </a>
+                {% endif %}
+                <a href="{% url 'users_app:see_reviews' slug %}" title="Просмотр отзывов" class="new-comment">
+                    <p class="see-comment">Просмотр отзывов</p>
+                </a>
+            </div>
         </div>
     </section>
     <section class="skills-and-info">
