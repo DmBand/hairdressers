@@ -114,28 +114,6 @@ class LoginUserView(LoginView):
         return reverse_lazy('users_app:homepage')
 
 
-def login_view(request):
-    if request.method == 'POST':
-
-        form = LoginUserForm(data=request.POST)
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if form.is_valid():
-            login(request, user)
-            return redirect('users_app:homepage')
-
-    else:
-        form = LoginUserForm()
-
-    context = {
-        'title': 'Вход',
-        'form': form
-    }
-
-    return render(request, 'users_app/login.html', context)
-
-
 def logout_user_view(request):
     """
     Разлогинивает пользователя. После разлогина пользователь остаётся
