@@ -1,4 +1,5 @@
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.db.models import F
 from django.http import Http404
@@ -55,6 +56,7 @@ class RegistrationUserView(CreateView):
         return redirect('users_app:avatar')
 
 
+@login_required(login_url='users_app:login')
 def add_avatar_view(request):
     """
     Добавление аватарки польователя.
@@ -158,6 +160,7 @@ def get_one_hairdresser_view(requset, slug_name):
     return render(requset, 'users_app/portfolio.html', context)
 
 
+@login_required(login_url='users_app:login')
 def get_main_profile_view(request, slug_name):
     """ Возвращает страницу главного профиля пользователя """
 
@@ -174,6 +177,7 @@ def get_main_profile_view(request, slug_name):
     return render(request, 'users_app/main_profile.html', context)
 
 
+@login_required(login_url='users_app:login')
 def create_portfolio_view(request):
     """ Возвращает страницу с формой регистрации нового парикмахера """
 
@@ -224,6 +228,7 @@ def create_portfolio_view(request):
     return render(request, 'users_app/add_portfolio.html', context)
 
 
+@login_required(login_url='users_app:login')
 def edit_portfolio_view(request, slug_name):
     """ Возвращает страницу изменения портфолио """
 
@@ -250,6 +255,7 @@ def edit_portfolio_view(request, slug_name):
     return render(request, 'users_app/edit_portfolio.html', context)
 
 
+@login_required(login_url='users_app:login')
 def edit_main_profile_view(request, slug_name):
     """ Возвращает страницу редактирования главного профиля """
 
@@ -290,6 +296,7 @@ def edit_main_profile_view(request, slug_name):
     return render(request, 'users_app/edit_main_profile.html', context)
 
 
+@login_required(login_url='users_app:login')
 def increase_rating_view(request, slug_name):
     """ Возвращает страницу повышения рейтинга и добавления отзыва """
 

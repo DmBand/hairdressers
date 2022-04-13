@@ -650,7 +650,7 @@ h1, h2, h3, h4, h5, h6 {
 	text-align: justify;
 	color: #BBA9A9;
 	line-height: 25px;
-	font-size: 20px;
+	font-size: 22px;
 	display: flex;
 	flex-wrap: wrap;
 	column-gap: 20px;
@@ -1066,14 +1066,6 @@ h1, h2, h3, h4, h5, h6 {
 	column-gap: 50px;
 }
 
-.reg-btn-container2{
-	margin: 0 auto;
-	height: 60px;
-	display: flex;
-	flex-wrap: wrap;
-	column-gap: 50px;
-}
-
 .reg-btn-container2 {
 	width: 260px;
 	margin: 0 auto;
@@ -1081,6 +1073,14 @@ h1, h2, h3, h4, h5, h6 {
 	display: flex;
 	flex-direction: column;
 	row-gap: 50px;
+}
+
+.reg-btn-container3{
+	margin: 0 auto;
+	height: 60px;
+	display: flex;
+	flex-wrap: wrap;
+	column-gap: 50px;
 }
 
 .reg-btn {
@@ -1455,7 +1455,7 @@ h1, h2, h3, h4, h5, h6 {
 	flex-wrap: wrap;
 }
 
-.portf-btns-container1 {
+.portf-btns-container {
     justify-content: center;
     column-gap: 60px;
 }
