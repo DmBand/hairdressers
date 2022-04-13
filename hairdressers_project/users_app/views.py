@@ -1,11 +1,14 @@
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.db.models import F
 from django.http import Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.generic import CreateView
 
+from .decorators import *
 from hairdressers_project.settings import MEDIA_ROOT, MEDIA_URL
 from .forms import *
 from .services import \
@@ -28,37 +31,35 @@ def homepage_view(request):
     return render(request, 'users_app/index.html', context=context)
 
 
-@check_is_authenticated
-def registration_view(request):
+@method_decorator(user_is_authenticated, name='dispatch')
+class RegistrationUserView(CreateView):
     """
     Возвращает форму регистрации пользователя и, в случае успешной регистрации,
     перенаправляет пользователя на главную страницу сайта
     """
 
-    if request.method != 'POST':
-        form = RegistrationUserForm()
+    form_class = RegistrationUserForm
+    template_name = 'users_app/register.html'
+    success_url = reverse_lazy('users_app:homepage')
 
-    else:
-        form = RegistrationUserForm(data=request.POST)
-        if form.is_valid():
-            user = form.save()
-            SimpleUser.objects.create(
-                owner=user,
-                username=user.username,
-                name=user.first_name.capitalize(),
-                surname=user.last_name.capitalize(),
-                email=user.email,
-                slug=user.username,
-            )
-            login(request, user)
-            # редирект на страницу добавления аватарки
-            return redirect('users_app:avatar')
-    context = {
-        'title': 'Регистрация',
-        'form': form
-    }
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Регистрация'
+        return context
 
-    return render(request, 'users_app/register.html', context)
+    def form_valid(self, form):
+        user = form.save()
+        SimpleUser.objects.create(
+            owner=user,
+            username=user.username,
+            name=user.first_name.capitalize(),
+            surname=user.last_name.capitalize(),
+            email=user.email,
+            slug=user.username,
+        )
+        login(self.request, user)
+        # редирект на страницу добавления аватарки
+        return redirect('users_app:avatar')
 
 
 @login_required(login_url='users_app:login')
@@ -93,6 +94,7 @@ def add_avatar_view(request):
     return render(request, 'users_app/add_avatar.html', context)
 
 
+@method_decorator(user_is_authenticated, name='dispatch')
 class LoginUserView(LoginView):
     """
     Возвращает страницу авторизации пользователя.
@@ -110,6 +112,28 @@ class LoginUserView(LoginView):
 
     def get_success_url(self):
         return reverse_lazy('users_app:homepage')
+
+
+def login_view(request):
+    if request.method == 'POST':
+
+        form = LoginUserForm(data=request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if form.is_valid():
+            login(request, user)
+            return redirect('users_app:homepage')
+
+    else:
+        form = LoginUserForm()
+
+    context = {
+        'title': 'Вход',
+        'form': form
+    }
+
+    return render(request, 'users_app/login.html', context)
 
 
 def logout_user_view(request):
