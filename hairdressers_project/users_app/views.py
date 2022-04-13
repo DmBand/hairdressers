@@ -330,6 +330,8 @@ def increase_rating_view(request, slug_name):
 
 
 def see_reviews_view(request, slug_name):
+    """ Возвращает страницу просмотра отзывов """
+
     hairdresser = Hairdresser.objects.get(slug=slug_name)
     reviews = hairdresser.comment_set.order_by('-date_added')
     context = {
