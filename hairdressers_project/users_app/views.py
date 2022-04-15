@@ -404,6 +404,7 @@ def delete_portfolio_view(request, slug_name):
         'title': 'Удалить портфолио',
         'form': form,
         'code': code,
+        'slug': hairdresser.slug,
     }
 
     return render(request, 'users_app/delete_portfolio.html', context)
