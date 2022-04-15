@@ -265,6 +265,7 @@ def edit_portfolio_view(request, slug_name):
     return render(request, 'users_app/edit_portfolio.html', context)
 
 
+@login_required(login_url='users_app:login')
 def delete_portfolio_view(request, slug_name):
     """ Возвращает страницу удаления портфолио """
 
@@ -276,21 +277,24 @@ def delete_portfolio_view(request, slug_name):
     hairdresser = Hairdresser.objects.get(slug=slug_name)
     user = SimpleUser.objects.get(slug=slug_name)
 
+    # Проверочный код, который состоит из никнейма + /portfolio
     code = f'{user.username}/portfolio'
 
     if request.method != 'POST':
-
         form = DeletePortfolioForm()
     else:
         form = DeletePortfolioForm(data=request.POST)
-
-        if request.POST.get('code') == str(code):
+        if request.POST.get('code') == code:
+            # Очищаем папку портфолио со всеми фотографиями
             clear_portfolio(person_slug=slug_name)
+            # Удаляем модель парикмахера
             hairdresser.delete()
+            # Меняем флаг пользователя - он теперь не парикмахер
             user.is_hairdresser = False
             user.save()
             return redirect('users_app:get_main_profile', slug_name=slug_name)
         else:
+            # Отображается, если введён неверный код
             messages.error(request, 'Введен неверный код!')
 
     context = {

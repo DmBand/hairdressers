@@ -108,15 +108,9 @@ class CreatePortfolioForm(forms.ModelForm):
 
 
 class DeletePortfolioForm(forms.Form):
+    """ Форма удаления портфолио """
 
     code = forms.CharField(label='Введите проверочный код')
-
-    # def clean_check_code(self):
-    #     code = self.cleaned_data['code']
-    #     if code != self.code:
-    #         return ValidationError('Коды не совпадают!')
-    #     else:
-    #         return code
 
 
 class EditProfileForm(forms.ModelForm):
