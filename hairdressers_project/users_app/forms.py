@@ -108,7 +108,7 @@ class CreatePortfolioForm(forms.ModelForm):
 
 
 class DeletePortfolioForm(forms.Form):
-    """ Форма удаления портфолио """
+    """ Форма удаления портфолио и профиля пользователя """
 
     code = forms.CharField(label='Введите проверочный код')
 

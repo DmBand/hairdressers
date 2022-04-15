@@ -21,6 +21,9 @@
         <a href="{% url 'users_app:edit_main_profile' request.user.simpleuser.slug %}" class="btn-block">
             <p class="btn-item">Редактировать</p>
         </a>
+        <a href="{% url 'users_app:delete_main_profile' request.user.simpleuser.slug %}" class="btn-block">
+            <p class="btn-item">Удалить</p>
+        </a>
     </section>
     <section class="all-dada">
         <div class="data-container">

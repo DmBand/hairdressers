@@ -7,6 +7,7 @@ urlpatterns = [
     path('', homepage_view, name='homepage'),
     path('registration/', RegistrationUserView.as_view(), name='register'),
     path('edit_profile/<slug:slug_name>', edit_main_profile_view, name='edit_main_profile'),
+    path('delete_profile/<slug:slug_name>', delete_main_profile_view, name='delete_main_profile'),
     path('login/', LoginUserView.as_view(), name='login'),
     path('logout/', logout_user_view, name='logout'),
     path('add_avatar/', add_avatar_view, name='avatar'),

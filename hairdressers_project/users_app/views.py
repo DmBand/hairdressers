@@ -1,7 +1,7 @@
 import random
 
 from django.contrib import messages
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.db.models import F
@@ -16,8 +16,9 @@ from hairdressers_project.settings import MEDIA_ROOT, MEDIA_URL
 from .forms import *
 from .services import \
     check_number_of_files_in_portfolio, \
-    check_number_of_files_in_avatar_directory,\
-    clear_portfolio
+    check_number_of_files_in_avatar_directory, \
+    delete_portfolio_directory, \
+    delete_avatar_directory
 
 import os
 
@@ -265,6 +266,50 @@ def edit_portfolio_view(request, slug_name):
     return render(request, 'users_app/edit_portfolio.html', context)
 
 
+def delete_main_profile_view(request, slug_name):
+    """ Возвращает страницу удаления главного профиля """
+
+    # Если пользователь захочет удалить чужой профиль через URL,
+    # то его перекинет на страницу удаления своего портфолио
+    if request.user.simpleuser.slug != slug_name:
+        return redirect('users_app:delete_main_profile', slug_name=request.user.simpleuser.slug)
+
+    user = User.objects.get(username=slug_name)
+    user_is_hairdresser = user.simpleuser.is_hairdresser
+
+    # Проверочный код, который состоит из никнейма + /id +/profile
+    code = f'{user.username}/{user.id}/profile'
+
+    if request.method != 'POST':
+        if user_is_hairdresser:
+            messages.info(request, f'Внимание! {user.simpleuser.name}, у вас есть заполненное портфолио. '
+                                   f'Оно будет безвозвратно удалено.')
+        form = DeletePortfolioForm()
+    else:
+        form = DeletePortfolioForm(data=request.POST)
+        if request.POST.get('code') == code:
+            # Если пользовтель парикмахер и у него есть фото в портфолио, то удаляем все файлы
+            if user_is_hairdresser:
+                delete_portfolio_directory(person_slug=slug_name)
+
+            # Удаляем папку с аватаром
+            delete_avatar_directory(person_slug=slug_name)
+            user.delete()
+
+            return redirect('users_app:homepage')
+
+        else:
+            messages.error(request, 'Введен неверный код!')
+
+    context = {
+        'title': 'Удалить профиль',
+        'form': form,
+        'code': code,
+    }
+
+    return render(request, 'users_app/delete_main_profile.html', context)
+
+
 @login_required(login_url='users_app:login')
 def delete_portfolio_view(request, slug_name):
     """ Возвращает страницу удаления портфолио """
@@ -286,7 +331,7 @@ def delete_portfolio_view(request, slug_name):
         form = DeletePortfolioForm(data=request.POST)
         if request.POST.get('code') == code:
             # Очищаем папку портфолио со всеми фотографиями
-            clear_portfolio(person_slug=slug_name)
+            delete_portfolio_directory(person_slug=slug_name)
             # Удаляем модель парикмахера
             hairdresser.delete()
             # Меняем флаг пользователя - он теперь не парикмахер

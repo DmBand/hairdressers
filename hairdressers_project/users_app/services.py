@@ -69,10 +69,21 @@ def check_number_of_files_in_avatar_directory(person_slug: str):
         os.remove(f'{directory}/{files[0]}')
 
 
-def clear_portfolio(person_slug: str):
+def delete_portfolio_directory(person_slug: str):
     """ Удаляет папку портфолио со всеми фотографиями  """
 
     directory = f'{MEDIA_ROOT}/portfolio/{person_slug}'
+    try:
+        shutil.rmtree(directory)
+    # Если папки нет, то пользователь не добавлял фото в портфолио
+    except FileNotFoundError:
+        return
+
+
+def delete_avatar_directory(person_slug: str):
+    """ Удаляет папку аватара с самим аватаром  """
+
+    directory = f'{MEDIA_ROOT}/avatars/{person_slug}'
     try:
         shutil.rmtree(directory)
     # Если папки нет, то пользователь не добавлял фото в портфолио
