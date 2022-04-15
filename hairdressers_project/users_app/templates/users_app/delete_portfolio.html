@@ -1,0 +1,11 @@
+<form action="" method="post">
+    {% csrf_token %}
+    {% for message in messages %}
+	<div class="messages">
+		<p>{{message}}</p>
+	</div>
+    {% endfor %}
+    <p>{{ code }}</p>
+    {{ form.as_p }}
+    <button type="submit">Удалить</button>
+</form>

@@ -1,19 +1,23 @@
+import random
+
+from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.db.models import F
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView
 
-from .decorators import *
+from .decorators import user_is_authenticated
 from hairdressers_project.settings import MEDIA_ROOT, MEDIA_URL
 from .forms import *
 from .services import \
     check_number_of_files_in_portfolio, \
-    check_number_of_files_in_avatar_directory
+    check_number_of_files_in_avatar_directory,\
+    clear_portfolio
 
 import os
 
@@ -259,6 +263,43 @@ def edit_portfolio_view(request, slug_name):
 
     context = {'title': 'Редактирование портфолио', 'form': form, 'skills': skills}
     return render(request, 'users_app/edit_portfolio.html', context)
+
+
+def delete_portfolio_view(request, slug_name):
+    """ Возвращает страницу удаления портфолио """
+
+    # Если пользователь захочет удалить чужое портфолио через URL,
+    # то его перекинет на страницу удаления своего портфолио
+    if request.user.simpleuser.slug != slug_name:
+        return redirect('users_app:delete_portfolio', slug_name=request.user.simpleuser.slug)
+
+    hairdresser = Hairdresser.objects.get(slug=slug_name)
+    user = SimpleUser.objects.get(slug=slug_name)
+
+    code = f'{user.username}/portfolio'
+
+    if request.method != 'POST':
+
+        form = DeletePortfolioForm()
+    else:
+        form = DeletePortfolioForm(data=request.POST)
+
+        if request.POST.get('code') == str(code):
+            clear_portfolio(person_slug=slug_name)
+            hairdresser.delete()
+            user.is_hairdresser = False
+            user.save()
+            return redirect('users_app:get_main_profile', slug_name=slug_name)
+        else:
+            messages.error(request, 'Введен неверный код!')
+
+    context = {
+        'title': 'Удалить портфолио',
+        'form': form,
+        'code': code,
+    }
+
+    return render(request, 'users_app/delete_portfolio.html', context)
 
 
 @login_required(login_url='users_app:login')

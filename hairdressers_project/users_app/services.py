@@ -1,7 +1,7 @@
-from django.shortcuts import redirect
+import os
+import shutil
 
 from hairdressers_project.settings import MEDIA_ROOT
-import os
 
 MAX_COUNT = 20
 
@@ -67,3 +67,17 @@ def check_number_of_files_in_avatar_directory(person_slug: str):
         return
     else:
         os.remove(f'{directory}/{files[0]}')
+
+
+def clear_portfolio(person_slug: str):
+    """ Удаляет папку портфолио со всеми фотографиями  """
+
+    directory = f'{MEDIA_ROOT}/portfolio/{person_slug}'
+    try:
+        shutil.rmtree(directory)
+    # Если папки нет, то пользователь не добавлял фото в портфолио
+    except FileNotFoundError:
+        return
+
+
+

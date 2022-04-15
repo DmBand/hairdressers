@@ -22,6 +22,9 @@
         <a href="{% url 'users_app:edit_portfolio' request.user.simpleuser.slug %}" class="btn-block">
             <p class="btn-item">Редактировать</p>
         </a>
+        <a href="{% url 'users_app:delete_portfolio' request.user.simpleuser.slug %}" class="btn-block">
+            <p class="btn-item">Удалить</p>
+        </a>
     </section>
     {% endif %}
     <section class="main-title">
