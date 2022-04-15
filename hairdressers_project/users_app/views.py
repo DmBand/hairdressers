@@ -98,6 +98,51 @@ def add_avatar_view(request):
     return render(request, 'users_app/add_avatar.html', context)
 
 
+@login_required(login_url='users_app:login')
+def delete_main_profile_view(request, slug_name):
+    """ Возвращает страницу удаления главного профиля """
+
+    # Если пользователь захочет удалить чужой профиль через URL,
+    # то его перекинет на страницу удаления своего портфолио
+    if request.user.simpleuser.slug != slug_name:
+        return redirect('users_app:delete_main_profile', slug_name=request.user.simpleuser.slug)
+
+    user = User.objects.get(username=slug_name)
+    user_is_hairdresser = user.simpleuser.is_hairdresser
+
+    # Проверочный код, который состоит из никнейма + /id +/profile
+    code = f'{user.username}/{user.id}/profile'
+
+    if request.method != 'POST':
+        if user_is_hairdresser:
+            messages.info(request, f'Внимание! {user.simpleuser.name}, у вас есть заполненное портфолио. '
+                                   f'Оно будет безвозвратно удалено.')
+        form = DeletePortfolioForm()
+    else:
+        form = DeletePortfolioForm(data=request.POST)
+        if request.POST.get('code') == code:
+            # Если пользовтель парикмахер и у него есть фото в портфолио, то удаляем все файлы
+            if user_is_hairdresser:
+                delete_portfolio_directory(person_slug=slug_name)
+
+            # Удаляем папку с аватаром
+            delete_avatar_directory(person_slug=slug_name)
+            user.delete()
+
+            return redirect('users_app:homepage')
+
+        else:
+            messages.error(request, 'Введен неверный код!')
+
+    context = {
+        'title': 'Удалить профиль',
+        'form': form,
+        'code': code,
+    }
+
+    return render(request, 'users_app/delete_main_profile.html', context)
+
+
 @method_decorator(user_is_authenticated, name='dispatch')
 class LoginUserView(LoginView):
     """
@@ -166,6 +211,7 @@ def get_one_hairdresser_view(requset, slug_name):
         # после чего в шаблоне проходим циклом по всем файлам
         # и загружаем их на страницу
         context['files'] = files
+        context['count'] = len(files)
         context['url_for_photo'] = url_for_photo
 
     return render(requset, 'users_app/portfolio.html', context)
@@ -264,50 +310,6 @@ def edit_portfolio_view(request, slug_name):
 
     context = {'title': 'Редактирование портфолио', 'form': form, 'skills': skills}
     return render(request, 'users_app/edit_portfolio.html', context)
-
-
-def delete_main_profile_view(request, slug_name):
-    """ Возвращает страницу удаления главного профиля """
-
-    # Если пользователь захочет удалить чужой профиль через URL,
-    # то его перекинет на страницу удаления своего портфолио
-    if request.user.simpleuser.slug != slug_name:
-        return redirect('users_app:delete_main_profile', slug_name=request.user.simpleuser.slug)
-
-    user = User.objects.get(username=slug_name)
-    user_is_hairdresser = user.simpleuser.is_hairdresser
-
-    # Проверочный код, который состоит из никнейма + /id +/profile
-    code = f'{user.username}/{user.id}/profile'
-
-    if request.method != 'POST':
-        if user_is_hairdresser:
-            messages.info(request, f'Внимание! {user.simpleuser.name}, у вас есть заполненное портфолио. '
-                                   f'Оно будет безвозвратно удалено.')
-        form = DeletePortfolioForm()
-    else:
-        form = DeletePortfolioForm(data=request.POST)
-        if request.POST.get('code') == code:
-            # Если пользовтель парикмахер и у него есть фото в портфолио, то удаляем все файлы
-            if user_is_hairdresser:
-                delete_portfolio_directory(person_slug=slug_name)
-
-            # Удаляем папку с аватаром
-            delete_avatar_directory(person_slug=slug_name)
-            user.delete()
-
-            return redirect('users_app:homepage')
-
-        else:
-            messages.error(request, 'Введен неверный код!')
-
-    context = {
-        'title': 'Удалить профиль',
-        'form': form,
-        'code': code,
-    }
-
-    return render(request, 'users_app/delete_main_profile.html', context)
 
 
 @login_required(login_url='users_app:login')
@@ -444,3 +446,16 @@ def see_reviews_view(request, slug_name):
     }
 
     return render(request, 'users_app/see_reviews.html', context)
+
+
+@login_required(login_url='users_app:login')
+def reset_portfolio_view(request, slug_name):
+    """ Удаление всех фотографий в портфолио """
+
+    # Если пользователь попытается удалить чужие фото через URL,
+    # то его перекинет на главную страницу сайта
+    if request.user.simpleuser.slug != slug_name:
+        return redirect('users_app:homepage')
+
+    delete_portfolio_directory(person_slug=slug_name)
+    return redirect('users_app:get_hairdresser', slug_name=slug_name)

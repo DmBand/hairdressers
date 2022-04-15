@@ -19,12 +19,14 @@
             </a>
             {% endif %}
         </ul>
-        <a href="{% url 'users_app:edit_portfolio' request.user.simpleuser.slug %}" class="btn-block">
-            <p class="btn-item">Редактировать</p>
-        </a>
-        <a href="{% url 'users_app:delete_portfolio' request.user.simpleuser.slug %}" class="btn-block">
-            <p class="btn-item">Удалить</p>
-        </a>
+        <ul class="btn-list" style="border: none;">
+            <a href="{% url 'users_app:edit_portfolio' request.user.simpleuser.slug %}" class="btn-block2">
+                <li class="btn-item2">Редактировать</li>
+            </a>
+            <a href="{% url 'users_app:delete_portfolio' request.user.simpleuser.slug %}" class="btn-block3">
+                <li class="btn-item2">Удалить</li>
+            </a>
+        </ul>
     </section>
     {% endif %}
     <section class="main-title">
@@ -89,16 +91,27 @@
         </div>
     </section>
     <section class="portfolio">
-        <div class="portolio-title">Портфолио</div>
-        <div class="portfolio-items">
-            {% if files %}
-                {% for f in files %}
-                <img src="{{url_for_photo}}/{{ f }}" alt="img1" class="ptf-item">
-                {% endfor %}
-            {% else %}
-                <p class="p-info">Пользователь ещё не добавил работы в портфолио...</p>
+        {% if files %}
+        <div class="portf-title-container">
+            <div class="portfolio-title">Портфолио
+                <span style="font-family: 'Inter';">(</span>{{ count }}<span style="font-family: 'Inter';">)</span>
+            </div>
+            {% if request.user.simpleuser.slug == slug %}
+            <div class="del-photo-text">Очистить</div>
+            <div class="yes-no-container">
+                <a href="{% url 'users_app:reset_portfolio' slug %}" id="yes-reset"></a>
+            </div>
             {% endif %}
+        </div>
+        <div class="portfolio-items">
+            {% for f in files %}
+                <img src="{{url_for_photo}}/{{ f }}" alt="img1" class="ptf-item">
+            {% endfor %}
+        {% else %}
+                <p class="p-info">Нет работ в портфолио...</p>
+        {% endif %}
         </div>
     </section>
 </main>
+<script type="module" src="{% static 'users_app/js/reset_btn.js' %}"></script>
 {% endblock content %}

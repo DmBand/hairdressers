@@ -714,12 +714,75 @@ h1, h2, h3, h4, h5, h6 {
 	align-items: center;
 }
 
-.portolio-title {
+.portf-title-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 15px;
+}
+
+.del-photo-text {
+	font-family: 'Inter';
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 38px;
+	text-transform: uppercase;
+	width: 170px;
+	height: 40px;
+	border: 2px solid #fff;
+	color: #fff;
+	text-align: center;
+	letter-spacing: 2px;
+	transition: 0.3s;
+	cursor: pointer;
+
+}
+
+.del-photo-text:hover {
+	border-color: #8f0c0c;
+	color: #8f0c0c;
+}
+
+.active {
+	border-color: #8f0c0c;
+	color: #8f0c0c;
+}
+
+.yes-no-container {
+	display: flex;
+	flex-wrap: wrap;
+	text-align: center;
+	column-gap: 30px;
+}
+
+.yes-reset, .no-reset {
+	width: 50px;
+	height: 35px;
+	border: 2px solid #fff;
+	color: #fff;
+	font-family: 'Inter';
+	font-weight: 400;
+	font-size: 15px;
+	letter-spacing: 1px;
+	line-height: 31px;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+.yes-reset:hover,
+.no-reset:hover {
+	border-color: #BDAE82;
+	color: #BDAE82;
+}
+
+.portfolio-title {
+    height: 55px;
 	font-family: 'Pacifico';
 	font-size: 30px;
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 7px;
+	line-height: 55px;
 	color: #BDAE82;
 }
 
@@ -1165,8 +1228,7 @@ h1, h2, h3, h4, h5, h6 {
 	padding-bottom: 10px;
 }
 
-.btn-block, .btn-block-active {
-	width: 300px;
+.btn-block, .btn-block2, .btn-block3, .btn-block-active {
 	height: 50px;
 	border: 2px solid #fff;
 	font-family: 'Inter';
@@ -1178,24 +1240,47 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-block {
+    width: 300px;
 	color: #fff;
 }
 
 .btn-block-active {
+    width: 300px;
 	background-color: #BBA9A9;
 	font-weight: 700;
 	color: #000;
 }
 
+.btn-block2, .btn-block3 {
+	width: 200px;
+	height: 40px;
+	color: #fff;
+}
 
 .btn-item {
 	padding: 15px;
 	letter-spacing: 3px;
 }
 
+.btn-item2 {
+	padding: 15px;
+	letter-spacing: 3px;
+	line-height: 10px;
+}
+
 .btn-block:hover {
     color: #BBA9A9;
 	border: 2px solid #BBA9A9;
+}
+
+.btn-block2:hover {
+    color: #BDAE82;
+	border: 2px solid #BDAE82;
+}
+
+.btn-block3:hover {
+    color: #8f0c0c;;
+	border: 2px solid #8f0c0c;;
 }
 
 .all-dada {

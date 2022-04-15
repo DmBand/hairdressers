@@ -18,12 +18,14 @@
             </a>
             {% endif %}
         </ul>
-        <a href="{% url 'users_app:edit_main_profile' request.user.simpleuser.slug %}" class="btn-block">
-            <p class="btn-item">Редактировать</p>
-        </a>
-        <a href="{% url 'users_app:delete_main_profile' request.user.simpleuser.slug %}" class="btn-block">
-            <p class="btn-item">Удалить</p>
-        </a>
+        <ul class="btn-list" style="border: none;">
+            <a href="{% url 'users_app:edit_main_profile' request.user.simpleuser.slug %}" class="btn-block2">
+                <li class="btn-item2">Редактировать</li>
+            </a>
+            <a href="{% url 'users_app:delete_main_profile' request.user.simpleuser.slug %}" class="btn-block3">
+                <li class="btn-item2">Удалить</li>
+            </a>
+        </ul>
     </section>
     <section class="all-dada">
         <div class="data-container">
