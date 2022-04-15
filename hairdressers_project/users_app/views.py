@@ -1,4 +1,4 @@
-import random
+import os
 
 from django.contrib import messages
 from django.contrib.auth import login, logout
@@ -19,8 +19,6 @@ from .services import \
     check_number_of_files_in_avatar_directory, \
     delete_portfolio_directory, \
     delete_avatar_directory
-
-import os
 
 
 def homepage_view(request):
@@ -99,6 +97,64 @@ def add_avatar_view(request):
 
 
 @login_required(login_url='users_app:login')
+def get_main_profile_view(request, slug_name):
+    """ Возвращает страницу главного профиля пользователя """
+
+    person = SimpleUser.objects.get(slug=slug_name)
+    context = {
+        'title': 'Главный профиль',
+        'username': person.username,
+        'name': person.name,
+        'surname': person.surname,
+        'email': person.email,
+        'avatar': person.avatar
+    }
+
+    return render(request, 'users_app/main_profile.html', context)
+
+
+@login_required(login_url='users_app:login')
+def edit_main_profile_view(request, slug_name):
+    """ Возвращает страницу редактирования главного профиля """
+
+    # Флаг, показывающий, является ли пользователь парикмахером
+    the_hairdresser = True
+
+    try:
+        hairdresser = Hairdresser.objects.get(slug=slug_name)
+        # Ловим исключение self.model.DoesNotExist, если пользователь
+        # не является парикмахером, и устанавливаем флаг False
+    except:
+        the_hairdresser = False
+
+    simple_user = SimpleUser.objects.get(slug=slug_name)
+    user = User.objects.get(username=slug_name)
+
+    if request.method != 'POST':
+        form = EditProfileForm(instance=user)
+    else:
+        form = EditProfileForm(instance=user, data=request.POST)
+        if form.is_valid():
+            form.save()
+
+            # Меняем данные модели SimpleUser
+            simple_user.name = form.cleaned_data.get('first_name')
+            simple_user.surname = form.cleaned_data.get('last_name')
+            simple_user.save()
+
+            # Если пользователь парикмахер, то меняем данные в портфолио
+            if the_hairdresser:
+                hairdresser.name = form.cleaned_data.get('first_name')
+                hairdresser.surname = form.cleaned_data.get('last_name')
+                hairdresser.save()
+
+            return redirect('users_app:get_main_profile', slug_name=user.username)
+
+    context = {'title': 'Редактирование главного профиля', 'form': form}
+    return render(request, 'users_app/edit_main_profile.html', context)
+
+
+@login_required(login_url='users_app:login')
 def delete_main_profile_view(request, slug_name):
     """ Возвращает страницу удаления главного профиля """
 
@@ -117,9 +173,9 @@ def delete_main_profile_view(request, slug_name):
         if user_is_hairdresser:
             messages.info(request, f'Внимание! {user.simpleuser.name}, у вас есть заполненное портфолио. '
                                    f'Оно будет безвозвратно удалено.')
-        form = DeletePortfolioForm()
+        form = DeleteProfileForm()
     else:
-        form = DeletePortfolioForm(data=request.POST)
+        form = DeleteProfileForm(data=request.POST)
         if request.POST.get('code') == code:
             # Если пользовтель парикмахер и у него есть фото в портфолио, то удаляем все файлы
             if user_is_hairdresser:
@@ -174,66 +230,6 @@ def logout_user_view(request):
     return redirect('users_app:login')
 
 
-def get_one_hairdresser_view(requset, slug_name):
-    """ Возвращает страницу парикмахера (портфолио) """
-
-    person = Hairdresser.objects.get(slug=slug_name)
-    skills = person.skills.all().order_by('name')
-    context = {
-        'title': f'{person.name.capitalize()} {person.surname.capitalize()}',
-        'avatar': person.avatar,
-        'rating': person.rating,
-        'city': person.city,
-        'skills': [skill.name for skill in skills],
-        'phone': person.phone,
-        'email': person.email,
-        'instagram': person.instagram,
-        'another_info': person.another_info,
-        'slug': person.slug,
-        'review': person.comment_set.count(),
-    }
-
-    # Получаем путь к директории хранения файлов пользователя
-    directory = f'{MEDIA_ROOT}/portfolio/{person.slug}'
-
-    # Если пользователь первый раз добавляет фотографии, то файлов
-    # в директории и самой директории ещё не будет. В этом случае
-    # передаём в шаблон пустой список фотографий
-    try:
-        # Получаем список имен файлов из найденной директории
-        files = os.listdir(directory)
-    except FileNotFoundError:
-        context['files'] = []
-    else:
-        # URL, по которому будут находиться фото пользователя
-        url_for_photo = f'{MEDIA_URL}portfolio/{person.slug}'
-        # Сохраняем в context имена файлов и путь к файлам,
-        # после чего в шаблоне проходим циклом по всем файлам
-        # и загружаем их на страницу
-        context['files'] = files
-        context['count'] = len(files)
-        context['url_for_photo'] = url_for_photo
-
-    return render(requset, 'users_app/portfolio.html', context)
-
-
-@login_required(login_url='users_app:login')
-def get_main_profile_view(request, slug_name):
-    """ Возвращает страницу главного профиля пользователя """
-
-    person = SimpleUser.objects.get(slug=slug_name)
-    context = {
-        'title': 'Главный профиль',
-        'username': person.username,
-        'name': person.name,
-        'surname': person.surname,
-        'email': person.email,
-        'avatar': person.avatar
-    }
-
-    return render(request, 'users_app/main_profile.html', context)
-
-
 @login_required(login_url='users_app:login')
 def create_portfolio_view(request):
     """ Возвращает страницу с формой регистрации нового парикмахера """
@@ -285,6 +281,49 @@ def create_portfolio_view(request):
     return render(request, 'users_app/add_portfolio.html', context)
 
 
+def get_one_hairdresser_view(requset, slug_name):
+    """ Возвращает страницу парикмахера (портфолио) """
+
+    person = Hairdresser.objects.get(slug=slug_name)
+    skills = person.skills.all().order_by('name')
+    context = {
+        'title': f'{person.name.capitalize()} {person.surname.capitalize()}',
+        'avatar': person.avatar,
+        'rating': person.rating,
+        'city': person.city,
+        'skills': [skill.name for skill in skills],
+        'phone': person.phone,
+        'email': person.email,
+        'instagram': person.instagram,
+        'another_info': person.another_info,
+        'slug': person.slug,
+        'review': person.comment_set.count(),
+    }
+
+    # Получаем путь к директории хранения файлов пользователя
+    directory = f'{MEDIA_ROOT}/portfolio/{person.slug}'
+
+    # Если пользователь первый раз добавляет фотографии, то файлов
+    # в директории и самой директории ещё не будет. В этом случае
+    # передаём в шаблон пустой список фотографий
+    try:
+        # Получаем список имен файлов из найденной директории
+        files = os.listdir(directory)
+    except FileNotFoundError:
+        context['files'] = []
+    else:
+        # URL, по которому будут находиться фото пользователя
+        url_for_photo = f'{MEDIA_URL}portfolio/{person.slug}'
+        # Сохраняем в context имена файлов и путь к файлам,
+        # после чего в шаблоне проходим циклом по всем файлам
+        # и загружаем их на страницу
+        context['files'] = files
+        context['count'] = len(files)
+        context['url_for_photo'] = url_for_photo
+
+    return render(requset, 'users_app/portfolio.html', context)
+
+
 @login_required(login_url='users_app:login')
 def edit_portfolio_view(request, slug_name):
     """ Возвращает страницу изменения портфолио """
@@ -313,6 +352,19 @@ def edit_portfolio_view(request, slug_name):
 
 
 @login_required(login_url='users_app:login')
+def reset_portfolio_photos_view(request, slug_name):
+    """ Удаление всех фотографий в портфолио """
+
+    # Если пользователь попытается удалить чужие фото через URL,
+    # то его перекинет на главную страницу сайта
+    if request.user.simpleuser.slug != slug_name:
+        return redirect('users_app:homepage')
+
+    delete_portfolio_directory(person_slug=slug_name)
+    return redirect('users_app:get_hairdresser', slug_name=slug_name)
+
+
+@login_required(login_url='users_app:login')
 def delete_portfolio_view(request, slug_name):
     """ Возвращает страницу удаления портфолио """
 
@@ -328,9 +380,9 @@ def delete_portfolio_view(request, slug_name):
     code = f'{user.username}/portfolio'
 
     if request.method != 'POST':
-        form = DeletePortfolioForm()
+        form = DeleteProfileForm()
     else:
-        form = DeletePortfolioForm(data=request.POST)
+        form = DeleteProfileForm(data=request.POST)
         if request.POST.get('code') == code:
             # Очищаем папку портфолио со всеми фотографиями
             delete_portfolio_directory(person_slug=slug_name)
@@ -351,47 +403,6 @@ def delete_portfolio_view(request, slug_name):
     }
 
     return render(request, 'users_app/delete_portfolio.html', context)
-
-
-@login_required(login_url='users_app:login')
-def edit_main_profile_view(request, slug_name):
-    """ Возвращает страницу редактирования главного профиля """
-
-    # Флаг, показывающий, является ли пользователь парикмахером
-    the_hairdresser = True
-
-    try:
-        hairdresser = Hairdresser.objects.get(slug=slug_name)
-        # Ловим исключение self.model.DoesNotExist, если пользователь
-        # не является парикмахером, и устанавливаем флаг False
-    except:
-        the_hairdresser = False
-
-    simple_user = SimpleUser.objects.get(slug=slug_name)
-    user = User.objects.get(username=slug_name)
-
-    if request.method != 'POST':
-        form = EditProfileForm(instance=user)
-    else:
-        form = EditProfileForm(instance=user, data=request.POST)
-        if form.is_valid():
-            form.save()
-
-            # Меняем данные модели SimpleUser
-            simple_user.name = form.cleaned_data.get('first_name')
-            simple_user.surname = form.cleaned_data.get('last_name')
-            simple_user.save()
-
-            # Если пользователь парикмахер, то меняем данные в портфолио
-            if the_hairdresser:
-                hairdresser.name = form.cleaned_data.get('first_name')
-                hairdresser.surname = form.cleaned_data.get('last_name')
-                hairdresser.save()
-
-            return redirect('users_app:get_main_profile', slug_name=user.username)
-
-    context = {'title': 'Редактирование главного профиля', 'form': form}
-    return render(request, 'users_app/edit_main_profile.html', context)
 
 
 @login_required(login_url='users_app:login')
@@ -446,16 +457,3 @@ def see_reviews_view(request, slug_name):
     }
 
     return render(request, 'users_app/see_reviews.html', context)
-
-
-@login_required(login_url='users_app:login')
-def reset_portfolio_view(request, slug_name):
-    """ Удаление всех фотографий в портфолио """
-
-    # Если пользователь попытается удалить чужие фото через URL,
-    # то его перекинет на главную страницу сайта
-    if request.user.simpleuser.slug != slug_name:
-        return redirect('users_app:homepage')
-
-    delete_portfolio_directory(person_slug=slug_name)
-    return redirect('users_app:get_hairdresser', slug_name=slug_name)
