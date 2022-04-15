@@ -153,3 +153,4 @@ class IncreaseRatingForm(forms.ModelForm):
         if len(text) < 10:
             raise ValidationError('Текст комментария должен содержать не менее 10 символов')
         return text
+7

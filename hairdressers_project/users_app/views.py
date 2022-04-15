@@ -188,6 +188,9 @@ def delete_main_profile_view(request, slug_name):
             return redirect('users_app:homepage')
 
         else:
+            if user_is_hairdresser:
+                messages.info(request, f'Внимание! {user.simpleuser.name}, у вас есть заполненное портфолио. '
+                                       f'Оно будет безвозвратно удалено.')
             messages.error(request, 'Введен неверный код!')
 
     context = {
