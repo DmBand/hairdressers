@@ -32,6 +32,7 @@ def homepage_view(request):
 
     return render(request, 'users_app/index.html', context=context)
 
+
 # main profile
 @method_decorator(user_is_authenticated, name='dispatch')
 class RegistrationUserView(CreateView):
@@ -171,7 +172,7 @@ def delete_main_profile_view(request, slug_name):
 
     if request.method != 'POST':
         if user_is_hairdresser:
-            messages.info(request, f'Внимание! {user.simpleuser.name}, у вас есть заполненное портфолио. '
+            messages.info(request, f'Внимание! У вас есть действующее портфолио парикмахера. '
                                    f'Оно будет безвозвратно удалено.')
         form = DeleteProfileForm()
     else:
@@ -189,7 +190,7 @@ def delete_main_profile_view(request, slug_name):
 
         else:
             if user_is_hairdresser:
-                messages.info(request, f'Внимание! {user.simpleuser.name}, у вас есть заполненное портфолио. '
+                messages.info(request, f'Внимание! У вас есть действующее портфолио парикмахера. '
                                        f'Оно будет безвозвратно удалено.')
             messages.error(request, 'Введен неверный код!')
 
@@ -197,6 +198,7 @@ def delete_main_profile_view(request, slug_name):
         'title': 'Удалить профиль',
         'form': form,
         'code': code,
+        'user': user,
     }
 
     return render(request, 'users_app/delete_main_profile.html', context)
@@ -404,7 +406,7 @@ def delete_portfolio_view(request, slug_name):
         'title': 'Удалить портфолио',
         'form': form,
         'code': code,
-        'slug': hairdresser.slug,
+        'hairdresser': hairdresser,
     }
 
     return render(request, 'users_app/delete_portfolio.html', context)

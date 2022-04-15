@@ -1,11 +1,35 @@
-<form action="" method="post">
-    {% csrf_token %}
-    {% for message in messages %}
-	<div class="messages">
-		<p>{{message}}</p>
-	</div>
-    {% endfor %}
-    <p>{{ code }}</p>
-    {{ form.as_p }}
-    <button type="submit">Удалить профиль</button>
-</form>
+{% extends 'users_app/base.html' %}
+
+{% block content %}
+<main class="main-reg">
+    <section class="reg-title2">
+        <h1 class="reg-title-text">Удаление главного профиля</h1>
+    </section>
+    <section class="delete-profile">
+        <div class="del-description-container">
+            <p>
+                <span style="color: #BBA9A9; font-size: 25px;">
+                    {{ user.simpleuser.name }} {{ user.simpleuser.surname }}
+                </span>,
+            </p>
+            <p>
+                <span style="color: #8f0c0c; font-size: 20px;">Вы собираетесь полностью удалить свой профиль!</span>
+            </p>
+            <p class="del-description">
+                <span style="color: #fff;">Будем рады снова видеть вас!</span>
+            </p>
+        </div>
+        <form action="{% url 'users_app:delete_main_profile' user.username %}" method="post" class="del-profile-form">
+            {% csrf_token %}
+            <p class="del-hint">Для подтверждения удаления введите следующий код:</p>
+            <p class="del-code">{{ code }}</p>
+            {% for message in messages %}
+            <p class="del-profile-message">{{ message }}</p>
+            {% endfor %}
+            {{ form.code }}
+            <button type="submit" class="del-profile-btn">Удалить профиль</button>
+        </form>
+    </section>
+</main>
+
+{% endblock content %}

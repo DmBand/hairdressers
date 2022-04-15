@@ -1958,6 +1958,10 @@ img {
 	border-bottom: 2px solid #BDAE82;
 }
 
+.del-description {
+    margin-top: 20px;
+}
+
 .del-profile-form {
 	margin-top: 50px;
 	display: flex;
@@ -2008,7 +2012,7 @@ img {
 
 .del-profile-btn {
 	margin-top: 25px;
-	width: 200px;
+	width: 250px;
 	height: 40px;
 	font-family: 'Inter';
 	font-weight: 400;
