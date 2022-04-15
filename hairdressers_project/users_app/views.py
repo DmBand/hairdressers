@@ -32,7 +32,7 @@ def homepage_view(request):
 
     return render(request, 'users_app/index.html', context=context)
 
-
+# main profile
 @method_decorator(user_is_authenticated, name='dispatch')
 class RegistrationUserView(CreateView):
     """
@@ -233,6 +233,7 @@ def logout_user_view(request):
     return redirect('users_app:login')
 
 
+# portfolio
 @login_required(login_url='users_app:login')
 def create_portfolio_view(request):
     """ Возвращает страницу с формой регистрации нового парикмахера """
@@ -379,8 +380,8 @@ def delete_portfolio_view(request, slug_name):
     hairdresser = Hairdresser.objects.get(slug=slug_name)
     user = SimpleUser.objects.get(slug=slug_name)
 
-    # Проверочный код, который состоит из никнейма + /portfolio
-    code = f'{user.username}/portfolio'
+    # Проверочный код, который состоит из никнейма + /id + /portfolio
+    code = f'{user.username}/{hairdresser.id}/portfolio'
 
     if request.method != 'POST':
         form = DeleteProfileForm()
@@ -408,6 +409,7 @@ def delete_portfolio_view(request, slug_name):
     return render(request, 'users_app/delete_portfolio.html', context)
 
 
+# rating and review
 @login_required(login_url='users_app:login')
 def increase_rating_view(request, slug_name):
     """ Возвращает страницу повышения рейтинга и добавления отзыва """
