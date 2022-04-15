@@ -24,9 +24,11 @@
                     </div>
                 </div>
             </a>
+            {% if request.user.simpleuser.slug != hairdresser.slug %}
             <a href="{% url 'users_app:increase_rating' hairdresser.slug %}" class="new-comment2">
                 <p class="add-comment2">Добавить отзыв</p>
             </a>
+            {% endif %}
         </div>
         <div class="reviews">
             {% for review in reviews %}

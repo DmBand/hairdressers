@@ -20,6 +20,7 @@ function confirmReset() {
         divYesNo.append(btnNo);
 
         btnNo.addEventListener('click', confirmReset);
+
     } else {
             const btnNo = document.querySelector('.no-reset');
             btnNo.remove();
@@ -27,7 +28,7 @@ function confirmReset() {
             btnYes.classList.remove('yes-reset');
             btnYes.innerText = '';
 
-            delPortf.innerText = 'Очистить'
+            delPortf.innerText = 'Очистить';
     }
 }
 
