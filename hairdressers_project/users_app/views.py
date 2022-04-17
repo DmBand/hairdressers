@@ -3,7 +3,8 @@ import os
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordResetConfirmView, PasswordResetView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import F
 from django.http import Http404
 from django.shortcuts import render, redirect
@@ -465,3 +466,11 @@ def see_reviews_view(request, slug_name):
     }
 
     return render(request, 'users_app/see_reviews.html', context)
+
+
+class PasswordResetView1(PasswordResetView):
+    email_template_name = 'users_app/reset_password/password_reset_email.html'
+    success_url = reverse_lazy("users_app:password_reset_done")
+
+class PasswordResetConfirmView1(PasswordResetConfirmView):
+    success_url = reverse_lazy("users_app:password_reset_complete")
