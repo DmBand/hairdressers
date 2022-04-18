@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, SetPasswordForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
@@ -55,6 +55,29 @@ class RegistrationUserForm(UserCreationForm):
             'username', 'first_name', 'last_name', 'email',
             'password1', 'password2'
         )
+
+
+class ResetPasswordForm(SetPasswordForm):
+    """ Форма создания нового пароля после сброса старого """
+
+    # Валидатор пароля
+    password_validator = RegexValidator(
+        regex=r'^[^а-яА-Я]*$',
+        message='Символы кириллицы /а-яА-Я/ не допускаются'
+    )
+
+    new_password1 = forms.CharField(
+        label="Новый пароль",
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+        strip=False,
+        validators=[password_validator]
+    )
+
+    new_password2 = forms.CharField(
+        label="Подтвердите пароль",
+        strip=False,
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+    )
 
 
 class LoginUserForm(AuthenticationForm):

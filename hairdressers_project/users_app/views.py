@@ -235,6 +235,25 @@ def logout_user_view(request):
     return redirect('users_app:login')
 
 
+# reset password
+
+
+class PasswordResetView1(PasswordResetView):
+    """ Письмо, которое получает пользователь при запросе сброса пароля """
+
+    # Переопределяем путь к шаблону сообщения
+    email_template_name = 'users_app/reset_password/password_reset_email.html'
+    # Переопределяем путь для перенаправления
+    success_url = reverse_lazy("users_app:password_reset_done")
+
+
+class PasswordResetConfirmView1(PasswordResetConfirmView):
+    """ Страница ввода нового пароля """
+
+    form_class = ResetPasswordForm
+    success_url = reverse_lazy("users_app:password_reset_complete")
+
+
 # portfolio
 @login_required(login_url='users_app:login')
 def create_portfolio_view(request):
@@ -465,12 +484,3 @@ def see_reviews_view(request, slug_name):
     }
 
     return render(request, 'users_app/see_reviews.html', context)
-
-
-class PasswordResetView1(PasswordResetView):
-    email_template_name = 'users_app/reset_password/password_reset_email.html'
-    success_url = reverse_lazy("users_app:password_reset_done")
-
-
-class PasswordResetConfirmView1(PasswordResetConfirmView):
-    success_url = reverse_lazy("users_app:password_reset_complete")
