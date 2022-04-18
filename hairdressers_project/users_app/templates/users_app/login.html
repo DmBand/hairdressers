@@ -11,6 +11,7 @@
             <div class="other-errors">{{ form.non_field_errors }}</div>
             <ul class="all-rows">
                 {% for f in form %}
+
                 <li class="form-row">
                     <label for="{{ f.id_for_label }}" class="reg-form-label">{{ f.label }}</label>
                     {{ f }}
@@ -20,8 +21,8 @@
             </ul>
             <div class="reg-btn-container2">
                 <button type="submit" class="reg-btn">Войти</button>
+                <a href="{% url 'users_app:password_reset' %}"><p class="reset-password-btn">Забыли пароль?</p></a>
                 <a href="{% url 'users_app:register' %}"><p class="reg-btn2">Регистрация</p></a>
-                <a href="{% url 'users_app:password_reset' %}"><p class="reg-btn2">Забыли пароль?</p></a>
             </div>
         </form>
     </section>

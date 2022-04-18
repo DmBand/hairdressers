@@ -1135,7 +1135,8 @@ h1, h2, h3, h4, h5, h6 {
 	margin-top: 30px;
 	display: flex;
 	flex-direction: column;
-	row-gap: 50px;
+	align-items: center;
+	row-gap: 30px;
 }
 
 .reg-btn-container3{
@@ -1153,7 +1154,8 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 700;
 	font-size: 18px;
 	line-height: 50px;
-	letter-spacing: 1px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
 	cursor: pointer;
 	background-color: #BDAE82;
 	transition: 0.3s;
@@ -1162,7 +1164,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .reg-btn:hover {
-	letter-spacing: 3px;
+	letter-spacing: 5px;
 }
 
 .reg-btn:active {
@@ -1170,6 +1172,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .reg-btn2 {
+    width: 260px;
 	text-transform: uppercase;
 	text-align: center;
 	padding: 15px 15px;
@@ -1205,6 +1208,26 @@ h1, h2, h3, h4, h5, h6 {
 .reg-btn2:hover, .reg-btn3:hover {
     color: #BDAE82;
 	border: 2px solid #BDAE82;
+	border-radius: 20px;
+}
+
+.reset-password-btn {
+	width: 170px;
+	text-transform: uppercase;
+	text-align: center;
+	padding: 10px;
+	font-family: 'Inter';
+	font-weight: 400;
+	transition: 0.3s;
+	letter-spacing: 3px;
+	border: 2px solid #fff;
+	color: #fff;
+	font-size: 11px;
+}
+
+.reset-password-btn:hover {
+	border-color: #BBA9A9;
+	color: #BBA9A9;
 	border-radius: 20px;
 }
 
