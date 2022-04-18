@@ -1050,6 +1050,11 @@ h1, h2, h3, h4, h5, h6 {
 	margin: 50px auto 0;
 }
 
+.reg-title3 {
+	margin: 50px auto 0;
+	text-align: center;
+}
+
 .reg-title-text {
 	font-family: 'Merriwaether';
 	font-weight: 700;
@@ -1240,13 +1245,25 @@ h1, h2, h3, h4, h5, h6 {
 	align-items: center;
 }
 
-.reset-password-info {
-	margin: 60px 0 20px;
+.reset-done-info-container {
+	display: flex;
+	flex-direction: column;
+	margin-top: 40px;
+	row-gap: 15px;
+}
+
+.reset-password-info,
+.reset-password-info2 {
 	font-family: 'Merriwaether';
 	font-weight: 400;
 	font-size: 20px;
 	letter-spacing: 2px;
 	color: #BBA9A9;
+	text-align: center;
+}
+
+.reset-password-info {
+	margin: 60px 0 20px;
 }
 
 .password-reset-form {
@@ -1256,10 +1273,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 .reset-pas-label {
 	margin-top: 20px;
-}
-
-.add-align-text {
-    text-align: center;
 }
 
 .send-email {
