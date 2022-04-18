@@ -236,18 +236,17 @@ def logout_user_view(request):
 
 
 # reset password
-
-
-class PasswordResetView1(PasswordResetView):
+class ResetPasswordView(PasswordResetView):
     """ Письмо, которое получает пользователь при запросе сброса пароля """
 
-    # Переопределяем путь к шаблону сообщения
+    # Переопределяем путь к шаблону сообщения и основному шаблону
     email_template_name = 'users_app/reset_password/password_reset_email.html'
+    template_name = 'users_app/reset_password/password_reset_form.html'
     # Переопределяем путь для перенаправления
     success_url = reverse_lazy("users_app:password_reset_done")
 
 
-class PasswordResetConfirmView1(PasswordResetConfirmView):
+class ResetPasswordConfirmView(PasswordResetConfirmView):
     """ Страница ввода нового пароля """
 
     form_class = ResetPasswordForm
