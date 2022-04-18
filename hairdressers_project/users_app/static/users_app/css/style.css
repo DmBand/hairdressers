@@ -131,6 +131,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 10px 0px 5px;
     color: red;
     text-transform: uppercase;
+    text-align: center;
 }
 
 /*----HEADER-----------------------------*/
@@ -1077,10 +1078,16 @@ h1, h2, h3, h4, h5, h6 {
 	letter-spacing: 2px;
 }
 
-.all-rows {
+.all-rows, .all-rows2 {
 	display: flex;
 	flex-direction: column;
 	row-gap: 20px;
+}
+
+.all-rows2 {
+	margin-top: 10px;
+	align-items: center;
+	row-gap: 5px;
 }
 
 .form-row {
@@ -1089,9 +1096,23 @@ h1, h2, h3, h4, h5, h6 {
 	column-gap: 20px;
 }
 
+.form-row2 {
+	display: flex;
+	column-gap: 20px;
+	align-items: center;
+}
+
 .reg-form-label {
 	width: 370px;
 	font-size: 30px;
+	text-align: end;
+	text-transform: uppercase;
+	color: #BBA9A9;
+}
+
+.reg-form-label2 {
+	width: 250px;
+	font-size: 20px;
 	text-align: end;
 	text-transform: uppercase;
 	color: #BBA9A9;
@@ -1107,7 +1128,19 @@ h1, h2, h3, h4, h5, h6 {
 	font-size: 30px;
 }
 
-.reg-form-input:focus {
+.reg-form-input2 {
+	width: 450px;
+	height: 50px;
+	margin-right: 270px;
+	background-color: #fff;
+	padding: 5px 15px;
+	font-family: 'Inter';
+	font-weight: 400;
+	font-size: 30px;
+}
+
+.reg-form-input:focus,
+.reg-form-input2:focus {
     font-family: 'Inter';
     font-weight: 400;
 	font-size: 30px;
@@ -1273,11 +1306,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 .reset-pas-label {
 	margin-top: 20px;
+	color: #fff;
+	width: 150px;
+}
+
+.add-align-text {
+    text-align: center;
 }
 
 .send-email {
 	margin-top: 30px;
-	width: 330px;
+	padding: 0 15px;
 	height: 40px;
 	cursor: pointer;
 	font-family: 'Inter';

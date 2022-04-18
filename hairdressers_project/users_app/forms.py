@@ -68,7 +68,7 @@ class ResetPasswordForm(SetPasswordForm):
 
     new_password1 = forms.CharField(
         label="Новый пароль",
-        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         strip=False,
         validators=[password_validator]
     )
@@ -76,7 +76,7 @@ class ResetPasswordForm(SetPasswordForm):
     new_password2 = forms.CharField(
         label="Подтвердите пароль",
         strip=False,
-        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
     )
 
 
