@@ -251,7 +251,7 @@ class ResetPasswordView(PasswordResetView):
 
 
 class ResetPasswordConfirmView(PasswordResetConfirmView):
-    """ Страница ввода нового пароля """
+    """ Страница ввода нового пароля после сброса """
 
     # Переопределили форму в forms.py
     form_class = ResetPasswordForm
@@ -261,6 +261,9 @@ class ResetPasswordConfirmView(PasswordResetConfirmView):
 
 # change password
 class ChangePasswordView(PasswordChangeView):
+    """ Страница ввода нового пароля при изменении пароля (с вводом старого) """
+
+    # Переопределили форму в Forms.py
     form_class = ChangePasswordForm
     template_name = 'users_app/change_password/password_change_form.html'
     success_url = reverse_lazy('users_app:password_change_done')

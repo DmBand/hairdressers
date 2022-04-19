@@ -1243,7 +1243,22 @@ h1, h2, h3, h4, h5, h6 {
 	font-size: 15px;
 }
 
-.reg-btn2:hover, .reg-btn3:hover {
+.reg-btn4 {
+	text-transform: uppercase;
+	text-align: center;
+	padding: 15px 15px;
+	font-family: 'Inter';
+	font-weight: 400;
+	transition: 0.3s;
+	letter-spacing: 3px;
+	border: 2px solid #fff;
+	color: #fff;
+	font-size: 15px;
+}
+
+.reg-btn2:hover,
+.reg-btn3:hover,
+.reg-btn4:hover {
     color: #BDAE82;
 	border: 2px solid #BDAE82;
 	border-radius: 20px;
@@ -1363,7 +1378,9 @@ h1, h2, h3, h4, h5, h6 {
 	padding-bottom: 10px;
 }
 
-.btn-block, .btn-block2, .btn-block3, .btn-block-active {
+.btn-block, .btn-block2,
+.btn-block3, .btn-block4,
+.btn-block-active {
 	height: 50px;
 	border: 2px solid #fff;
 	font-family: 'Inter';
@@ -1392,6 +1409,14 @@ h1, h2, h3, h4, h5, h6 {
 	color: #fff;
 }
 
+.btn-block4 {
+	margin-top: 20px;
+	width: 250px;
+	height: 40px;
+	line-height: 10px;
+	color: #fff;
+}
+
 .btn-item {
 	padding: 15px;
 	letter-spacing: 3px;
@@ -1408,7 +1433,8 @@ h1, h2, h3, h4, h5, h6 {
 	border: 2px solid #BBA9A9;
 }
 
-.btn-block2:hover {
+.btn-block2:hover,
+.btn-block4:hover {
     color: #BDAE82;
 	border: 2px solid #BDAE82;
 }

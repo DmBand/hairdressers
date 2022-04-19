@@ -46,6 +46,9 @@
                     <p class="data-label">Эл. адрес</p>
                     <p class="data-text">{{ email }}</p>
                 </li>
+                <a href="{% url 'users_app:password_change' %}" class="btn-block4">
+                    <li class="btn-item">Изменить пароль</li>
+                </a>
             </ul>
             <div class="data-img">
                 {% if avatar %}

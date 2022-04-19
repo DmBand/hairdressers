@@ -29,7 +29,9 @@ urlpatterns = [
          name='password_reset_complete'),
     # password change
     path('password_change/', ChangePasswordView.as_view(), name='password_change'),
-    path('password_change/done/', av.PasswordChangeDoneView.as_view(), name='password_change_done'),
+    path('password_change/done/', av.PasswordChangeDoneView.as_view(
+        template_name='users_app/change_password/password_change_done.html'),
+         name='password_change_done'),
 
     # portfolio
     path('create_portfolio/', create_portfolio_view, name='create_portfolio'),
