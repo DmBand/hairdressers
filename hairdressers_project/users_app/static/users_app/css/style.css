@@ -1285,6 +1285,14 @@ h1, h2, h3, h4, h5, h6 {
 	row-gap: 15px;
 }
 
+.reset-done-info-container2 {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 40px;
+	row-gap: 50px;
+}
+
 .reset-password-info,
 .reset-password-info2 {
 	font-family: 'Merriwaether';
