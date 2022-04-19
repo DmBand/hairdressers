@@ -16,7 +16,7 @@ urlpatterns = [
     path('edit_profile/<slug:slug_name>', edit_main_profile_view, name='edit_main_profile'),
     path('delete_profile/<slug:slug_name>', delete_main_profile_view, name='delete_main_profile'),
     path('profile/<slug:slug_name>/', get_main_profile_view, name='get_main_profile'),
-    # password
+    # password reset
     path('forgot_password', ResetPasswordView.as_view(),
          name='password_reset'),
     path('reset_confirm/<uidb64>/<token>', ResetPasswordConfirmView.as_view(),
@@ -27,6 +27,10 @@ urlpatterns = [
     path('reset_complete', av.PasswordResetCompleteView.as_view(
         template_name='users_app/reset_password/password_reset_complete.html'),
          name='password_reset_complete'),
+    # password change
+    path('password_change/', ChangePasswordView.as_view(), name='password_change'),
+    path('password_change/done/', av.PasswordChangeDoneView.as_view(), name='password_change_done'),
+
     # portfolio
     path('create_portfolio/', create_portfolio_view, name='create_portfolio'),
     path('edit_portfolio/<slug:slug_name>/', edit_portfolio_view, name='edit_portfolio'),

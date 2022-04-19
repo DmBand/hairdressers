@@ -3,7 +3,11 @@ import os
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView, PasswordResetConfirmView, PasswordResetView
+from django.contrib.auth.views import \
+    LoginView, \
+    PasswordResetConfirmView, \
+    PasswordResetView, \
+    PasswordChangeView
 from django.db.models import F
 from django.http import Http404
 from django.shortcuts import render, redirect
@@ -253,6 +257,13 @@ class ResetPasswordConfirmView(PasswordResetConfirmView):
     form_class = ResetPasswordForm
     template_name = 'users_app/reset_password/password_reset_confirm.html'
     success_url = reverse_lazy("users_app:password_reset_complete")
+
+
+# change password
+class ChangePasswordView(PasswordChangeView):
+    form_class = ChangePasswordForm
+    template_name = 'users_app/change_password/password_change_form.html'
+    success_url = reverse_lazy('users_app:password_change_done')
 
 
 # portfolio
