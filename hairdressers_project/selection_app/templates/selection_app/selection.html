@@ -1,8 +1,11 @@
 {% extends 'users_app/base.html' %}
 {% load static %}
 
-{% block content %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'selection_app/css/selection.css' %}">
+{% endblock styles %}
 
+{% block content %}
 <main class="main2">
     <div class="filters">
         <div class="filters-title">Критерии отбора</div>
@@ -38,8 +41,7 @@
                     <div class="reset-link">Сброс</div>
                 </a>
             </div>
-        </form>
-        <form class="filter-skills" action="#"></form>
+        </form>    
     </div>
     <div class="result">
         <div class="filters-title">Результат</div>
@@ -48,7 +50,7 @@
             <a href="{% url 'users_app:get_hairdresser' h.slug %}" class="result-link">
                 <li class="result-item">
                     {% if h.avatar %}
-                     <img src="{{ h.avatar.url }}" alt="Avatar" class="result-photo">
+                    <img src="{{ h.avatar.url }}" alt="Avatar" class="result-photo">
                     {% else %}
                     <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Avatar" class="result-photo">
                     {% endif %}

@@ -1,6 +1,10 @@
 {% extends 'users_app/base.html' %}
 {% load static %}
 
+{% block styles %}
+<link rel="stylesheet" href="{% static 'users_app/css/main_profile.css' %}">
+{% endblock styles %}
+
 {% block content %}
 <main class="main">
     <section class="profile-buttons">
@@ -54,7 +58,7 @@
                 {% if avatar %}
                 <a href="{% url 'users_app:avatar' %}" title="Изменить фото"><img src="{{ avatar.url }}" alt="avatar" class="prof-img"></a>
                 {% else %}
-                <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="avatar" class="prof-img">
+                <a href="{% url 'users_app:avatar' %}" title="Изменить фото"><img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="avatar" class="prof-img"></a>
                 {% endif %}
             </div>
         </div>
