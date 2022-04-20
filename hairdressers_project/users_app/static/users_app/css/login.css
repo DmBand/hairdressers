@@ -118,8 +118,8 @@
 
 .reset-password-btn:hover {
 	border-color: #BBA9A9;
-	color: #BBA9A9;
 	border-radius: 20px;
+	color: #BBA9A9;
 }
 
 .reg-btn2 {
@@ -137,7 +137,7 @@
 }
 
 .reg-btn2:hover {
-    color: #BDAE82;
-	border: 2px solid #BDAE82;
+	border-color: #BDAE82;
 	border-radius: 20px;
+	color: #BDAE82;
 }

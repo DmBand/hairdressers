@@ -35,16 +35,16 @@
 	color: #fff;
 }
 
-.btn-block:hover {
-    color: #BBA9A9;
-	border: 2px solid #BBA9A9;
-}
-
 .btn-block2,
 .btn-block3 {
 	width: 200px;
 	height: 40px;
 	color: #fff;
+}
+
+.btn-block:hover {
+    color: #BBA9A9;
+	border: 2px solid #BBA9A9;
 }
 
 .btn-block2:hover {
@@ -114,7 +114,8 @@
     filter: invert(26%) sepia(15%) saturate(638%) hue-rotate(7deg) brightness(92%) contrast(87%);
 }
 
-.rating-person, .comment {
+.rating-person, 
+.comment {
 	color: #BBA9A9;
 	transition: 0.3s;
 	padding-left: 30px;

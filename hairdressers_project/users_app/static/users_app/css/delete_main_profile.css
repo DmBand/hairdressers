@@ -1,0 +1,109 @@
+.main-reg {
+    flex: 1 1 auto;
+    margin-top: 90px;
+	display: flex;
+	flex-direction: column;
+}
+
+.reg-title2 {
+	margin: 50px auto 0;
+}
+
+.reg-title-text {
+	font-family: 'Merriwaether';
+	font-weight: 700;
+	font-size: 35px;
+	text-transform: uppercase;
+	color: #BDAE82;
+	letter-spacing: 4px;
+}
+
+.del-description-container {
+	margin-top: 30px;
+	padding-bottom: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-family: 'Merriwaether';
+	font-weight: 700;
+	font-size: 15px;
+	letter-spacing: 2px;
+	color: #fff;
+	text-align: center;
+	text-transform: uppercase;
+	row-gap: 5px;
+	border-bottom: 2px solid #BDAE82;
+}
+
+.del-description {
+    margin-top: 20px;
+}
+
+.del-profile-form {
+	margin-top: 50px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	letter-spacing: 2px;
+}
+
+.del-hint {
+	font-family: 'Merriwaether';
+	font-weight: 700;
+	color: #BBA9A9;
+	font-size: 25px;
+	text-transform: uppercase;
+}
+
+.del-code {
+	font-family: 'Inter';
+	font-weight: 400;
+	margin-top: 25px;
+	border: 2px solid #BBA9A9;
+	padding: 10px 15px;
+	color: #fff;
+	font-size: 25px;
+	letter-spacing: 2px;
+}
+
+.del-profile-message {
+	margin-top: 25px;
+	font-family: 'Merriwaether';
+	font-weight: 700;
+	font-size: 20px;
+	color: #8f0c0c;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+}
+
+.del-profile-input {
+	margin-top: 20px;
+	padding: 5px 15px;
+	font-family: 'Merriwaether';
+	font-weight: 400;
+	font-size: 30px;
+	width: 600px;
+	height: 50px;
+	text-align: center;
+}
+
+.del-profile-btn {
+	margin-top: 25px;
+	width: 250px;
+	height: 40px;
+	font-family: 'Inter';
+	font-weight: 400;
+	font-size: 15px;
+	background-color: #000;
+	color: #fff;
+	border: 2px solid #fff;
+	text-transform: uppercase;
+	letter-spacing: 3px;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+.del-profile-btn:hover {
+	border-color: #8f0c0c;
+	color: #8f0c0c;
+}
