@@ -1,0 +1,137 @@
+.main-reg {
+    flex: 1 1 auto;
+    margin-top: 90px;
+	display: flex;
+	flex-direction: column;
+}
+
+.profile-buttons {
+	padding-top: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 10px;
+}
+
+.btn-list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	column-gap: 40px;
+	border-bottom: 2px solid #BDAE82;
+	padding-bottom: 10px;
+}
+
+.btn-block {
+	width: 300px;
+	height: 50px;
+	border: 2px solid #fff;
+	font-family: 'Inter';
+	font-weight: 400;
+	font-size: 15px;
+	color: #fff;
+	text-transform: uppercase;
+	text-align: center;
+	transition: 0.3s;
+}
+
+.btn-block:hover {
+    color: #BBA9A9;
+	border-color: #BBA9A9;
+}
+
+.btn-item {
+	padding: 15px;
+	letter-spacing: 3px;
+}
+
+.reg-title2 {
+	margin: 50px auto 0;
+}
+
+.reg-title-text {
+	font-family: 'Merriwaether';
+	font-weight: 700;
+	font-size: 35px;
+	text-transform: uppercase;
+	color: #BDAE82;
+	letter-spacing: 4px;
+}
+
+.reg-fields {
+	padding: 30px 10px;
+}
+
+.reg-form {
+	display: flex;
+	flex-direction: column;
+	font-family: 'Inter';
+	font-weight: 400;
+	color: #fff;
+	letter-spacing: 2px;
+}
+
+.all-rows {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+}
+
+.form-row {
+	display: flex;
+	align-items: center;
+	column-gap: 20px;
+}
+
+.reg-form-label {
+	width: 370px;
+	font-size: 30px;
+	text-align: end;
+	text-transform: uppercase;
+	color: #BBA9A9;
+}
+
+.reg-form-input {
+	width: 650px;
+	height: 50px;
+	background-color: #fff;
+	padding: 5px 15px;
+	font-family: 'Inter';
+	font-weight: 400;
+	font-size: 30px;
+}
+
+.reg-form-input:focus {
+    font-family: 'Inter';
+    font-weight: 400;
+	font-size: 30px;
+}
+
+.reg-btn-container3 {
+	margin: 0 auto;
+	height: 60px;
+	display: flex;
+	flex-wrap: wrap;
+	column-gap: 50px;
+}
+
+.portf-btn-sumbit {
+	font-family: 'Inter';
+	font-weight: 400;
+	font-size: 15px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	width: 200px;
+	height: 40px;
+	background-color: #000;
+	color: #BBA9A9;
+	border: 2px solid #BBA9A9;
+	cursor: pointer;
+	transition: 0.5s;
+}
+
+.portf-btn-sumbit:hover {
+	border-color: #BDAE82;
+	color: #BDAE82;
+}

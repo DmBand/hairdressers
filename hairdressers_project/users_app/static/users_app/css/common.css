@@ -1,0 +1,298 @@
+/* Обнуление */
+*, *::before, *::after {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	background-color: #000;
+}
+
+html, body {
+    height: 100%
+}
+
+
+a {
+    text-decoration: none;
+}
+
+ul, ol, li {
+    list-style: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: inherit;
+    font-size: inherit;
+}
+
+@font-face {
+    font-family: "Inter";
+    src: url("../assets/fonts/Inter-Regular.ttf");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Inter";
+    src: url("../assets/fonts/Inter-Bold.ttf");
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "Merriweather";
+    src: url("../assets/fonts/Merriweather-Bold.ttf");
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "Merriweather";
+    src: url("../assets/fonts/Merriweather-Regular.ttf");
+    font-weight: 400;
+}
+
+@font-face {
+	font-family: 'Pacifico';
+	src: url('../assets/fonts/Pacifico-Regular.ttf');
+}
+
+::-webkit-scrollbar {
+	width: 12px;
+	background-color: #BDAE82;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #ebdbdb;
+	
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: #fff;
+}
+
+::-webkit-scrollbar-button:vertical:start:decrement {
+    background: linear-gradient(120deg, #000 40%, rgba(0, 0, 0, 0) 41%),
+    linear-gradient(240deg, #000 40%, rgba(0, 0, 0, 0) 41%),
+    linear-gradient(0deg, #000 30%, rgba(0, 0, 0, 0) 31%);
+    background-color: #fff;
+}
+
+::-webkit-scrollbar-button:vertical:end:increment {
+    background:
+        linear-gradient(300deg, #000 40%, rgba(0, 0, 0, 0) 41%),
+        linear-gradient(60deg, #000 40%, rgba(0, 0, 0, 0) 41%),
+        linear-gradient(180deg, #000 30%, rgba(0, 0, 0, 0) 31%);
+    background-color: #fff;
+}
+
+::-webkit-scrollbar-button:horizontal:start:decrement {
+    background:
+        linear-gradient(30deg, #000 40%, rgba(0, 0, 0, 0) 41%),
+        linear-gradient(150deg, #000 40%, rgba(0, 0, 0, 0) 41%),
+        linear-gradient(270deg, #000 30%, rgba(0, 0, 0, 0) 31%);
+    background-color: #fff;
+}
+
+::-webkit-scrollbar-button:horizontal:end:increment {
+    background:
+        linear-gradient(210deg, #000 40%, rgba(0, 0, 0, 0) 41%),
+        linear-gradient(330deg, #000 40%, rgba(0, 0, 0, 0) 41%),
+        linear-gradient(90deg, #000 30%, rgba(0, 0, 0, 0) 31%);
+    background-color: #fff;
+}
+
+.container {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+	max-width: 1440px;
+	padding: 0 10px;
+	margin: 0 auto;
+	background-color: black;
+	overflow: hidden;
+}
+
+.errorlist {
+    font-family: 'Merriweather';
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin: 10px 0px 5px;
+    color: red;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.other-errors {
+	color: red;
+	text-align: center;
+	margin-bottom: 30px;
+	text-transform: uppercase;
+}
+
+.errors-msg {
+	color: red;
+	text-align: center;
+}
+
+::placeholder {
+	font-size: 20px;
+	letter-spacing: normal;
+}
+
+/*----HEADER-----------------------------*/
+
+.header {
+	position: fixed;
+	background-color: #000;
+	width: 1420px;
+	z-index: 1000;
+	min-height: 90px;
+	background-repeat: no-repeat;
+	background-position: center 0;
+}
+
+.nav {
+    min-height: 90px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.main {
+    flex: 1 1 auto;
+	margin-top: 90px;
+}
+
+.main-page-link {
+	margin: auto 0;
+}
+
+.main-page-logo {
+	padding-left: 20px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	transition: 0.5s;
+}
+
+.main-page-logo:hover {
+	filter: invert(26%) sepia(15%) saturate(638%) hue-rotate(7deg) brightness(92%)
+    contrast(87%);
+}
+
+.reg-list {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: end;
+	column-gap: 20px;
+	margin-right: 20px;
+}
+
+.reg-item, .login-name {
+	padding: 15px 15px;
+	font-family: 'Inter';
+	font-weight: 400;
+	line-height: 90px;
+	margin: 0 auto;
+	transition: 0.3s;
+	letter-spacing: 3px;
+}
+
+.login-name {
+    cursor: default;
+}
+
+.reg-item {
+    text-transform: uppercase;
+	border: 2px solid #fff;
+	color: #fff;
+	font-size: 15px;
+}
+
+.reg-item:hover {
+    color: #BDAE82;
+	border-color: #BDAE82;
+	border-radius: 20px;
+}
+
+.user-container {
+	display: flex;
+	align-items: center;
+	column-gap: 15px;
+}
+
+.avatar {
+	width: 50px;
+	height: 50px;
+	object-fit: cover;
+	border-radius: 100px;
+}
+
+.login-name {
+	color: #BDAE82;
+	font-size: 25px;
+	font-weight: 700;
+	padding: 0;
+}
+
+.description-link {
+	margin: auto 0;
+}
+
+.description-link-logo {
+	padding-right: 20px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	transition: 0.5s;
+	cursor: pointer;
+}
+
+.description-link-logo:hover {
+	filter: invert(26%) sepia(15%) saturate(638%) hue-rotate(7deg) brightness(92%)
+    contrast(87%);
+}
+
+/*___FOOTER________________________*/
+
+.footer {
+	margin-top: 50px;
+	min-height: 50px;
+	border-top: 2px solid #fff;
+}
+
+.footer-elements {
+	padding: 0 20px;
+	font-family: 'Merriweather';
+	font-weight: 400;
+	font-size: 15px;
+	line-height: 50px;
+	color: #fff;
+	letter-spacing: 2px;
+	display: flex;
+	justify-content: space-between;
+    align-items: center;
+}
+
+.footer-link {
+	display: flex;
+	column-gap: 10px;
+	color: #fff;
+	transition: 0.3s;
+}
+
+.footer-link:hover {
+	filter: invert(26%) sepia(15%) saturate(638%) hue-rotate(7deg) brightness(92%)
+    contrast(87%);
+}
+
+.footer-up-link {
+    height: 24px;
+}
