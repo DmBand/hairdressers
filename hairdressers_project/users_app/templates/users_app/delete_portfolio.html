@@ -28,7 +28,7 @@
         </div>
         <form action="{% url 'users_app:delete_portfolio' hairdresser.slug %}" method="post" class="del-profile-form">
             {% csrf_token %}
-            <p class="del-hint">Для подтверждения удаления введите следующий код:</p>
+            <p class="del-hint">Для подтверждения удаления, пожалуйста, введите следующий код:</p>
             <p class="del-code">{{ code }}</p>
             {% for message in messages %}
             <p class="del-profile-message">{{ message }}</p>

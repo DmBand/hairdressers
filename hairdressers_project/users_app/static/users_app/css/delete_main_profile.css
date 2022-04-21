@@ -3,10 +3,10 @@
     margin-top: 10px;
 	display: flex;
 	flex-direction: column;
-}
+} 
 
 .reg-title2 {
-	margin: 50px auto 0;
+	margin: 20px auto 0;
 }
 
 .reg-title-text {
@@ -16,6 +16,20 @@
 	text-transform: uppercase;
 	color: #BDAE82;
 	letter-spacing: 4px;
+	text-align: center;
+}
+
+@media (max-width: 768px) {
+	.reg-title-text {
+		font-size: 25px;
+	}
+}
+
+@media (max-width: 425px) {
+	.reg-title-text {
+		font-size: 20px;	
+		letter-spacing: 2px;
+	}
 }
 
 .del-description-container {
@@ -35,6 +49,34 @@
 	border-bottom: 2px solid #BDAE82;
 }
 
+.span-1 {
+	color: #BBA9A9; 
+	font-size: 25px;
+}
+
+.span-2 {
+	color: #8f0c0c; 
+	font-size: 25px;
+}
+
+@media (max-width: 768px) {
+	.span-1 {
+		font-size: 20px;
+	}
+	.span-2 {
+		font-size: 20px;
+	}
+}
+
+@media (max-width: 425px) {
+	.span-1 {
+		font-size: 15px;
+	}
+	.span-2 {
+		font-size: 15px;
+	}
+}
+
 .del-description {
     margin-top: 20px;
 }
@@ -47,12 +89,32 @@
 	letter-spacing: 2px;
 }
 
+@media (max-width: 425px) {
+	.del-profile-form {
+		margin-top: 20px;
+	}
+}
+
 .del-hint {
 	font-family: 'Merriwaether';
 	font-weight: 700;
 	color: #BBA9A9;
 	font-size: 25px;
 	text-transform: uppercase;
+	text-align: center;
+}
+
+@media (max-width: 768px) {
+	.del-hint {
+		font-size: 16px;
+	}
+}
+
+@media (max-width: 425px) {
+	.del-hint {
+		font-size: 14px;
+		line-height: 20px;
+	}
 }
 
 .del-code {
@@ -64,6 +126,18 @@
 	color: #fff;
 	font-size: 25px;
 	letter-spacing: 2px;
+}
+
+@media (max-width: 768px) {
+	.del-code {
+		font-size: 20px;
+	}
+}
+
+@media (max-width: 425px) {
+	.del-code {
+		font-size: 15px;
+	}
 }
 
 .del-profile-message {
@@ -87,6 +161,24 @@
 	text-align: center;
 }
 
+@media (max-width: 768px) {
+	.del-profile-input {
+		font-size: 25px;
+	}
+}
+
+@media (max-width: 650px) {
+	.del-profile-input {
+		width: 95%;
+	}
+}
+
+@media (max-width: 425px) {
+	.del-profile-input {
+		font-size: 20px;
+	}
+}
+
 .del-profile-btn {
 	margin-top: 25px;
 	width: 250px;
@@ -101,6 +193,13 @@
 	letter-spacing: 3px;
 	cursor: pointer;
 	transition: 0.3s;
+}
+
+@media (max-width: 425px) {
+	.del-profile-btn {
+		width: 200px;
+		font-size: 12px;
+	}
 }
 
 .del-profile-btn:hover {
