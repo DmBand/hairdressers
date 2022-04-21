@@ -156,7 +156,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav {
-	height: 90px;
+	min-height: 90px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -194,7 +194,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .reg-list {
-
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: end;
@@ -205,12 +204,13 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 650px) {
 	.reg-list {
 		flex-direction: column;
+		row-gap: 10px;
+		margin: 10px 0;
 	}
 }
 
 .reg-item, 
-.login-name,
-.reg-item2 {
+.login-name {
 	padding: 0px 10px 0px 12px;
 	font-family: 'Inter';
 	font-weight: 400;
@@ -224,8 +224,7 @@ h1, h2, h3, h4, h5, h6 {
     cursor: default;
 }
 
-.reg-item,
-.reg-item2 {
+.reg-item {
 	height: 50px;
     text-transform: uppercase;
 	border: 2px solid #fff;
@@ -235,14 +234,40 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 425px) {
 	.reg-item {
-		padding: 10px;
-		font-size: 10px;
+		height: 40px;
+		line-height: 38px;
+		font-size: 12px;
+		padding: 0px 5px 0px 7px;
 	}
+}
+
+.profile-logout {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	column-gap: 15px;
+}
+
+.reg-item2 {
+	min-height: 50px;
+	padding: 15px 10px;
+	font-family: 'Inter';
+	font-weight: 400;
+	transition: 0.3s;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+	border: 2px solid #fff;
+	color: #fff;
+	font-size: 15px;
 }
 
 @media (max-width: 650px) {
 	.reg-item2 {
-		padding: 10px;
+		min-height: 0px;
+		height: 30px;
+		line-height: 26px;
+		padding: 0px 5px 0px 7px;
+		font-size: 12px;
 	}
 }
 
@@ -258,6 +283,12 @@ h1, h2, h3, h4, h5, h6 {
 	column-gap: 15px;
 }
 
+@media (max-width: 650px) {
+	.user-container {
+		justify-content: center;
+	}
+}
+
 .avatar {
 	width: 50px;
 	height: 50px;
@@ -265,11 +296,30 @@ h1, h2, h3, h4, h5, h6 {
 	border-radius: 100px;
 }
 
+@media (max-width: 650px) {
+	.avatar {
+		width: 40px;
+		height: 40px;
+	}
+}
+
 .login-name {
 	color: #BDAE82;
 	font-size: 25px;
 	font-weight: 700;
 	padding: 0;
+}
+
+@media (max-width: 650px) {
+	.login-name {
+		margin: 0;
+	}
+}
+
+@media (max-width: 425px) {
+	.login-name {
+		font-size: 18px;
+	}
 }
 
 .description-link {

@@ -21,8 +21,7 @@
                     <div class="main-page-logo"></div>
                 </a>
                 {% if request.user.is_authenticated %}
-                <div class="reg-list">
-                    
+                <div class="reg-list">                    
                     <div class="user-container">
                         {% if request.user.simpleuser.avatar %}
                         <a href="{% url 'users_app:avatar' %}" title="Изменить фото профиля"><img class="avatar" src="{{ user.simpleuser.avatar.url }}" alt="Фото"></a>
@@ -31,9 +30,10 @@
                         {% endif %}
                         <p class="login-name" data-i18n="">{{ user.username }}</p>
                     </div>
-                    
-                    <a class="reg-item2" href="{% url 'users_app:get_main_profile' user.username  %}" data-i18n="">Профиль</a>
-                    <a class="reg-item2" href="{% url 'users_app:logout' %}" data-i18n="">Выход</a>
+                    <div class="profile-logout">                    
+                        <a class="reg-item2" href="{% url 'users_app:get_main_profile' user.username  %}" data-i18n="">Профиль</a>
+                        <a class="reg-item2" href="{% url 'users_app:logout' %}" data-i18n="">Выход</a>
+                    </div>
                 </div>
                 {% else %}
                 <div class="reg-list">
