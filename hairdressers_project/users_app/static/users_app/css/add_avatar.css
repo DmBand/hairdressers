@@ -86,12 +86,26 @@ img {
 	object-fit: cover;
 }
 
+@media (max-width: 425px) {
+	.result-avatar {
+		width: 250px;
+		height: 250px;
+	}
+}
+
 .add-avatar-btns {
 	margin-top: 30px;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	column-gap: 30px;
+}
+
+@media (max-width: 425px) {
+	.add-avatar-btns {
+		column-gap: 0px;
+		row-gap: 20px;
+	}
 }
 
 .av-btn-yes,
