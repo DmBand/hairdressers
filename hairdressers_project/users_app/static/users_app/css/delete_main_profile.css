@@ -89,7 +89,7 @@
 	letter-spacing: 2px;
 }
 
-@media (max-width: 425px) {
+@media (max-width: 768px) {
 	.del-profile-form {
 		margin-top: 20px;
 	}
@@ -132,7 +132,7 @@
 	.del-code {
 		font-size: 20px;
 	}
-}
+} 
 
 @media (max-width: 425px) {
 	.del-code {
@@ -148,6 +148,13 @@
 	color: #8f0c0c;
 	text-transform: uppercase;
 	letter-spacing: 2px;
+	text-align: center;
+}
+
+@media (max-width: 425px) {
+	.del-profile-message {
+		font-size: 15px;
+	}
 }
 
 .del-profile-input {
