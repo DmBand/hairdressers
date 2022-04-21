@@ -308,7 +308,8 @@
 	background-size: contain;
 }
 
-.common-style {
+.common-style,
+.common-style-pre {
 	width: 70%;
 	margin: 0 auto;
 	letter-spacing: 2px;
@@ -320,6 +321,13 @@
 	flex-wrap: wrap;
 	column-gap: 20px;
 	row-gap: 10px;
+}
+
+.common-style-pre {
+	font-family: 'Merriweather';
+	font-weight: 400;
+	font-size: 22px;
+	line-height: 35px;
 }
 
 .common-style li {

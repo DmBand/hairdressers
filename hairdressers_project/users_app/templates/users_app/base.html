@@ -18,27 +18,27 @@
         <header class="header">
             <nav class="nav">
                 <a class="main-page-link" href="{% url 'users_app:homepage' %}" title="Главная страница">
-                    <img class="main-page-logo" src="{% static 'users_app/assets/svg/main-page.svg' %}" alt="logo">
+                    <div class="main-page-logo"></div>
                 </a>
                 {% if request.user.is_authenticated %}
-                <ul class="reg-list">
-                    <li>
-                        <div class="user-container">
-                            {% if request.user.simpleuser.avatar %}
-                            <a href="{% url 'users_app:avatar' %}" title="Изменить фото профиля"><img class="avatar" src="{{ user.simpleuser.avatar.url }}" alt="Фото"></a>
-                            {% else %}
-                            <a href="{% url 'users_app:avatar' %}" title="Изменить фото профиля"><img class="avatar" src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Фото"></a>
-                            {% endif %}
-                            <p class="login-name" data-i18n="">{{ user.username }}</p>
-                        </div>
-                    </li>
-                    <li><a class="reg-item" href="{% url 'users_app:get_main_profile' user.username  %}" data-i18n="">Профиль</a></li>
-                    <li><a class="reg-item" href="{% url 'users_app:logout' %}" data-i18n="">Выход</a></li>
-                </ul>
+                <div class="reg-list">
+                    
+                    <div class="user-container">
+                        {% if request.user.simpleuser.avatar %}
+                        <a href="{% url 'users_app:avatar' %}" title="Изменить фото профиля"><img class="avatar" src="{{ user.simpleuser.avatar.url }}" alt="Фото"></a>
+                        {% else %}
+                        <a href="{% url 'users_app:avatar' %}" title="Изменить фото профиля"><img class="avatar" src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Фото"></a>
+                        {% endif %}
+                        <p class="login-name" data-i18n="">{{ user.username }}</p>
+                    </div>
+                    
+                    <a class="reg-item2" href="{% url 'users_app:get_main_profile' user.username  %}" data-i18n="">Профиль</a>
+                    <a class="reg-item2" href="{% url 'users_app:logout' %}" data-i18n="">Выход</a>
+                </div>
                 {% else %}
-                <ul class="reg-list">
-                    <li><a class="reg-item" href="{% url 'users_app:login' %}" data-i18n="">Вход | Регистрация</a></li>
-                </ul>
+                <div class="reg-list">
+                    <a class="reg-item" href="{% url 'users_app:login' %}" data-i18n="">Вход | Регистрация</a>
+                </div>
                 {% endif %}
 {% block header %}
 {% endblock header %}

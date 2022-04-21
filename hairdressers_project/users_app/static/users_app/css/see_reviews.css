@@ -1,6 +1,6 @@
 .main-reg {
     flex: 1 1 auto;
-    margin-top: 90px;
+    margin-top: 10px;
 	display: flex;
 	flex-direction: column;
 }
@@ -146,6 +146,12 @@
 	color: #fff;
 	text-transform: uppercase;
 	font-size: 15px;
+}
+
+.span-review {
+	color: #BBA9A9;
+	font-weight: 700;
+	text-transform: none;
 }
 
 .review-date {

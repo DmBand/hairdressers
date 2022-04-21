@@ -1,6 +1,6 @@
 .main-reg {
     flex: 1 1 auto;
-    margin-top: 90px;
+    margin-top: 10px;
 	display: flex;
 	flex-direction: column;
 }
