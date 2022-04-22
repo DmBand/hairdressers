@@ -32,7 +32,7 @@
             </a>
         </ul>
     </section>
-    {% endif %}
+    {% endif %} 
     <section class="main-title">
         <div class="photo-and-rating">
             {% if avatar %}
@@ -46,8 +46,10 @@
             </a>
         </div>
         <div class="main-name-city">
-            <h1 class="name-surname">{{ title }}</h1>
-            <h2 class="city">Гродно</h2>
+            <h1 class="name-surname">1111111111222222222233333333331</h1>
+            <!-- <h1 class="name-surname">{{ name|truncatechars:31 }}</h1> -->
+            <h1 class="name-surname">{{ surname|truncatechars:31 }}</h1>
+            <h2 class="city">Гродно</h2> 
             <div class="comment-btns-container">
                 {% if request.user.simpleuser.slug != slug %}
                 <a href="{% url 'users_app:increase_rating' slug %}" title="Оценить / добавить отзыв" class="new-comment">
@@ -101,7 +103,7 @@
                 <span style="font-family: 'Inter';">(</span>{{ count }}<span style="font-family: 'Inter';">)</span>
             </div>
             {% if request.user.simpleuser.slug == slug %}
-            <div class="del-photo-text">Очистить</div>
+            <div class="del-photo-text">Удалить все фото</div>
             <div class="yes-no-container">
                 <a href="{% url 'users_app:reset_portfolio' slug %}" id="yes-reset"></a>
             </div>

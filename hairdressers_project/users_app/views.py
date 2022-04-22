@@ -328,6 +328,8 @@ def get_one_hairdresser_view(requset, slug_name):
     skills = person.skills.all().order_by('name')
     context = {
         'title': f'{person.name.capitalize()} {person.surname.capitalize()}',
+        'name': person.name.capitalize(),
+        'surname': person.surname.capitalize(),
         'avatar': person.avatar,
         'rating': person.rating,
         'city': person.city,
