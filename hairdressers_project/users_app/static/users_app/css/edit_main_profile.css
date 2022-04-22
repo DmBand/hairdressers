@@ -71,13 +71,12 @@
 }
 
 .btn-item {
-	padding: 15px;
+	line-height: 46px;
 	letter-spacing: 3px;
 }
 
 @media (max-width: 830px) {
 	.btn-item {
-		padding: 5px;
 		letter-spacing: 2px;
 	}
 }

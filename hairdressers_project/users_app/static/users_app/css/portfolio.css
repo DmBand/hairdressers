@@ -64,14 +64,14 @@
 	color: #000;
 }
 
-.btn-item,
-.btn-item2 {
-	padding: 15px;
+.btn-item {
 	letter-spacing: 3px;
+	line-height: 46px;
 }
 
 .btn-item2 {
-	line-height: 10px;
+	letter-spacing: 3px;
+	line-height: 35px;
 }
 
 .btn-list {
