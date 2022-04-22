@@ -9,7 +9,7 @@ const btnYes = document.getElementById('yes-reset');
 function confirmReset() {
     delPortf.classList.toggle('active');
     if (delPortf.classList.contains('active')) {
-        delPortf.innerText = 'Очистить?'
+        delPortf.innerText = 'Удалить все фото?'
         btnYes.classList.add('yes-reset');
         btnYes.innerText = 'Да';
 
@@ -28,7 +28,7 @@ function confirmReset() {
             btnYes.classList.remove('yes-reset');
             btnYes.innerText = '';
 
-            delPortf.innerText = 'Очистить';
+            delPortf.innerText = 'Удалить все фото';
     }
 }
 

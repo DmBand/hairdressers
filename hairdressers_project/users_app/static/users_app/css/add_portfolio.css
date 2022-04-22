@@ -14,6 +14,21 @@
 	column-gap: 40px;
 	border-bottom: 2px solid #BDAE82;
 	padding-bottom: 10px;
+	border-top: 2px solid #BDAE82;
+	padding-top: 10px;
+}
+
+@media (max-width: 768px) {
+	.btn-list {
+		column-gap: 20px;
+	}
+}
+
+@media (max-width: 650px) {
+	.btn-list {
+		flex-direction: column;
+		row-gap: 15px;
+	}
 }
 
 .btn-block,
@@ -33,6 +48,21 @@
 	color: #fff;
 }
 
+@media (max-width: 768px) {
+	.btn-block {
+		width: 200px;
+		line-height: 37px;
+		font-size: 12px;
+	}
+}
+
+@media (max-width: 425px) {
+	.btn-block {
+		height: 35px;
+		line-height: 22px;
+	}
+}
+
 .btn-block:hover {
     color: #BBA9A9;
 	border-color: #BBA9A9;
@@ -45,40 +75,92 @@
 	color: #000;
 }
 
+@media (max-width: 768px) {
+	.btn-block-active {
+		width: 200px;
+		font-size: 12px;
+		line-height: 37px;
+	}
+}
+
+@media (max-width: 425px) {
+	.btn-block-active {
+		height: 35px;
+		line-height: 22px;
+	}
+}
+
 .btn-item {
-	padding: 15px;
+	line-height: 46px;
 	letter-spacing: 3px;
+}
+
+@media (max-width: 768px) {
+	.btn-item {
+		letter-spacing: 2px;
+	}
 }
 
 .add-portfolio-section {
 	padding: 50px 20px 0px;
+	margin-bottom: 30px;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	background: url('../assets/img/form-bg.png');
+	background-repeat: no-repeat;
+	background-position: 100% 120px;
+	background-size: contain;
+}
+
+@media (max-width: 1400px) {
+	.add-portfolio-section {		
+		background: none;
+		align-items: center;
+	}
+}
+
+@media (max-width: 650px) {
+	.add-portfolio-section {
+		padding: 25px 0px 0px;
+	}
 }
 
 .reg-title-text {
 	font-family: 'Merriwaether';
 	font-weight: 700;
 	font-size: 35px;
+	text-align: center;
 	text-transform: uppercase;
 	color: #BDAE82;
 	letter-spacing: 4px;
 }
 
+@media (max-width: 650px) {
+	.reg-title-text {
+		font-size: 25px;
+	}
+}
+
+@media (max-width: 425px) {
+	.reg-title-text {
+		font-size: 20px;
+		letter-spacing: 2px;
+	}
+}
+ 
 .add-portfolio-form {
 	display: flex;
 	flex-direction: column;
-	width: 100%;
 	padding-top: 30px;
-	margin-bottom: 50px;
 	font-family: 'Merriweather';
 	font-weight: 400;
 	row-gap: 30px;
-	background: url('../assets/img/form-bg.png');
-	background-repeat: no-repeat;
-	background-position: 100% 30px;
-	background-size: contain;
+}
+
+@media (max-width: 425px) {
+	.add-portfolio-form {		
+		width: 100%;
+	}
 }
 
 .one-field {
@@ -93,6 +175,18 @@
 	font-size: 20px;
 }
 
+@media (max-width: 650px) {
+	.portf-form-label {
+		font-size: 15px;
+	}
+}
+
+@media (max-width: 425px) {
+	.portf-form-label {
+		font-size: 13px;
+	}
+}
+
 .portf-form-input {
 	margin-top: 10px;
 	padding: 5px 10px;
@@ -104,6 +198,18 @@
 	font-size: 18px;
 	line-height: 40px;
 	letter-spacing: 2px;
+}
+
+@media (max-width: 650px) {
+	.portf-form-input {
+		font-size: 14px;
+	}
+}
+
+@media (max-width: 425px) {
+	.portf-form-input {
+		font-size: 13px;
+	}
 }
 
 .skills-container {
@@ -120,6 +226,21 @@
 	color: #BDAE82;
 	margin: 0 5px 5px 0;
 	cursor: pointer;
+	width: 30%;
+}
+
+@media (max-width: 650px) {
+	.portf-form-label-cb {
+		font-size: 14px;
+		width: 48%;
+	}
+}
+
+@media (max-width: 425px) {
+	.portf-form-label-cb {
+		font-size: 12px;
+		
+	}
 }
 
 .portf-form-input-cb {
@@ -132,6 +253,12 @@
 	color: #fff;
 	letter-spacing: 2px;
 	font-size: 12px;
+}
+
+@media (max-width: 425px) {
+	.portf-form-label-add {
+		font-size: 10px;
+	}
 }
 
 .input__wrapper a {
@@ -173,8 +300,14 @@
 	margin-top: 1px;
 }
 
+@media (max-width: 320px) {
+	.input__file-button-text {
+		font-size: 13px;
+	}
+}
+
 .input__file-button {
-	max-width: 290px;
+	max-width: 300px;
 	height: 40px;
 	background: #BDAE82;
 	color: #000;
@@ -193,6 +326,12 @@
 	margin-top: 10px;
 }
 
+@media (max-width: 1400px) {
+	.input__file-button {
+		margin: 10px auto 0;
+	}
+}
+
 .none-class {
 	display: none;
 }
@@ -202,7 +341,7 @@
 }
 
 .add-width {
-	max-width: 380px;
+	max-width: 390px;
 }
 
 .portf-btns-container {
@@ -212,6 +351,26 @@
 	flex-wrap: wrap;
     justify-content: center;
     column-gap: 60px;
+}
+
+@media (max-width: 650px) {
+	.portf-btns-container {
+		column-gap: 30px;
+	}
+}
+
+@media (max-width: 425px) {
+	.portf-btns-container {
+		column-gap: 15px;
+	}
+}
+
+@media (max-width: 425px) {
+	.portf-btns-container {
+		flex-direction: column;
+		align-items: center;
+		row-gap: 15px;
+	}
 }
 
 .portf-btn-sumbit {
@@ -229,6 +388,12 @@
 	transition: 0.5s;
 }
 
+@media (max-width: 650px) {
+	.portf-btn-sumbit {
+		width: 170px;
+	}
+}
+
 .portf-btn-sumbit:hover {
 	border-color: #BDAE82;
 	color: #BDAE82;
@@ -241,6 +406,12 @@
 	text-align: center;
 	cursor: pointer;
 	transition: 0.5s;
+}
+
+@media (max-width: 650px) {
+	.portf-btn-reset {
+		width: 170px;
+	}
 }
 
 .portf-btn-reset:hover {
@@ -267,13 +438,19 @@
 	font-weight: 400;
 	font-size: 18px;
 	letter-spacing: 2px;
-	line-height: 40px;
 	padding: 5px 10px;
 	margin-top: 10px;
 	max-width: 600px;
 	height: 40px;
 	background-color: #fff;
 	cursor: pointer;
+}
+
+@media (max-width: 650px) {
+	.portfolio-city-select {
+		font-size: 14px;
+		line-height: 20px;
+	}
 }
 
 .portfolio-textarea {
@@ -287,8 +464,23 @@
 	text-align: justify;
 }
 
+@media (max-width: 650px) {
+	.portfolio-textarea {
+		font-size: 14px;
+	}
+}
+
 .portfolio-textarea {
     max-width: 600px;
     height: 150px;
     resize: vertical;
+}
+
+.errorlist { 
+    font-family: 'Merriweather';
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin: 10px 0px 5px;
+    color: red;
 }

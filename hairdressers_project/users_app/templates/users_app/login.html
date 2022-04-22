@@ -1,6 +1,6 @@
 {% extends 'users_app/base.html' %}
 {% load static %}
-
+ 
 {% block styles %}
 <link rel="stylesheet" href="{% static 'users_app/css/login.css' %}">
 {% endblock styles %}
@@ -20,13 +20,13 @@
                     <label for="{{ f.id_for_label }}" class="reg-form-label">{{ f.label }}</label>
                     {{ f }}
                 </li>
-                <div class="errors-msg">{{ f.errors }}</div>
                 {% endfor %}
             </ul>
             <div class="reg-btn-container2">
                 <button type="submit" class="reg-btn">Войти</button>
-                <a href="{% url 'users_app:password_reset' %}"><p class="reset-password-btn">Забыли пароль?</p></a>
                 <a href="{% url 'users_app:register' %}"><p class="reg-btn2">Регистрация</p></a>
+                <a href="{% url 'users_app:password_reset' %}"><p class="reset-password-btn">Забыли пароль?</p></a>
+                
             </div>
         </form>
     </section>

@@ -13,13 +13,14 @@
     <section class="reg-fields">
         <form method="post" action="{% url 'users_app:register' %}" class="reg-form">
             {% csrf_token %}
+            <div class="other-errors">{{ form.non_field_errors }}</div>
             <ul class="all-rows">
                 {% for f in form %}
                 <li class="form-row">
                     <label for="{{ f.id_for_label }}" class="reg-form-label">{{ f.label }}*</label>
+                    {{ f.errors }}
                     {{ f }}
-                </li>
-                <div class="errors-msg">{{ f.errors }}</div>
+                </li>                
                 {% endfor %}
             </ul>
              <div class="reg-btn-container">
@@ -29,4 +30,4 @@
         </form>
     </section>
 </main>
-{% endblock content %}
+{% endblock content %} 

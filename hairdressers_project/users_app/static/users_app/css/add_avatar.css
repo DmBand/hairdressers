@@ -1,8 +1,37 @@
+.reg-title-text {
+	font-family: 'Merriwaether';
+	font-weight: 700;
+	font-size: 35px;
+	text-transform: uppercase;
+	color: #BDAE82;
+	letter-spacing: 4px;
+	text-align: center;
+}
+
+@media (max-width: 840px) {
+	.reg-title-text {
+		font-size: 25px;
+	}
+}
+
+@media (max-width: 425px) {
+	.reg-title-text {
+		font-size: 20px;
+		letter-spacing: 2px;
+	}
+} 
+
 .add-photo-container {
-	padding-top: 10px;
+	margin-top: 40px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+
+@media (max-width: 425px) {
+	.add-photo-container {
+		margin-top: 20px;
+	}
 }
 
 .add-photo-form {
@@ -86,12 +115,26 @@ img {
 	object-fit: cover;
 }
 
+@media (max-width: 425px) {
+	.result-avatar {
+		width: 250px;
+		height: 250px;
+	}
+}
+
 .add-avatar-btns {
 	margin-top: 30px;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	column-gap: 30px;
+}
+
+@media (max-width: 425px) {
+	.add-avatar-btns {
+		column-gap: 0px;
+		row-gap: 20px;
+	}
 }
 
 .av-btn-yes,

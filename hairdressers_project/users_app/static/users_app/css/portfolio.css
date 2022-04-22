@@ -1,4 +1,4 @@
-.profile-buttons {
+.profile-buttons { 
 	padding-top: 20px;
 	display: flex;
 	flex-direction: column;
@@ -14,6 +14,13 @@
 	column-gap: 40px;
 	border-bottom: 2px solid #BDAE82;
 	padding-bottom: 10px;
+}
+
+@media (max-width: 650px) {
+	.btn-list {
+		row-gap: 5px;
+		column-gap: 20px;
+	}
 }
 
 .btn-block,
@@ -35,11 +42,24 @@
 	color: #fff;
 }
 
+@media (max-width: 768px) {
+	.btn-block {
+		width: 230px;
+	}
+}
+
 .btn-block2,
 .btn-block3 {
 	width: 200px;
 	height: 40px;
 	color: #fff;
+}
+
+@media (max-width: 768px) {
+	.btn-block2,
+	.btn-block3 {
+		width: 180px;
+	}
 }
 
 .btn-block:hover {
@@ -64,32 +84,47 @@
 	color: #000;
 }
 
-.btn-item,
-.btn-item2 {
-	padding: 15px;
+@media (max-width: 768px) {
+	.btn-block-active {
+		width: 230px;
+	}
+}
+
+.btn-item {
 	letter-spacing: 3px;
+	line-height: 46px;
+}
+
+@media (max-width: 768px) {
+	.btn-item {
+		letter-spacing: 2px;
+	}
 }
 
 .btn-item2 {
-	line-height: 10px;
+	letter-spacing: 3px;
+	line-height: 35px;
 }
 
-.btn-list {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
-	column-gap: 40px;
-	border-bottom: 2px solid #BDAE82;
-	padding-bottom: 10px;
+@media (max-width: 768px) {
+	.btn-item2 {
+		letter-spacing: 2px;
+	}
 }
 
 .main-title {
+	margin-top: 50px;
 	display: flex;
-	justify-content: space-between;
-	flex-wrap: wrap;
+	justify-content: space-around;
 	font-family: 'Merriweather';
 	font-weight: 700;
+}
+
+@media (max-width: 1170px) {
+	.main-title {
+		flex-direction: column;
+		align-items: center;
+	}
 }
 
 .photo-and-rating {
@@ -141,8 +176,6 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	row-gap: 20px;
-	width: 55%;
 	height: 300px;
 	text-align: center;
 	color: #BBA9A9;
@@ -150,18 +183,19 @@
 
 .name-surname {
 	font-family: 'Pacifico';
-	font-size: 50px;
-	letter-spacing: 10px;
+	font-size: 35px;
+	letter-spacing: 5px;
 	color: #BDAE82;
 }
 
 .city {
+	margin-top: 10px;
 	font-size: 25px;
 	letter-spacing: 5px;
 }
 
 .comment-btns-container {
-	margin-top: 10px;
+	margin-top: 20px;
 	display: flex;
 	flex-direction: column;
 	row-gap: 15px;
@@ -308,7 +342,8 @@
 	background-size: contain;
 }
 
-.common-style {
+.common-style,
+.common-style-pre {
 	width: 70%;
 	margin: 0 auto;
 	letter-spacing: 2px;
@@ -320,6 +355,13 @@
 	flex-wrap: wrap;
 	column-gap: 20px;
 	row-gap: 10px;
+}
+
+.common-style-pre {
+	font-family: 'Merriweather';
+	font-weight: 400;
+	font-size: 22px;
+	line-height: 35px;
 }
 
 .common-style li {
@@ -357,7 +399,7 @@
 	font-size: 18px;
 	line-height: 38px;
 	text-transform: uppercase;
-	width: 170px;
+	width: 250px;
 	height: 40px;
 	border: 2px solid #fff;
 	color: #fff;
@@ -367,10 +409,10 @@
 	cursor: pointer;
 }
 
-.del-photo-text:hover {
+/* .del-photo-text:hover {
 	border-color: #8f0c0c;
 	color: #8f0c0c;
-}
+} */
 
 .yes-no-container {
 	display: flex;
@@ -406,20 +448,22 @@
 }
 
 .portfolio-items {
-	max-height: 850px;
+	max-height: 550px;
+	padding: 0 10px 10px;
+	width: 100%;
 	overflow: auto;
 	margin-top: 20px;
 	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	column-gap: 10px;
-	row-gap: 20px;
+	/* flex-wrap: wrap; */
+	/* justify-content: center; */
+	column-gap: 20px;
+	/* row-gap: 20px; */
 }
 
 .ptf-item {
-	width: 400px;
-	height: 400px;
-	object-fit: cover;
+	width: 500px;
+	height: 450px;
+	object-fit: contain;
 }
 
 .p-info {
