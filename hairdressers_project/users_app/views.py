@@ -176,8 +176,8 @@ def delete_main_profile_view(request, slug_name):
 
     if request.method != 'POST':
         if user_is_hairdresser:
-            messages.info(request, f'Внимание! У вас есть действующее портфолио парикмахера. '
-                                   f'Оно будет безвозвратно удалено.')
+            messages.info(request, 'Внимание! У вас есть действующее портфолио парикмахера. '\
+                                   'Оно будет безвозвратно удалено.')
         form = DeleteProfileForm()
     else:
         form = DeleteProfileForm(data=request.POST)
@@ -194,8 +194,8 @@ def delete_main_profile_view(request, slug_name):
 
         else:
             if user_is_hairdresser:
-                messages.info(request, f'Внимание! У вас есть действующее портфолио парикмахера. '
-                                       f'Оно будет безвозвратно удалено.')
+                messages.info(request, 'Внимание! У вас есть действующее портфолио парикмахера. '\
+                                       'Оно будет безвозвратно удалено.')
             messages.error(request, 'Введен неверный код!')
 
     context = {

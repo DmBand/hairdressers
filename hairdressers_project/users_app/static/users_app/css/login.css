@@ -37,13 +37,15 @@
 	background: url('../assets/img/ch_main_bg.png');
 	background-size: contain;
 	background-repeat: no-repeat;
-	background-position: 97% 10px;
+	background-position: 97% 0px;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
+	border-top: 2px solid #BDAE82;
+	border-bottom: 2px solid #BDAE82;
 }
 
-@media (max-width: 1330px) {
+@media (max-width: 1360px) {
 	.reg-fields {
 		background: none;
 	}
@@ -66,7 +68,7 @@
 	letter-spacing: 2px;
 }
 
-@media (max-width: 1330px) {
+@media (max-width: 1360px) {
 	.reg-form {
 		align-items: center;
 	}
@@ -79,7 +81,7 @@
 	width: 100%;
 }
 
-@media (max-width: 1330px) {
+@media (max-width: 1360px) {
 	.all-rows {
 		align-items: center;		
 	}
@@ -90,6 +92,12 @@
 	flex-direction: column;
 }
 
+@media (max-width: 650px) {
+	.form-row  {
+		align-items: center;		
+	}
+}
+ 
 .reg-form-label {
 	max-width: 600px;
 	color: #BBA9A9;
@@ -122,7 +130,7 @@
 	letter-spacing: 2px;
 }
 
-@media (max-width: 1330px) {
+@media (max-width: 1360px) {
 	.reg-form-input {
 		width: 600px;
 	}
@@ -192,6 +200,7 @@
 
 .reset-password-btn {
 	width: 170px;
+	margin-bottom: 15px;
 	text-transform: uppercase;
 	text-align: center;
 	padding: 10px;

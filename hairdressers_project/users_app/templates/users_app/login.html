@@ -18,7 +18,6 @@
                 {% for f in form %}
                 <li class="form-row">
                     <label for="{{ f.id_for_label }}" class="reg-form-label">{{ f.label }}</label>
-                    {{ f.errors }}
                     {{ f }}
                 </li>
                 {% endfor %}
@@ -32,4 +31,4 @@
         </form>
     </section>
 </main>
-{% endblock content %} 
+{% endblock content %}

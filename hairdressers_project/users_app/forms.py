@@ -13,19 +13,19 @@ class RegistrationUserForm(UserCreationForm):
 
     # Валидатор для username
     username_validator = RegexValidator(
-        regex=r'^[0-9a-zA-Z._-]*$',
-        message='Не более 30 символов. Только латинские буквы, цифры и символы ./-/_',
+        regex=r'^[0-9a-zA-Z_-]*$',
+        message='Допускаются буквы a-zA-Z, цифры и символы _- (не более 30).',
     )
     # Валидатор для имени и фамилии
     first_and_last_name_validator = RegexValidator(
         regex=r'^[a-zA-Zа-яА-Я]*$',
-        message='Допускаются буквы /а-яА-Я/, /a-zA-Z/'
+        message='Допускаются буквы а-яА-Я, a-zA-Z.'
     )
 
     # Валидатор пароля
     password_validator = RegexValidator(
         regex=r'^[^а-яА-Я]*$',
-        message='Символы кириллицы /а-яА-Я/ не допускаются'
+        message='Символы кириллицы (а-яА-Я) не допускаются.'
     )
 
     username = forms.CharField(
@@ -87,7 +87,7 @@ class EditProfileForm(forms.ModelForm):
     # Валидатор для имени и фамилии
     first_and_last_name_validator = RegexValidator(
         regex=r'^[a-zA-Zа-яА-Я]*$',
-        message='Допускаются буквы /а-яА-Я/, /a-zA-Z/'
+        message='Допускаются буквы а-яА-Я, a-zA-Z.'
     )
 
     first_name = forms.CharField(
@@ -123,7 +123,7 @@ class ResetPasswordForm(SetPasswordForm):
     # Валидатор пароля
     password_validator = RegexValidator(
         regex=r'^[^а-яА-Я]*$',
-        message='Символы кириллицы /а-яА-Я/ не допускаются'
+        message='Символы кириллицы (а-яА-Я) не допускаются.'
     )
 
     new_password1 = forms.CharField(
@@ -146,7 +146,7 @@ class ChangePasswordForm(PasswordChangeForm):
     # Валидатор пароля
     password_validator = RegexValidator(
         regex=r'^[^а-яА-Я]*$',
-        message='Символы кириллицы /а-яА-Я/ не допускаются'
+        message='Символы кириллицы (а-яА-Я) не допускаются.'
     )
 
     new_password1 = forms.CharField(
