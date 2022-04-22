@@ -121,7 +121,7 @@ h1, h2, h3, h4, h5, h6 {
 	overflow: hidden;
 }
 
-.errorlist {
+/* .errorlist { 
     font-family: 'Merriweather';
     font-size: 12px;
     font-weight: 400;
@@ -130,7 +130,7 @@ h1, h2, h3, h4, h5, h6 {
     color: red;
     text-transform: uppercase;
     text-align: center;
-}
+} */ 
 
 .other-errors {
 	color: red;
@@ -139,10 +139,10 @@ h1, h2, h3, h4, h5, h6 {
 	text-transform: uppercase;
 }
 
-.errors-msg {
+/* .errors-msg {
 	color: red;
 	text-align: center;
-}
+} */
 
 ::placeholder {
 	font-size: 20px;
@@ -360,13 +360,19 @@ h1, h2, h3, h4, h5, h6 {
 
 .footer {
 	margin-top: 50px;
-	min-height: 50px;
+	height: 50px;
 	border-top: 2px solid #fff;
 }
 
 @media (max-width: 1005px) {
 	.footer {
 		margin-top: 20px;
+	}
+}
+
+@media (max-width: 425px) {
+	.footer {
+		height: 40px;
 	}
 }
 
@@ -387,6 +393,7 @@ h1, h2, h3, h4, h5, h6 {
 	.footer-elements {
 		padding: 0 10px;
 		letter-spacing: 0px;
+		line-height: 40px;
 	}
 }
 

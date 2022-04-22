@@ -7,6 +7,7 @@ from django.core.validators import RegexValidator
 from .models import Hairdresser, SimpleUser, Comment
 
 
+# main profile 
 class RegistrationUserForm(UserCreationForm):
     """ Форма регистрации нового пользователя """
 
@@ -57,6 +58,62 @@ class RegistrationUserForm(UserCreationForm):
         )
 
 
+class AddAvatarForm(forms.ModelForm):
+    """ Форма добавления аватарки пользователя """
+
+    class Meta:
+        model = SimpleUser
+        fields = ['avatar']
+
+        widgets = {
+            'avatar': forms.ClearableFileInput(attrs={'class': 'input input__file2',
+                                                      'id': 'input__file2'})
+        }
+
+
+class LoginUserForm(AuthenticationForm):
+    """ Форма авторизации пользователей """
+
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'reg-form-input'}))
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'reg-form-input'}))
+
+
+class EditProfileForm(forms.ModelForm):
+    """ Форма редактирования главного профиля """
+
+    # def __init__(self, *args, **kwargs): 
+    #     super().__init__(*args, **kwargs)
+
+    # Валидатор для имени и фамилии
+    first_and_last_name_validator = RegexValidator(
+        regex=r'^[a-zA-Zа-яА-Я]*$',
+        message='Допускаются буквы /а-яА-Я/, /a-zA-Z/'
+    )
+
+    first_name = forms.CharField(
+        label='Имя',
+        validators=[first_and_last_name_validator],
+        widget=forms.TextInput(attrs={'class': 'reg-form-input'})
+    )
+    last_name = forms.CharField(
+        label='Фамилия',
+        validators=[first_and_last_name_validator],
+        widget=forms.TextInput(attrs={'class': 'reg-form-input'})
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            'first_name', 'last_name'
+        ]
+
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'reg-form-input'}),
+            'last_name': forms.TextInput(attrs={'class': 'reg-form-input'})
+        }
+
+
+# passwords
 class ResetPasswordForm(SetPasswordForm):
     """
     Форма создания нового пароля после сброса старого
@@ -106,31 +163,12 @@ class ChangePasswordForm(PasswordChangeForm):
     )
 
 
-class LoginUserForm(AuthenticationForm):
-    """ Форма авторизации пользователей """
-
-    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'reg-form-input'}))
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'reg-form-input'}))
-
-
-class AddAvatarForm(forms.ModelForm):
-    """ Форма добавления аватарки пользователя """
-
-    class Meta:
-        model = SimpleUser
-        fields = ['avatar']
-
-        widgets = {
-            'avatar': forms.ClearableFileInput(attrs={'class': 'input input__file2',
-                                                      'id': 'input__file2'})
-        }
-
-
+# Portfolio
 class CreatePortfolioForm(forms.ModelForm):
     """ Форма создания портфолио """
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
 
     class Meta:
         model = Hairdresser
@@ -166,29 +204,12 @@ class DeleteProfileForm(forms.Form):
     ))
 
 
-class EditProfileForm(forms.ModelForm):
-    """ Форма редактирования портфолио """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    class Meta:
-        model = User
-        fields = [
-            'first_name', 'last_name'
-        ]
-
-        widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'reg-form-input'}),
-            'last_name': forms.TextInput(attrs={'class': 'reg-form-input'})
-        }
-
-
+# Rating
 class IncreaseRatingForm(forms.ModelForm):
     """ Форма повышения рейтинга парикмахера """
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
 
     class Meta:
         model = Comment

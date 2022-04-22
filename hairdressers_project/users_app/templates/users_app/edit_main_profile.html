@@ -33,15 +33,15 @@
                 {% for f in form %}
                 <li class="form-row">
                     <label for="{{ f.id_for_label }}" class="reg-form-label">{{ f.label }}</label>
-                    {{ f }}
+                    {{ f.errors }}
+                    {{ f }}                    
                 </li>
-                <div class="errors-msg">{{ f.errors }}</div>
                 {% endfor %}
             </ul>
              <div class="reg-btn-container3">
-                <button type="submit" class="portf-btn-sumbit">Изменить</button>
+                <button type="submit" class="portf-btn-sumbit">Применить</button>
             </div>
         </form>
     </section>
 </main>
-{% endblock content %}
+{% endblock content %} 

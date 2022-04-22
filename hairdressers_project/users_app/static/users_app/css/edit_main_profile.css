@@ -21,6 +21,21 @@
 	column-gap: 40px;
 	border-bottom: 2px solid #BDAE82;
 	padding-bottom: 10px;
+	border-top: 2px solid #BDAE82;
+	padding-top: 10px;
+}
+
+@media (max-width: 830px) {
+	.btn-list {
+		column-gap: 20px;
+	}
+}
+
+@media (max-width: 650px) {
+	.btn-list {
+		flex-direction: column;
+		row-gap: 15px;
+	}
 }
 
 .btn-block {
@@ -36,6 +51,20 @@
 	transition: 0.3s;
 }
 
+@media (max-width: 830px) {
+	.btn-block {
+		width: 230px;
+		line-height: 37px;
+	}
+}
+
+@media (max-width: 425px) {
+	.btn-block {
+		height: 35px;
+		line-height: 22px;
+	}
+}
+
 .btn-block:hover {
     color: #BBA9A9;
 	border-color: #BBA9A9;
@@ -44,6 +73,13 @@
 .btn-item {
 	padding: 15px;
 	letter-spacing: 3px;
+}
+
+@media (max-width: 830px) {
+	.btn-item {
+		padding: 5px;
+		letter-spacing: 2px;
+	}
 }
 
 .reg-title2 {
@@ -57,59 +93,139 @@
 	text-transform: uppercase;
 	color: #BDAE82;
 	letter-spacing: 4px;
+	text-align: center;
+}
+
+@media (max-width: 830px) {
+	.reg-title-text {
+		font-size: 25px;
+	}
+}
+
+@media (max-width: 425px) {
+	.reg-title-text {
+		font-size: 20px;
+		letter-spacing: 2px;
+	}
 }
 
 .reg-fields {
-	padding: 30px 10px;
-}
-
-.reg-form {
+	margin-top: 30px;
+	padding: 0 20px;
+	background: url('../assets/img/ch_main_bg.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: 97% 40px;
 	display: flex;
 	flex-direction: column;
-	font-family: 'Inter';
+	align-items: flex-start;
+}
+
+@media (max-width: 1310px) {
+	.reg-fields {
+		background: none;
+	}
+}
+
+@media (max-width: 650px) {
+	.reg-fields {
+		padding: 0px 10px;
+	}
+} 
+
+.reg-form {
+	/* margin-top: 30px; */
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	font-family: 'Merriweather';
 	font-weight: 400;
 	color: #fff;
 	letter-spacing: 2px;
+}
+
+@media (max-width: 1310px) {
+	.reg-form {
+		align-items: center;
+	}
 }
 
 .all-rows {
 	display: flex;
 	flex-direction: column;
 	row-gap: 20px;
+	width: 100%;
 }
 
+@media (max-width: 1310px) {
+	.all-rows {
+		align-items: center;		
+	}
+}
+ 
 .form-row {
 	display: flex;
-	align-items: center;
-	column-gap: 20px;
+	flex-direction: column;
+}
+ 
+.reg-form-label {
+	max-width: 600px;
+	color: #BBA9A9;
+	letter-spacing: 3px;
+	font-size: 20px;
 }
 
-.reg-form-label {
-	width: 370px;
-	font-size: 30px;
-	text-align: end;
-	text-transform: uppercase;
-	color: #BBA9A9;
+@media (max-width: 830px) {
+	.reg-form-label {
+		font-size: 15px;
+	}
+}
+
+@media (max-width: 425px) {
+	.reg-form-label {
+		font-size: 13px;
+	}
 }
 
 .reg-form-input {
-	width: 650px;
-	height: 50px;
+	margin-top: 10px;
+	padding: 5px 10px;
+	max-width: 600px;
+	height: 40px;
 	background-color: #fff;
-	padding: 5px 15px;
-	font-family: 'Inter';
+	font-family: 'Merriweather';
 	font-weight: 400;
-	font-size: 30px;
+	font-size: 18px;
+	line-height: 40px;
+	letter-spacing: 2px;
 }
 
-.reg-form-input:focus {
-    font-family: 'Inter';
-    font-weight: 400;
-	font-size: 30px;
+@media (max-width: 1310px) {
+	.reg-form-input {
+		width: 600px;
+	}
+}
+
+@media (max-width: 830px) {
+	.reg-form-input {
+		font-size: 14px;
+	}
+}
+
+@media (max-width: 650px) {
+	.reg-form-input {
+		width: 280px;
+	}
+}
+
+@media (max-width: 425px) {
+	.reg-form-input {
+		font-size: 13px;
+	}
 }
 
 .reg-btn-container3 {
-	margin: 0 auto;
+	margin-top: 40px;
 	height: 60px;
 	display: flex;
 	flex-wrap: wrap;
@@ -131,7 +247,28 @@
 	transition: 0.5s;
 }
 
+@media (max-width: 650px) {
+	.portf-btn-sumbit {
+		width: 160px;
+	}
+}
+
 .portf-btn-sumbit:hover {
 	border-color: #BDAE82;
 	color: #BDAE82;
+}
+
+.errorlist {
+    font-family: 'Merriweather';
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin: 10px 0px 5px;
+    color: red;
+}
+
+@media (max-width: 425px) {
+	.errorlist {
+		letter-spacing: 0px;
+	}
 }

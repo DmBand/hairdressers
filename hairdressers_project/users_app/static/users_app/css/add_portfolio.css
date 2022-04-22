@@ -185,7 +185,7 @@
 
 @media (max-width: 425px) {
 	.portf-form-label {
-		font-size: 12px;
+		font-size: 13px;
 	}
 }
 
@@ -205,6 +205,12 @@
 @media (max-width: 650px) {
 	.portf-form-input {
 		font-size: 14px;
+	}
+}
+
+@media (max-width: 425px) {
+	.portf-form-input {
+		font-size: 13px;
 	}
 }
 
@@ -470,4 +476,14 @@
     max-width: 600px;
     height: 150px;
     resize: vertical;
+}
+
+
+.errorlist { 
+    font-family: 'Merriweather';
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin: 10px 0px 5px;
+    color: red;
 }
