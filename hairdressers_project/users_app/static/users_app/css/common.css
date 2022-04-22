@@ -160,7 +160,7 @@ h1, h2, h3, h4, h5, h6 {
 .header {
 	min-height: 90px;
 }
-
+ 
 .nav {
 	min-height: 90px;
 	display: flex;
@@ -364,7 +364,7 @@ h1, h2, h3, h4, h5, h6 {
 	border-top: 2px solid #fff;
 }
 
-@media (max-width: 1005px) {
+@media (max-width: 768px) {
 	.footer {
 		margin-top: 20px;
 	}
