@@ -24,7 +24,7 @@
         </ul>
     </section>
     <section class="add-portfolio-section">
-        <h1 class="reg-title-text">Создание портфолио</h1>
+        <h1 class="reg-title-text">Создать портфолио</h1>
         <form class="add-portfolio-form" action="{% url 'users_app:create_portfolio' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.non_field_errors }}
