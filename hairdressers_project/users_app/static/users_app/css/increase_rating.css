@@ -241,12 +241,6 @@
 	font-weight: 400;
 }
 
-@media (max-width: 880px) {
-	.rating-comment {
-		
-	}
-}
-
 .rating-description {
 	color: #BBA9A9;
 	font-size: 20px;
@@ -287,12 +281,6 @@
 .comment-container {
 	display: flex;
 	flex-direction: column;
-}
-
-@media (max-width: 650px) {
-	.comment-container {
-		/* align-items: center; */
-	}
 }
 
 .portfolio-textarea2 {

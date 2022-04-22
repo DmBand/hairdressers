@@ -83,7 +83,13 @@
 }
 
 .reg-title2 {
-	margin: 20px auto 0;
+	margin: 50px auto 0;
+}
+
+@media (max-width: 650px) {
+	.reg-title2 {
+		margin: 25px auto 0;
+	}
 }
 
 .reg-title-text {
@@ -115,13 +121,13 @@
 	background: url('../assets/img/ch_main_bg.png');
 	background-size: contain;
 	background-repeat: no-repeat;
-	background-position: 97% 40px;
+	background-position: 97% 0px;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 }
 
-@media (max-width: 1310px) {
+@media (max-width: 1160px) {
 	.reg-fields {
 		background: none;
 	}
@@ -134,7 +140,6 @@
 } 
 
 .reg-form {
-	/* margin-top: 30px; */
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -144,7 +149,7 @@
 	letter-spacing: 2px;
 }
 
-@media (max-width: 1310px) {
+@media (max-width: 1160px) {
 	.reg-form {
 		align-items: center;
 	}
@@ -157,7 +162,7 @@
 	width: 100%;
 }
 
-@media (max-width: 1310px) {
+@media (max-width: 1160px) {
 	.all-rows {
 		align-items: center;		
 	}
@@ -200,7 +205,7 @@
 	letter-spacing: 2px;
 }
 
-@media (max-width: 1310px) {
+@media (max-width: 1160px) {
 	.reg-form-input {
 		width: 600px;
 	}
@@ -226,7 +231,6 @@
 
 .reg-btn-container3 {
 	margin-top: 40px;
-	height: 60px;
 	display: flex;
 	flex-wrap: wrap;
 	column-gap: 50px;
