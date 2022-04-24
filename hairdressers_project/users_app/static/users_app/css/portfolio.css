@@ -226,7 +226,7 @@
 
 @media (max-width: 650px) {
 	.main-name-city {
-		height: 200px;
+		height: 250px;
 	}
 }
 
@@ -294,6 +294,22 @@
 	padding-bottom: 15px;
 	transition: 0.3s;
 }
+
+@media (max-width: 1024px) {
+	.add-comment {
+		height: 40px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		line-height: 26px;
+	}
+}
+
+@media (max-width: 425px) {
+	.add-comment  {
+		width: 205px;
+		font-size: 12px;
+	}
+}
  
 .add-comment:hover,
 .see-comment:hover {
@@ -309,6 +325,18 @@
 	width: 24px;
 	height: 24px;
 	transition: 0.3s;
+}
+
+@media (max-width: 1024px) {
+	.add-comment::before  {
+		top: 7px;
+	}
+}
+
+@media (max-width: 425px) {
+	.add-comment::before  {
+		left: 22px;
+	}
 }
 
 .add-comment:hover::before,

@@ -18,6 +18,19 @@
 	letter-spacing: 4px;
 }
 
+@media (max-width: 650px) {
+	.reg-title-text {
+		font-size: 25px;
+	}
+}
+ 
+@media (max-width: 425px) {
+	.reg-title-text {
+		font-size: 20px;
+		letter-spacing: 2px;
+	}
+}
+
 .review-container {
 	margin-top: 30px;
 	display: flex;
@@ -25,9 +38,28 @@
 	flex-wrap: wrap;
 }
 
+@media (max-width: 1200px) {
+	.review-container {
+		flex-direction: column;
+		align-items: center;
+	}
+}
+
+@media (max-width: 425px) {
+	.review-container {
+		margin-top: 20px;
+	}
+}
+
 .photo-rating-name-button {
 	display: flex;
 	flex-direction: column;
+}
+
+@media (max-width: 1200px) {
+	.photo-rating-name-button {
+		margin-bottom: 30px;
+	}
 }
 
 .photo-rating-name {
@@ -46,11 +78,24 @@
 	column-gap: 20px;
 }
 
+@media (max-width: 768px) {
+	.photo-and-rating {
+		column-gap: 10px;
+	}
+}
+
 .photo-person2 {
 	width: 200px;
 	height: 200px;
 	border-radius: 200px;
 	object-fit: cover;
+}
+
+@media (max-width: 768px) {
+	.photo-person2 {
+		width: 150px;
+		height: 150px;
+	}
 }
 
 .rating-person2 {
@@ -64,6 +109,13 @@
 	background-position-y: 5px;
 	background-repeat: no-repeat;
 }
+ 
+@media (max-width: 880px) {
+	.rating-person2 {
+		font-size: 18px;
+		background-position-y: -3px;
+	}
+}
 
 .rating-person2:hover {
     filter: invert(26%) sepia(15%) saturate(638%) hue-rotate(7deg) brightness(92%) contrast(87%);
@@ -76,7 +128,7 @@
 	gap: 5px 10px;
 	font-family: 'Merriweather';
 	font-weight: 400;
-	letter-spacing: 3px;
+	letter-spacing: 2px;
 	color: #BBA9A9;
 }
 
@@ -84,8 +136,14 @@
 	margin-top: 50px;
 }
 
+@media (max-width: 768px) {
+	.new-comment2 {
+		margin-top: 30px;
+	}
+}
+
 .add-comment2 {
-	max-width: 250px;
+	width: 250px;
 	margin: 0 auto;
 	position: relative;
 	font-family: 'Inter';
@@ -97,6 +155,23 @@
 	padding-top: 15px;
 	padding-bottom: 15px;
 	transition: 0.3s;
+}
+
+@media (max-width: 768px) {
+	.add-comment2 {
+		height: 40px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		line-height: 26px;
+	}
+}
+
+@media (max-width: 425px) {
+	.add-comment2  {
+		padding-left: 60px;
+		width: 205px;
+		font-size: 12px;
+	}
 }
 
 .add-comment2:hover {
@@ -114,6 +189,18 @@
 	transition: 0.3s;
 }
 
+@media (max-width: 768px) {
+	.add-comment2::before  {
+		top: 7px;
+	}
+}
+
+@media (max-width: 425px) {
+	.add-comment2::before  {
+		left: 30px;
+	}
+}
+
 .add-comment2:hover::before {
 	filter: invert(26%) sepia(15%) saturate(638%) hue-rotate(7deg) brightness(92%) contrast(87%);
 }
@@ -125,6 +212,12 @@
 	max-height: 600px;
 	overflow: auto;
 	font-family: 'Merriwaether';
+}
+
+@media (max-width: 768px) {
+	.reviews  {
+		width: 93%;
+	}
 }
 
 .one-review-container {
@@ -142,10 +235,25 @@
 	justify-content: space-between;
 }
 
+@media (max-width: 650px) {
+	.review-autor-date {
+		display: flex;
+		flex-direction: column;
+		row-gap: 15px;
+	}
+}
+
 .review-autor {
 	color: #fff;
 	text-transform: uppercase;
 	font-size: 15px;
+}
+
+@media (max-width: 650px) {
+	.review-autor {
+		display: flex;
+		flex-direction: column;
+	}
 }
 
 .span-review {
@@ -160,11 +268,18 @@
 	font-size: 15px;
 }
 
+@media (max-width: 650px) {
+	.review-date {
+		display: flex;
+		flex-direction: column;
+	}
+}
+
 .review-title-text {
 	margin-top: 15px;
 }
-
-.reviw-title {
+ 
+.review-title {
 	color: #fff;
 	text-transform: uppercase;
 	font-size: 15px;
@@ -173,8 +288,14 @@
 .review-text {
 	margin-top: 5px;
 	color: #BDAE82;
-	text-align: justify;
 	font-family: 'Merriwaether';
 	font-weight: 400;
 	font-size: 18px;
+	white-space: pre-wrap;
+}
+
+@media (max-width: 425px) {
+	.review-text {
+		font-size: 15px;
+	}
 }
