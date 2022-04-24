@@ -37,6 +37,13 @@
 	transition: 0.3s;
 }
 
+@media (max-width: 425px) {
+	.btn-block,
+	.btn-block-active {
+		height: 40px;
+	}
+}
+
 .btn-block {
     font-weight: 400;
     width: 300px;
@@ -46,6 +53,12 @@
 @media (max-width: 768px) {
 	.btn-block {
 		width: 230px;
+	}
+}
+
+@media (max-width: 425px) {
+	.btn-block {
+		width: 200px;
 	}
 }
 
@@ -62,6 +75,13 @@
 	.btn-block3 {
 		width: 180px;
 	}
+} 
+
+@media (max-width: 425px) {
+	.btn-block2,
+	.btn-block3 {
+		width: 150px;
+	}
 }
 
 .btn-block4 {
@@ -77,6 +97,12 @@
 @media (max-width: 768px) {
 	.btn-block4 {
 		width: 230px;
+	}
+}
+
+@media (max-width: 425px) {
+	.btn-block4 {
+		width: 200px;
 	}
 }
 
@@ -109,6 +135,12 @@
 	}
 }
 
+@media (max-width: 425px) {
+	.btn-block-active {
+		width: 200px;
+	}
+} 
+ 
 .btn-item {
 	letter-spacing: 3px;
 	line-height: 46px;
@@ -120,6 +152,13 @@
 	}
 }
 
+@media (max-width: 425px) {
+	.btn-item {
+		line-height: 38px;
+		font-size: 12px;
+	}
+}
+
 .btn-item2 {
 	letter-spacing: 3px;
 	line-height: 35px;
@@ -128,6 +167,13 @@
 @media (max-width: 768px) {
 	.btn-item2 {
 		letter-spacing: 2px;
+	}
+}
+
+@media (max-width: 425px) {
+	.btn-item2 {
+		letter-spacing: 2px;
+		font-size: 12px;
 	}
 }
 
@@ -180,6 +226,7 @@
 	.data-item {
 		flex-direction: column;
 		row-gap: 5px;
+		align-items: center;
 	}
 }
 
@@ -194,7 +241,8 @@
 @media (max-width: 768px) {
 	.data-label {
 		font-size: 14px;
-		letter-spacing: 2px;	
+		letter-spacing: 2px;
+		text-align: center;	
 	}
 }
 

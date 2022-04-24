@@ -4,7 +4,7 @@
 {% block styles %}
 <link rel="stylesheet" href="{% static 'users_app/css/see_reviews.css' %}">
 {% endblock styles %}
-
+ 
 {% block content %}
 <main class="main-reg">
     <section class="reg-title">
@@ -15,16 +15,16 @@
             <a href="{% url 'users_app:get_hairdresser' hairdresser.slug %}">
                 <div class="photo-rating-name">
                     <div class="photo-and-rating">
-                        {% if hairdresser.avatar %}
-                        <img src="{{ hairdresser.avatar.url }}" alt="Аватар" class="photo-person2">
+                        {% if hairdresser.owner.avatar %}
+                        <img src="{{ hairdresser.owner.avatar.url }}" alt="Аватар" class="photo-person2">
                         {% else %}
                         <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Аватар" class="photo-person2">
                         {% endif %}
                         <div class="rating-person2">{{ hairdresser.rating }}</div>
                     </div>
                     <div class="result-name-surname2">
-                        <p class="top10-name">{{ hairdresser.name }}</p>
-                        <p class="top10-name">{{ hairdresser.surname }}</p>
+                        <p class="top10-name">{{ hairdresser.name|truncatechars:28 }}</p>
+                        <p class="top10-name">{{ hairdresser.surname|truncatechars:28 }}</p>
                     </div>
                 </div>
             </a>
@@ -42,7 +42,7 @@
                     <p class="review-date">Дата: <span class="span-review">{{ review.date_added|date:'d-m-Y H:i' }}</span></p>
                 </div>
                 <div class="review-title-text">
-                    <p class="reviw-title">Отзыв:</p>
+                    <p class="review-title">Отзыв:</p>
                     <pre class="review-text">{{ review.text }}</pre>
                 </div>
             </div>

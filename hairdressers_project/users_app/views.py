@@ -107,7 +107,7 @@ def get_main_profile_view(request, slug_name):
 
     person = SimpleUser.objects.get(slug=slug_name)
     context = {
-        'title': 'Главный профиль',
+        'title': f'Главный профиль: {person.username}',
         'username': person.username,
         'name': person.name,
         'surname': person.surname,
@@ -272,7 +272,7 @@ class ChangePasswordView(PasswordChangeView):
 # portfolio
 @login_required(login_url='users_app:login')
 def create_portfolio_view(request):
-    """ Возвращает страницу с формой регистрации нового парикмахера """
+    """ Возвращает страницу с формой регистрации нового парикмахера """ 
 
     if request.method != 'POST':
         form = CreatePortfolioForm()
@@ -288,7 +288,7 @@ def create_portfolio_view(request):
                 city=form.cleaned_data.get('city'),
                 phone=form.cleaned_data.get('phone'),
                 email=user.email,
-                avatar=user.avatar,
+                # avatar=user.avatar,
                 instagram=form.cleaned_data.get('instagram'),
                 another_info=form.cleaned_data.get('another_info'),
                 owner=user,
@@ -324,22 +324,23 @@ def create_portfolio_view(request):
 def get_one_hairdresser_view(requset, slug_name):
     """ Возвращает страницу парикмахера (портфолио) """
 
-    person = Hairdresser.objects.get(slug=slug_name)
-    skills = person.skills.all().order_by('name')
+    # person = Hairdresser.objects.get(slug=slug_name)
+    person = SimpleUser.objects.get(slug=slug_name)
+    skills = person.hairdresser.skills.all().order_by('name')
     context = {
-        'title': f'{person.name.capitalize()} {person.surname.capitalize()}',
+        'title': f'Портфолио: {person.name.capitalize()} {person.surname.capitalize()}',
         'name': person.name.capitalize(),
         'surname': person.surname.capitalize(),
         'avatar': person.avatar,
-        'rating': person.rating,
-        'city': person.city,
+        'rating': person.hairdresser.rating,
+        'city': person.hairdresser.city,
         'skills': [skill.name for skill in skills],
-        'phone': person.phone,
+        'phone': person.hairdresser.phone,
         'email': person.email,
-        'instagram': person.instagram,
-        'another_info': person.another_info,
+        'instagram': person.hairdresser.instagram,
+        'another_info': person.hairdresser.another_info,
         'slug': person.slug,
-        'review': person.comment_set.count(),
+        'review': person.hairdresser.comment_set.count(),
     }
 
     # Получаем путь к директории хранения файлов пользователя

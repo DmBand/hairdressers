@@ -53,11 +53,12 @@
 
 @media (max-width: 830px) {
 	.btn-block {
-		width: 230px;
+		width: 200px;
 		line-height: 37px;
+		font-size: 12px;
 	}
 }
-
+ 
 @media (max-width: 425px) {
 	.btn-block {
 		height: 35px;
@@ -68,7 +69,7 @@
 .btn-block:hover {
     color: #BBA9A9;
 	border-color: #BBA9A9;
-}
+} 	
 
 .btn-item {
 	line-height: 46px;
@@ -78,6 +79,12 @@
 @media (max-width: 830px) {
 	.btn-item {
 		letter-spacing: 2px;
+	}
+}
+
+@media (max-width: 425px) {
+	.btn-item {
+		line-height: 32px;
 	}
 }
 

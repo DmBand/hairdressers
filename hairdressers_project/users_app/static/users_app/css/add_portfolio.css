@@ -73,7 +73,7 @@
 	background-color: #BBA9A9;
 	font-weight: 700;
 	color: #000;
-}
+} 
 
 @media (max-width: 768px) {
 	.btn-block-active {
@@ -98,6 +98,12 @@
 @media (max-width: 768px) {
 	.btn-item {
 		letter-spacing: 2px;
+	}
+}
+
+@media (max-width: 425px) {
+	.btn-item {
+		line-height: 32px;
 	}
 }
 

@@ -66,7 +66,7 @@ class Hairdresser(models.Model):
     city = models.ForeignKey(City, on_delete=models.PROTECT, null=True)
     phone = PhoneNumberField(verbose_name='номер телефона')
     email = models.EmailField(verbose_name='фдрес эл. почты')
-    avatar = models.ImageField(upload_to='avatars/%Y/%m/%d/', blank=True, verbose_name='фото профиля')
+    # avatar = models.ImageField(upload_to='avatars/%Y/%m/%d/', blank=True, verbose_name='фото профиля')
     skills = models.ManyToManyField(Skill, verbose_name='навыки')
     rating = models.IntegerField(default=1, verbose_name='рейтинг')
     instagram = models.URLField(max_length=255, blank=True, verbose_name='инстаграм')
