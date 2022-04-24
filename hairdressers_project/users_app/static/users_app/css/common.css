@@ -121,22 +121,6 @@ h1, h2, h3, h4, h5, h6 {
 	overflow: hidden;
 }
 
-/* .errorlist { 
-    font-family: 'Merriweather';
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 1px;
-    margin: 10px 0px 5px;
-    color: red;
-    text-transform: uppercase;
-    text-align: center;
-} */ 
-
-/* .errors-msg {
-	color: red;
-	text-align: center;
-} */
-
 ::placeholder {
 	font-size: 20px;
 	letter-spacing: normal;
