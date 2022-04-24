@@ -37,6 +37,19 @@
 	transition: 0.3s;
 }
 
+@media (max-width: 768px) {
+	.btn-block {
+		width: 230px;
+	}
+}
+
+@media (max-width: 425px) {
+	.btn-block,
+	.btn-block-active {
+		height: 40px;
+	}
+}
+
 .btn-block {
     width: 300px;
 	color: #fff;
@@ -45,6 +58,12 @@
 @media (max-width: 768px) {
 	.btn-block {
 		width: 230px;
+	}
+}
+
+@media (max-width: 425px) {
+	.btn-block {
+		width: 200px;
 	}
 }
 
@@ -59,6 +78,13 @@
 	.btn-block2,
 	.btn-block3 {
 		width: 180px;
+	}
+}
+
+@media (max-width: 425px) {
+	.btn-block2,
+	.btn-block3 {
+		width: 150px;
 	}
 }
 
@@ -90,6 +116,12 @@
 	}
 }
 
+@media (max-width: 425px) {
+	.btn-block-active {
+		width: 200px;
+	}
+} 
+
 .btn-item {
 	letter-spacing: 3px;
 	line-height: 46px;
@@ -101,6 +133,13 @@
 	}
 }
 
+@media (max-width: 425px) {
+	.btn-item {
+		line-height: 38px;
+		font-size: 12px;
+	}
+}
+
 .btn-item2 {
 	letter-spacing: 3px;
 	line-height: 35px;
@@ -109,6 +148,13 @@
 @media (max-width: 768px) {
 	.btn-item2 {
 		letter-spacing: 2px;
+	}
+}
+
+@media (max-width: 425px) {
+	.btn-item2 {
+		letter-spacing: 2px;
+		font-size: 12px;
 	}
 }
 
@@ -163,16 +209,16 @@
 @media (max-width: 1024px) {
 	.photo-person {
 		margin-left: 75px;
-		width: 200px;
-		height: 200px;
+		width: 180px;
+		height: 180px;
 	}
 }
 
 @media (max-width: 425px) {
 	.photo-person {
 		margin-left: 50px;
-		width: 180px;
-		height: 180px;
+		width: 140px;
+		height: 140px;
 	}
 }
 
@@ -219,14 +265,13 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	height: 300px;
 	text-align: center;
 	color: #BBA9A9;
 }
 
-@media (max-width: 650px) {
+@media (max-width: 1170px) {
 	.main-name-city {
-		height: 250px;
+		margin-top: 30px;
 	}
 }
 
@@ -335,7 +380,7 @@
 
 @media (max-width: 425px) {
 	.add-comment::before  {
-		left: 22px;
+		left: 21px;
 	}
 }
 
@@ -394,7 +439,7 @@
 }
 
 .skills-and-info {
-	padding-top: 100px;
+	margin-top: 100px;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -403,9 +448,9 @@
 	color: #fff;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1170px) {
 	.skills-and-info  {
-		padding-top: 30px;
+		margin-top: 60px;
 	}
 }
 

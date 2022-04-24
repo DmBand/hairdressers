@@ -49,8 +49,8 @@
             {% for h in hairdresser %}
             <a href="{% url 'users_app:get_hairdresser' h.slug %}" class="result-link">
                 <li class="result-item">
-                    {% if h.avatar %}
-                    <img src="{{ h.avatar.url }}" alt="Avatar" class="result-photo">
+                    {% if h.owner.avatar %}
+                    <img src="{{ h.owner.avatar.url }}" alt="Avatar" class="result-photo">
                     {% else %}
                     <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Avatar" class="result-photo">
                     {% endif %}
