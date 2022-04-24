@@ -166,6 +166,12 @@
 	color: #BBA9A9;
 }
 
+@media (max-width: 425px) {
+	.result-name-surname2  {
+		letter-spacing: 1px;
+	}
+}
+
 .see-comment2 {
 	width: 250px;
 	margin: 0 auto;
