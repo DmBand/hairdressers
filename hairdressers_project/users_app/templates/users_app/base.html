@@ -28,7 +28,7 @@
                         {% else %}
                         <a href="{% url 'users_app:avatar' %}" title="Изменить фото профиля"><img class="avatar" src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Фото"></a>
                         {% endif %}
-                        <p class="login-name" data-i18n="">{{ user.username }}</p>
+                        <p class="login-name" data-i18n="">{{ user.username|truncatechars:24 }}</p>
                     </div>
                     <div class="profile-logout">                    
                         <a class="reg-item2" href="{% url 'users_app:get_main_profile' user.username  %}" data-i18n="">Профиль</a>

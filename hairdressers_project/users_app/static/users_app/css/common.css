@@ -167,7 +167,7 @@ h1, h2, h3, h4, h5, h6 {
 		background-repeat: no-repeat;
 		width: 24px;
 		height: 24px;
-		margin-left: 10px;
+		margin-left: 0px;
 	}
 }
 
@@ -179,18 +179,13 @@ h1, h2, h3, h4, h5, h6 {
 .reg-list {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: end;
-	column-gap: 20px;
-	text-align: center;
+	justify-content: space-around;
+	align-items: center;
+	column-gap: 15px;
+	row-gap: 10px;
+	margin: 10px;
 }
 
-@media (max-width: 650px) {
-	.reg-list {
-		flex-direction: column;
-		row-gap: 10px;
-		margin: 10px 0;
-	}
-}
 
 .reg-item, 
 .login-name {
@@ -204,7 +199,24 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .login-name {
+	color: #BDAE82;
+	font-size: 25px;
+	font-weight: 700;
+	padding: 0;
     cursor: default;
+}
+
+@media (max-width: 768px) {
+	.login-name {
+		font-size: 14px;
+	}
+}
+
+@media (max-width: 425px) {
+	.login-name {
+		font-size: 12px;
+		letter-spacing: 1px;
+	}
 }
 
 .reg-item {
@@ -231,6 +243,12 @@ h1, h2, h3, h4, h5, h6 {
 	column-gap: 15px;
 }
 
+@media (max-width: 320px) {
+	.profile-logout {
+		column-gap: 5px;
+	}
+}
+
 .reg-item2 {
 	min-height: 50px;
 	padding: 15px 10px;
@@ -244,7 +262,7 @@ h1, h2, h3, h4, h5, h6 {
 	font-size: 15px;
 }
 
-@media (max-width: 650px) {
+@media (max-width: 768px) {
 	.reg-item2 {
 		min-height: 0px;
 		height: 30px;
@@ -262,14 +280,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .user-container {
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 	column-gap: 15px;
-}
-
-@media (max-width: 650px) {
-	.user-container {
-		justify-content: center;
-	}
+	justify-content: center;
 }
 
 .avatar {
@@ -279,29 +293,10 @@ h1, h2, h3, h4, h5, h6 {
 	border-radius: 100px;
 }
 
-@media (max-width: 650px) {
+@media (max-width: 768px) {
 	.avatar {
 		width: 40px;
 		height: 40px;
-	}
-}
-
-.login-name {
-	color: #BDAE82;
-	font-size: 25px;
-	font-weight: 700;
-	padding: 0;
-}
-
-@media (max-width: 650px) {
-	.login-name {
-		margin: 0;
-	}
-}
-
-@media (max-width: 425px) {
-	.login-name {
-		font-size: 18px;
 	}
 }
 
@@ -324,9 +319,9 @@ h1, h2, h3, h4, h5, h6 {
 		background-repeat: no-repeat;
 		width: 24px;
 		height: 24px;
-		margin-right: 10px;
+		margin-right: 0px;
 	}
-}
+} 
 
 .description-link-logo:hover {
 	filter: invert(26%) sepia(15%) saturate(638%) hue-rotate(7deg) brightness(92%)
@@ -372,6 +367,12 @@ h1, h2, h3, h4, h5, h6 {
 		letter-spacing: 0px;
 		line-height: 40px;
 		font-size: 14px;
+	}
+}
+
+@media (max-width: 300px) {
+	.footer-elements {
+		font-size: 12px;
 	}
 }
 
