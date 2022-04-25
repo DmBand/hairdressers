@@ -98,6 +98,13 @@
 	}
 }
 
+@media (max-width: 319px) {
+	.photo-person2 {
+		width: 100px;
+		height: 100px;
+	}
+}
+
 .rating-person2 {
     color: #BBA9A9;
 	transition: 0.3s;

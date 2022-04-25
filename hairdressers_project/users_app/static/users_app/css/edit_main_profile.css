@@ -235,6 +235,12 @@
 	}
 }
 
+@media (max-width: 319px) {
+	.reg-form-input {
+		width: 260px;
+	}
+}
+
 .reg-btn-container3 {
 	margin-top: 40px;
 	display: flex;
