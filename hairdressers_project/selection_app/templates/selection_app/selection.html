@@ -47,7 +47,7 @@
         <div class="filters-title">Результат</div>
         <ul class="result-items" id="items">
             {% for h in hairdresser %}
-            <a href="{% url 'users_app:get_hairdresser' h.slug %}" class="result-link">
+            <a href="{% url 'users_app:get_hairdresser' h.owner.slug %}" class="result-link">
                 <li class="result-item">
                     {% if h.owner.avatar %}
                     <img src="{{ h.owner.avatar.url }}" alt="Avatar" class="result-photo">
@@ -59,8 +59,8 @@
                         <p class="rating-value">{{ h.rating }}</p>
                     </div>
                     <div class="result-name-surname">
-                        <p class="result-name">{{ h.name|truncatechars:21 }}</p>
-                        <p class="result-name">{{ h.surname|truncatechars:21 }}</p>
+                        <p class="result-name">{{ h.owner.name|truncatechars:21 }}</p>
+                        <p class="result-name">{{ h.owner.surname|truncatechars:21 }}</p>
                     </div>
                 </li>
             </a>

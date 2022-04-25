@@ -12,24 +12,24 @@
     </section>
     <section class="review-container">
         <div class="photo-rating-name-button">
-            <a href="{% url 'users_app:get_hairdresser' hairdresser.slug %}">
+            <a href="{% url 'users_app:get_hairdresser' the_hairdresser.slug %}">
                 <div class="photo-rating-name">
                     <div class="photo-and-rating">
-                        {% if hairdresser.owner.avatar %}
-                        <img src="{{ hairdresser.owner.avatar.url }}" alt="Аватар" class="photo-person2">
+                        {% if the_hairdresser.avatar %}
+                        <img src="{{ the_hairdresser.avatar.url }}" alt="Аватар" class="photo-person2">
                         {% else %}
                         <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Аватар" class="photo-person2">
                         {% endif %}
-                        <div class="rating-person2">{{ hairdresser.rating }}</div>
+                        <div class="rating-person2">{{ the_hairdresser.hairdresser.rating }}</div>
                     </div>
                     <div class="result-name-surname2">
-                        <p class="top10-name">{{ hairdresser.name|truncatechars:28 }}</p>
-                        <p class="top10-name">{{ hairdresser.surname|truncatechars:28 }}</p>
+                        <p class="top10-name">{{ the_hairdresser.name|truncatechars:28 }}</p>
+                        <p class="top10-name">{{ the_hairdresser.surname|truncatechars:28 }}</p>
                     </div>
                 </div>
             </a>
-            {% if request.user.simpleuser.slug != hairdresser.slug %}
-            <a href="{% url 'users_app:increase_rating' hairdresser.slug %}" class="new-comment2">
+            {% if request.user.simpleuser.slug != the_hairdresser.slug %}
+            <a href="{% url 'users_app:increase_rating' the_hairdresser.slug %}" class="new-comment2">
                 <p class="add-comment2">Добавить отзыв</p>
             </a>
             {% endif %}

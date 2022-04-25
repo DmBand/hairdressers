@@ -48,7 +48,7 @@
         <div class="main-name-city">            
             <h1 class="name-surname">{{ name|truncatechars:28 }}</h1>
             <h1 class="name-surname">{{ surname|truncatechars:28 }}</h1>
-            <h2 class="city">Гродно</h2> 
+            <h2 class="city">{{ city }}</h2>
             <div class="comment-btns-container">
                 {% if request.user.simpleuser.slug != slug %}
                 <a href="{% url 'users_app:increase_rating' slug %}" title="Оценить / добавить отзыв" class="new-comment">

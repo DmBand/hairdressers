@@ -60,12 +60,12 @@ class SimpleUser(models.Model):
 class Hairdresser(models.Model):
     """ Модель парикмахера """
 
-    name = models.CharField(max_length=50, verbose_name='имя')
-    surname = models.CharField(max_length=50, verbose_name='фамилия')
-    slug = models.SlugField(max_length=50, verbose_name='URL', unique=True, db_index=True)
+    # name = models.CharField(max_length=50, verbose_name='имя')
+    # surname = models.CharField(max_length=50, verbose_name='фамилия')
+    # slug = models.SlugField(max_length=50, verbose_name='URL', unique=True, db_index=True)
     city = models.ForeignKey(City, on_delete=models.PROTECT, null=True)
     phone = PhoneNumberField(verbose_name='номер телефона')
-    email = models.EmailField(verbose_name='фдрес эл. почты')
+    # email = models.EmailField(verbose_name='фдрес эл. почты')
     skills = models.ManyToManyField(Skill, verbose_name='навыки')
     rating = models.IntegerField(default=1, verbose_name='рейтинг')
     instagram = models.URLField(max_length=255, blank=True, verbose_name='инстаграм')

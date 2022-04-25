@@ -148,10 +148,10 @@ def edit_main_profile_view(request, slug_name):
             simple_user.save()
 
             # Если пользователь парикмахер, то меняем данные в портфолио
-            if the_hairdresser:
-                hairdresser.name = form.cleaned_data.get('first_name')
-                hairdresser.surname = form.cleaned_data.get('last_name')
-                hairdresser.save()
+            # if the_hairdresser:
+            #     hairdresser.name = form.cleaned_data.get('first_name')
+            #     hairdresser.surname = form.cleaned_data.get('last_name')
+            #     hairdresser.save()
 
             return redirect('users_app:get_main_profile', slug_name=user.username)
 
@@ -282,13 +282,12 @@ def create_portfolio_view(request):
             # Получаем текущего пользователя из БД и создаем мадель парикмахера
             user = SimpleUser.objects.get(slug=request.user.username)
             the_hairdresser = Hairdresser.objects.create(
-                name=user.name,
-                surname=user.surname,
-                slug=user.slug,
+                # name=user.name,
+                # surname=user.surname,
+                # slug=user.slug,
                 city=form.cleaned_data.get('city'),
                 phone=form.cleaned_data.get('phone'),
-                email=user.email,
-                # avatar=user.avatar,
+                # email=user.email,
                 instagram=form.cleaned_data.get('instagram'),
                 another_info=form.cleaned_data.get('another_info'),
                 owner=user,
@@ -324,7 +323,6 @@ def create_portfolio_view(request):
 def get_one_hairdresser_view(requset, slug_name):
     """ Возвращает страницу парикмахера (портфолио) """
 
-    # person = Hairdresser.objects.get(slug=slug_name)
     person = SimpleUser.objects.get(slug=slug_name)
     skills = person.hairdresser.skills.all().order_by('name')
     context = {
@@ -339,7 +337,7 @@ def get_one_hairdresser_view(requset, slug_name):
         'email': person.email,
         'instagram': person.hairdresser.instagram,
         'another_info': person.hairdresser.another_info,
-        'slug': person.slug,
+        'slug': person.username,
         'review': person.hairdresser.comment_set.count(),
     }
 
@@ -455,7 +453,7 @@ def increase_rating_view(request, slug_name):
     """ Возвращает страницу повышения рейтинга и добавления отзыва """
 
     # Кого оцениваем
-    who_do_we_evaluate = Hairdresser.objects.get(slug=slug_name)
+    who_do_we_evaluate = SimpleUser.objects.get(slug=slug_name)
     # Кто оценивает
     who_evaluates = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
 
@@ -470,13 +468,13 @@ def increase_rating_view(request, slug_name):
         if form.is_valid():
             Comment.objects.create(
                 autor=who_evaluates.username,
-                belong_to=who_do_we_evaluate,
+                belong_to=who_do_we_evaluate.hairdresser,
                 text=form.cleaned_data.get('text'),
                 rating_value=form.cleaned_data.get('rating_value')
             )
             # Увеличиваем значение рейтинга на величину переданного значения
-            who_do_we_evaluate.rating = F('rating') + form.cleaned_data.get('rating_value')
-            who_do_we_evaluate.save()
+            who_do_we_evaluate.hairdresser.rating = F('rating') + form.cleaned_data.get('rating_value')
+            who_do_we_evaluate.hairdresser.save()
 
             return redirect('users_app:see_reviews', slug_name=who_do_we_evaluate.slug)
 
@@ -484,7 +482,7 @@ def increase_rating_view(request, slug_name):
         'title': 'Оценить',
         'form': form,
         'who_do_we_evaluate': who_do_we_evaluate,
-        'review': who_do_we_evaluate.comment_set.count(),
+        'review': who_do_we_evaluate.hairdresser.comment_set.count(),
         'values': [0, 1, 2, 3, 4, 5],
     }
     return render(request, 'users_app/increase_rating.html', context)
@@ -493,11 +491,12 @@ def increase_rating_view(request, slug_name):
 def see_reviews_view(request, slug_name):
     """ Возвращает страницу просмотра отзывов """
 
-    hairdresser = Hairdresser.objects.get(slug=slug_name)
-    reviews = hairdresser.comment_set.order_by('-date_added')
+    # hairdresser = Hairdresser.objects.get(slug=slug_name)
+    the_hairdresser = SimpleUser.objects.get(slug=slug_name)
+    reviews = the_hairdresser.hairdresser.comment_set.order_by('-date_added')
     context = {
         'title': 'Просмотр отзывов',
-        'hairdresser': hairdresser,
+        'the_hairdresser': the_hairdresser,
         'reviews': reviews,
     }
 
