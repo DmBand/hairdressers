@@ -10,7 +10,6 @@ class HairdresserAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'name', 'surname')
     list_filter = ('name',)
     list_editable = ('rating',)
-    prepopulated_fields = {'slug': ('name', 'surname')}
 
 
 class SimpleUserAdmin(admin.ModelAdmin):
