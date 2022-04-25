@@ -59,8 +59,8 @@
                         <p class="rating-value">{{ h.rating }}</p>
                     </div>
                     <div class="result-name-surname">
-                        <p class="result-name">{{ h.name }}</p>
-                        <p class="result-name">{{ h.surname }}</p>
+                        <p class="result-name">{{ h.name|truncatechars:21 }}</p>
+                        <p class="result-name">{{ h.surname|truncatechars:21 }}</p>
                     </div>
                 </li>
             </a>
