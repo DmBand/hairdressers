@@ -46,8 +46,8 @@
             </a>
         </div>
         <div class="main-name-city">            
-            <h1 class="name-surname">{{ name|truncatechars:28 }}</h1>
-            <h1 class="name-surname">{{ surname|truncatechars:28 }}</h1>
+            <h1 class="name-surname">{{ name|truncatechars:28|title }}</h1>
+            <h1 class="name-surname">{{ surname|truncatechars:28|title }}</h1>
             <h2 class="city">{{ city }}</h2>
             <div class="comment-btns-container">
                 {% if request.user.simpleuser.slug != slug %}

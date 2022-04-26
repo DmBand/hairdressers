@@ -37,8 +37,8 @@
                         <p class="rating-value">{{ h.rating }}</p>
                     </div>
                     <div class="result-name-surname">
-                        <p class="top10-name">{{ h.owner.name|truncatechars:24 }}</p>
-                        <p class="top10-name">{{ h.owner.surname|truncatechars:24 }}</p>
+                        <p class="top10-name">{{ h.owner.name|truncatechars:24|title }}</p>
+                        <p class="top10-name">{{ h.owner.surname|truncatechars:24|title }}</p>
                     </div>
                     <p class="top10-city">{{ h.city }}</p>
                 </li>

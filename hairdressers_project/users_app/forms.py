@@ -18,7 +18,7 @@ class RegistrationUserForm(UserCreationForm):
     )
     # Валидатор для имени и фамилии
     first_and_last_name_validator = RegexValidator(
-        regex=r'^[a-zA-Zа-яА-Я]*$',
+        regex=r'^[a-zA-Zа-яА-Я-]*$',
         message='Допускаются буквы а-яА-Я, a-zA-Z.'
     )
 
@@ -81,12 +81,9 @@ class LoginUserForm(AuthenticationForm):
 class EditProfileForm(forms.ModelForm):
     """ Форма редактирования главного профиля """
 
-    # def __init__(self, *args, **kwargs): 
-    #     super().__init__(*args, **kwargs)
-
     # Валидатор для имени и фамилии
     first_and_last_name_validator = RegexValidator(
-        regex=r'^[a-zA-Zа-яА-Я]*$',
+        regex=r'^[a-zA-Zа-яА-Я-]*$',
         message='Допускаются буквы а-яА-Я, a-zA-Z.'
     )
 
@@ -167,9 +164,6 @@ class ChangePasswordForm(PasswordChangeForm):
 class CreatePortfolioForm(forms.ModelForm):
     """ Форма создания портфолио """
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-
     class Meta:
         model = Hairdresser
         fields = [
@@ -207,9 +201,6 @@ class DeleteProfileForm(forms.Form):
 # Rating
 class IncreaseRatingForm(forms.ModelForm):
     """ Форма повышения рейтинга парикмахера """
-
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
 
     class Meta:
         model = Comment

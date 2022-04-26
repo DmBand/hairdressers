@@ -27,8 +27,8 @@
                     </a>
                 </div>
                 <div class="result-name-surname2">
-                    <p class="top10-name">{{ who_do_we_evaluate.name|truncatechars:30 }}</p>
-                    <p class="top10-name">{{ who_do_we_evaluate.surname|truncatechars:30 }}</p>
+                    <p class="top10-name">{{ who_do_we_evaluate.name|truncatechars:30|title }}</p>
+                    <p class="top10-name">{{ who_do_we_evaluate.surname|truncatechars:30|title }}</p>
                 </div>
                 <a href="{% url 'users_app:see_reviews' who_do_we_evaluate.slug %}" title="Просмотр отзывов" class="new-comment">
                     <p class="see-comment2">Просмотр отзывов</p>
