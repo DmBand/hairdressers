@@ -24,7 +24,6 @@
                 <div class="reg-list">                    
                     <div class="user-container">
                         <p class="login-name" data-i18n="">{{ user.username|truncatechars:24 }}</p>
-                        <!-- <p class="login-name" data-i18n="">111111111122222222223333</p>   -->
                         {% if request.user.simpleuser.avatar %}
                         <a href="{% url 'users_app:avatar' %}" title="Изменить фото профиля"><img class="avatar" src="{{ user.simpleuser.avatar.url }}" alt="Фото"></a>
                         {% else %}

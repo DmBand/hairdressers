@@ -24,7 +24,7 @@ class RegistrationUserForm(UserCreationForm):
 
     # Валидатор пароля
     password_validator = RegexValidator(
-        regex=r'^[^а-яА-Я]*$',
+        regex=r'^[^а-яёА-ЯЁ]+$',
         message='Символы кириллицы (а-яА-Я) не допускаются.'
     )
 
@@ -119,7 +119,7 @@ class ResetPasswordForm(SetPasswordForm):
 
     # Валидатор пароля
     password_validator = RegexValidator(
-        regex=r'^[^а-яА-Я]*$',
+        regex=r'^[^а-яёА-ЯЁ]+$',
         message='Символы кириллицы (а-яА-Я) не допускаются.'
     )
 
@@ -142,7 +142,7 @@ class ChangePasswordForm(PasswordChangeForm):
 
     # Валидатор пароля
     password_validator = RegexValidator(
-        regex=r'^[^а-яА-Я]*$',
+        regex=r'^[^а-яёА-ЯЁ]+$',
         message='Символы кириллицы (а-яА-Я) не допускаются.'
     )
 

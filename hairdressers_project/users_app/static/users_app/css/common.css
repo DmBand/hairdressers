@@ -243,6 +243,12 @@ h1, h2, h3, h4, h5, h6 {
 	font-size: 15px;
 }
 
+.reg-item:hover {
+    color: #BDAE82;
+	border-color: #BDAE82;
+	border-radius: 20px;
+}
+
 @media (max-width: 425px) {
 	.reg-item {
 		height: 40px;
@@ -284,8 +290,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .reg-item2 {
-	min-height: 50px;
-	padding: 15px 10px;
+    width: 120px;
+	min-height: 40px;
+	line-height: 40px;
+	text-align: center;
 	font-family: 'Inter';
 	font-weight: 400;
 	transition: 0.3s;

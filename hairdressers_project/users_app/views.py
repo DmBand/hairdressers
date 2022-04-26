@@ -271,7 +271,7 @@ def create_portfolio_view(request):
         else:
             print(form.errors)
 
-    context = {'title': 'Регистрация формы', 'form': form}
+    context = {'title': 'Регистрация формы', 'form': form, 'files': MAX_COUNT}
 
     return render(request, 'users_app/add_portfolio.html', context)
 
@@ -345,7 +345,12 @@ def edit_portfolio_view(request, slug_name):
 
             return redirect('users_app:get_hairdresser', slug_name=the_hairdresser.slug)
 
-    context = {'title': 'Редактирование портфолио', 'form': form, 'skills': skills}
+    context = {
+        'title': 'Редактирование портфолио',
+        'form': form,
+        'skills': skills,
+        'files': MAX_COUNT
+    }
     return render(request, 'users_app/edit_portfolio.html', context)
 
 
