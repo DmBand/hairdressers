@@ -140,6 +140,7 @@ def create_new_comment(autor: object, belong_to: object, data: dict):
         rating_value=data.get('rating_value')
     )
 
+    # Увеличиваем рейтинг
     belong_to.hairdresser.rating = F('rating') + data.get('rating_value')
     belong_to.hairdresser.save()
 

@@ -1,5 +1,3 @@
-import os
-
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -8,7 +6,6 @@ from django.contrib.auth.views import \
     PasswordResetConfirmView, \
     PasswordResetView, \
     PasswordChangeView
-from django.db.models import F
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -426,15 +423,6 @@ def increase_rating_view(request, slug_name):
         form = IncreaseRatingForm(data=request.POST)
         if form.is_valid():
             create_new_comment(autor=who_evaluates, belong_to=who_do_we_evaluate, data=form.cleaned_data)
-            # Comment.objects.create(
-            #     autor=who_evaluates.username,
-            #     belong_to=who_do_we_evaluate.hairdresser,
-            #     text=form.cleaned_data.get('text'),
-            #     rating_value=form.cleaned_data.get('rating_value')
-            # )
-            # # Увеличиваем значение рейтинга на величину переданного значения
-            # who_do_we_evaluate.hairdresser.rating = F('rating') + form.cleaned_data.get('rating_value')
-            # who_do_we_evaluate.hairdresser.save()
 
             return redirect('users_app:see_reviews', slug_name=who_do_we_evaluate.slug)
 
