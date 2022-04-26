@@ -6,12 +6,6 @@
 <link rel="stylesheet" href="{% static 'users_app/css/index.css' %}">
 {% endblock styles %}
 
-{% block header %}
-<a class="description-link" href="#description" title="Описание">
-    <div class="description-link-logo"></div>
-</a>
-{% endblock header %}
-
 {% block content %}
 <main class="main">
     <section class="main-page">
@@ -31,7 +25,7 @@
         <h2 class="top10-title">Топ-10 мастеров</h2>
         <ul class="top10-items">
             {% for h in top10 %}
-            <a href="{% url 'users_app:get_hairdresser' h.slug %}" class="top10-link">
+            <a href="{% url 'users_app:get_hairdresser' h.owner.slug %}" class="top10-link">
                 <li class="top10-item">
                         {% if h.owner.avatar %}
                         <img src="{{ h.owner.avatar.url }}" alt="Avatar" class="result-photo">
@@ -43,8 +37,8 @@
                         <p class="rating-value">{{ h.rating }}</p>
                     </div>
                     <div class="result-name-surname">
-                        <p class="top10-name">{{ h.name|truncatechars:24 }}</p>
-                        <p class="top10-name">{{ h.surname|truncatechars:24 }}</p>
+                        <p class="top10-name">{{ h.owner.name|truncatechars:24|title }}</p>
+                        <p class="top10-name">{{ h.owner.surname|truncatechars:24|title }}</p>
                     </div>
                     <p class="top10-city">{{ h.city }}</p>
                 </li>

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 def path_to_user_portfolio_directory(instance, filename):
-    return 'portfolio/{0}/{1}'.format(instance.slug, filename)
+    return 'portfolio/{0}/{1}'.format(instance.owner.slug, filename)
 
 
 def path_to_user_avatar_directory(instance, filename):
@@ -60,13 +60,8 @@ class SimpleUser(models.Model):
 class Hairdresser(models.Model):
     """ Модель парикмахера """
 
-    name = models.CharField(max_length=50, verbose_name='имя')
-    surname = models.CharField(max_length=50, verbose_name='фамилия')
-    slug = models.SlugField(max_length=50, verbose_name='URL', unique=True, db_index=True)
     city = models.ForeignKey(City, on_delete=models.PROTECT, null=True)
     phone = PhoneNumberField(verbose_name='номер телефона')
-    email = models.EmailField(verbose_name='фдрес эл. почты')
-    # avatar = models.ImageField(upload_to='avatars/%Y/%m/%d/', blank=True, verbose_name='фото профиля')
     skills = models.ManyToManyField(Skill, verbose_name='навыки')
     rating = models.IntegerField(default=1, verbose_name='рейтинг')
     instagram = models.URLField(max_length=255, blank=True, verbose_name='инстаграм')
@@ -79,7 +74,7 @@ class Hairdresser(models.Model):
         verbose_name = 'парикмахер'
 
     def __str__(self):
-        return self.slug
+        return self.owner.username
 
 
 class Comment(models.Model):
@@ -94,7 +89,4 @@ class Comment(models.Model):
         verbose_name = 'комментарий'
 
     def __str__(self):
-        if len(self.text) > 50:
-            return f'{self.text[:51]}...'
-        else:
-            return self.text
+        return self.text

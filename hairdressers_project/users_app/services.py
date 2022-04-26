@@ -1,6 +1,10 @@
 import os
 import shutil
 
+from django.db.models import F
+
+from .models import SimpleUser, Hairdresser, Comment
+
 from hairdressers_project.settings import MEDIA_ROOT
 
 MAX_COUNT = 20
@@ -91,4 +95,53 @@ def delete_avatar_directory(person_slug: str):
         return
 
 
+def create_new_user(user: object):
+    """ Создаёт нового пользователя в БД (после регистрации) """
 
+    return SimpleUser.objects.create(
+        owner=user,
+        username=user.username,
+        name=user.first_name.title(),
+        surname=user.last_name.title(),
+        email=user.email,
+        slug=user.username,
+    )
+
+
+def create_new_hairdresser(user: object, data: dict, files: list):
+    """ Создаёт нового парикмахера """
+
+    the_hairdresser = Hairdresser.objects.create(
+        city=data.get('city'),
+        phone=data.get('phone'),
+        instagram=data.get('instagram'),
+        another_info=data.get('another_info'),
+        owner=user,
+    )
+    all_skills = data.get('skills')
+    the_hairdresser.skills.add(*all_skills)
+
+    if files:
+        check_number_of_files_in_portfolio(person_slug=user.slug, new_files=files)
+        for f in files:
+            the_hairdresser.portfolio = f
+            the_hairdresser.save()
+
+    return the_hairdresser
+
+
+def create_new_comment(autor: object, belong_to: object, data: dict):
+    """ Создаёт новый отзыв о парикмахере """
+
+    new_coment = Comment.objects.create(
+        autor=autor.username,
+        belong_to=belong_to.hairdresser,
+        text=data.get('text'),
+        rating_value=data.get('rating_value')
+    )
+
+    # Увеличиваем рейтинг
+    belong_to.hairdresser.rating = F('rating') + data.get('rating_value')
+    belong_to.hairdresser.save()
+
+    return new_coment

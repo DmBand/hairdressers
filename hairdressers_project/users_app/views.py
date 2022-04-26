@@ -1,5 +1,3 @@
-import os
-
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -8,7 +6,6 @@ from django.contrib.auth.views import \
     PasswordResetConfirmView, \
     PasswordResetView, \
     PasswordChangeView
-from django.db.models import F
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -18,11 +15,7 @@ from django.views.generic import CreateView
 from .decorators import user_is_authenticated
 from hairdressers_project.settings import MEDIA_ROOT, MEDIA_URL
 from .forms import *
-from .services import \
-    check_number_of_files_in_portfolio, \
-    check_number_of_files_in_avatar_directory, \
-    delete_portfolio_directory, \
-    delete_avatar_directory
+from .services import *
 
 
 def homepage_view(request):
@@ -56,14 +49,7 @@ class RegistrationUserView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
-        SimpleUser.objects.create(
-            owner=user,
-            username=user.username,
-            name=user.first_name.capitalize(),
-            surname=user.last_name.capitalize(),
-            email=user.email,
-            slug=user.username,
-        )
+        create_new_user(user=user)
         login(self.request, user)
         # редирект на страницу добавления аватарки
         return redirect('users_app:avatar')
@@ -122,16 +108,6 @@ def get_main_profile_view(request, slug_name):
 def edit_main_profile_view(request, slug_name):
     """ Возвращает страницу редактирования главного профиля """
 
-    # Флаг, показывающий, является ли пользователь парикмахером
-    the_hairdresser = True
-
-    try:
-        hairdresser = Hairdresser.objects.get(slug=slug_name)
-        # Ловим исключение self.model.DoesNotExist, если пользователь
-        # не является парикмахером, и устанавливаем флаг False
-    except:
-        the_hairdresser = False
-
     simple_user = SimpleUser.objects.get(slug=slug_name)
     user = User.objects.get(username=slug_name)
 
@@ -146,12 +122,6 @@ def edit_main_profile_view(request, slug_name):
             simple_user.name = form.cleaned_data.get('first_name')
             simple_user.surname = form.cleaned_data.get('last_name')
             simple_user.save()
-
-            # Если пользователь парикмахер, то меняем данные в портфолио
-            if the_hairdresser:
-                hairdresser.name = form.cleaned_data.get('first_name')
-                hairdresser.surname = form.cleaned_data.get('last_name')
-                hairdresser.save()
 
             return redirect('users_app:get_main_profile', slug_name=user.username)
 
@@ -176,7 +146,7 @@ def delete_main_profile_view(request, slug_name):
 
     if request.method != 'POST':
         if user_is_hairdresser:
-            messages.info(request, 'Внимание! У вас есть действующее портфолио парикмахера. '\
+            messages.info(request, 'Внимание! У вас есть действующее портфолио парикмахера. ' \
                                    'Оно будет безвозвратно удалено.')
         form = DeleteProfileForm()
     else:
@@ -194,7 +164,7 @@ def delete_main_profile_view(request, slug_name):
 
         else:
             if user_is_hairdresser:
-                messages.info(request, 'Внимание! У вас есть действующее портфолио парикмахера. '\
+                messages.info(request, 'Внимание! У вас есть действующее портфолио парикмахера. ' \
                                        'Оно будет безвозвратно удалено.')
             messages.error(request, 'Введен неверный код!')
 
@@ -272,41 +242,26 @@ class ChangePasswordView(PasswordChangeView):
 # portfolio
 @login_required(login_url='users_app:login')
 def create_portfolio_view(request):
-    """ Возвращает страницу с формой регистрации нового парикмахера """ 
+    """ Возвращает страницу с формой регистрации нового парикмахера """
+
+    # Если у пользователя уже есть портфолио, то перенаправляем
+    # на страницу его портфолио
+    if request.user.simpleuser.is_hairdresser:
+        return redirect('users_app:get_hairdresser', slug_name=request.user.simpleuser.slug)
 
     if request.method != 'POST':
         form = CreatePortfolioForm()
     else:
         form = CreatePortfolioForm(request.POST)
         if form.is_valid():
-            # Получаем текущего пользователя из БД и создаем мадель парикмахера
+            # Получаем текущего пользователя из БД
             user = SimpleUser.objects.get(slug=request.user.username)
-            the_hairdresser = Hairdresser.objects.create(
-                name=user.name,
-                surname=user.surname,
-                slug=user.slug,
-                city=form.cleaned_data.get('city'),
-                phone=form.cleaned_data.get('phone'),
-                email=user.email,
-                # avatar=user.avatar,
-                instagram=form.cleaned_data.get('instagram'),
-                another_info=form.cleaned_data.get('another_info'),
-                owner=user,
-            )
-            # Получаем весь набор навыков из заполненной формы
-            all_skills = form.cleaned_data.get('skills')
-            # Добавляем наши навыки объекту "парикмахер"
-            the_hairdresser.skills.add(*all_skills)
 
-            # Если передавались файлы в портфолио, то обрабатываем их и сохраняем
+            # Получаем список файлов для портфолио и создаём нового парикмахера
             files = request.FILES.getlist('portfolio')
-            if files:
-                check_number_of_files_in_portfolio(person_slug=user.slug, new_files=files)
-                for f in files:
-                    the_hairdresser.portfolio = f
-                    the_hairdresser.save()
+            create_new_hairdresser(user=user, data=form.cleaned_data, files=files)
 
-            # Меняем флаг пользователя - он теперь парикмахер. И обязательно сохраняем
+            # Меняем флаг пользователя - он теперь парикмахер
             user.is_hairdresser = True
             user.save()
 
@@ -316,7 +271,7 @@ def create_portfolio_view(request):
         else:
             print(form.errors)
 
-    context = {'title': 'Регистрация формы', 'form': form}
+    context = {'title': 'Регистрация формы', 'form': form, 'files': MAX_COUNT}
 
     return render(request, 'users_app/add_portfolio.html', context)
 
@@ -324,13 +279,12 @@ def create_portfolio_view(request):
 def get_one_hairdresser_view(requset, slug_name):
     """ Возвращает страницу парикмахера (портфолио) """
 
-    # person = Hairdresser.objects.get(slug=slug_name)
     person = SimpleUser.objects.get(slug=slug_name)
     skills = person.hairdresser.skills.all().order_by('name')
     context = {
-        'title': f'Портфолио: {person.name.capitalize()} {person.surname.capitalize()}',
-        'name': person.name.capitalize(),
-        'surname': person.surname.capitalize(),
+        'title': f'Портфолио: {person.name.title()} {person.surname.title()}',
+        'name': person.name,
+        'surname': person.surname,
         'avatar': person.avatar,
         'rating': person.hairdresser.rating,
         'city': person.hairdresser.city,
@@ -339,7 +293,7 @@ def get_one_hairdresser_view(requset, slug_name):
         'email': person.email,
         'instagram': person.hairdresser.instagram,
         'another_info': person.hairdresser.another_info,
-        'slug': person.slug,
+        'slug': person.username,
         'review': person.hairdresser.comment_set.count(),
     }
 
@@ -371,26 +325,32 @@ def get_one_hairdresser_view(requset, slug_name):
 def edit_portfolio_view(request, slug_name):
     """ Возвращает страницу изменения портфолио """
 
-    the_hairdresser = Hairdresser.objects.get(slug=slug_name)
+    # the_hairdresser = Hairdresser.objects.get(slug=slug_name)
+    the_hairdresser = SimpleUser.objects.get(slug=slug_name)
     # Получаем отдельно список навыков, чтобы отметить в форме уже имеющиеся навыки
-    skills = the_hairdresser.skills.all()
+    skills = the_hairdresser.hairdresser.skills.all()
 
     if request.method != 'POST':
-        form = CreatePortfolioForm(instance=the_hairdresser)
+        form = CreatePortfolioForm(instance=the_hairdresser.hairdresser)
     else:
-        form = CreatePortfolioForm(instance=the_hairdresser, data=request.POST)
+        form = CreatePortfolioForm(instance=the_hairdresser.hairdresser, data=request.POST)
         if form.is_valid():
             form.save()
             files = request.FILES.getlist('portfolio')
             if files:
                 check_number_of_files_in_portfolio(person_slug=the_hairdresser.slug, new_files=files)
                 for f in files:
-                    the_hairdresser.portfolio = f
-                    the_hairdresser.save()
+                    the_hairdresser.hairdresser.portfolio = f
+                    the_hairdresser.hairdresser.save()
 
             return redirect('users_app:get_hairdresser', slug_name=the_hairdresser.slug)
 
-    context = {'title': 'Редактирование портфолио', 'form': form, 'skills': skills}
+    context = {
+        'title': 'Редактирование портфолио',
+        'form': form,
+        'skills': skills,
+        'files': MAX_COUNT
+    }
     return render(request, 'users_app/edit_portfolio.html', context)
 
 
@@ -416,11 +376,10 @@ def delete_portfolio_view(request, slug_name):
     if request.user.simpleuser.slug != slug_name:
         return redirect('users_app:delete_portfolio', slug_name=request.user.simpleuser.slug)
 
-    hairdresser = Hairdresser.objects.get(slug=slug_name)
     user = SimpleUser.objects.get(slug=slug_name)
 
     # Проверочный код, который состоит из никнейма + /id + /portfolio
-    code = f'{user.username}/{hairdresser.id}/portfolio'
+    code = f'{user.username}/{user.hairdresser.id}/portfolio'
 
     if request.method != 'POST':
         form = DeleteProfileForm()
@@ -430,7 +389,7 @@ def delete_portfolio_view(request, slug_name):
             # Очищаем папку портфолио со всеми фотографиями
             delete_portfolio_directory(person_slug=slug_name)
             # Удаляем модель парикмахера
-            hairdresser.delete()
+            user.hairdresser.delete()
             # Меняем флаг пользователя - он теперь не парикмахер
             user.is_hairdresser = False
             user.save()
@@ -443,7 +402,7 @@ def delete_portfolio_view(request, slug_name):
         'title': 'Удалить портфолио',
         'form': form,
         'code': code,
-        'hairdresser': hairdresser,
+        'hairdresser': user,
     }
 
     return render(request, 'users_app/delete_portfolio.html', context)
@@ -455,7 +414,7 @@ def increase_rating_view(request, slug_name):
     """ Возвращает страницу повышения рейтинга и добавления отзыва """
 
     # Кого оцениваем
-    who_do_we_evaluate = Hairdresser.objects.get(slug=slug_name)
+    who_do_we_evaluate = SimpleUser.objects.get(slug=slug_name)
     # Кто оценивает
     who_evaluates = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
 
@@ -468,15 +427,7 @@ def increase_rating_view(request, slug_name):
     else:
         form = IncreaseRatingForm(data=request.POST)
         if form.is_valid():
-            Comment.objects.create(
-                autor=who_evaluates.username,
-                belong_to=who_do_we_evaluate,
-                text=form.cleaned_data.get('text'),
-                rating_value=form.cleaned_data.get('rating_value')
-            )
-            # Увеличиваем значение рейтинга на величину переданного значения
-            who_do_we_evaluate.rating = F('rating') + form.cleaned_data.get('rating_value')
-            who_do_we_evaluate.save()
+            create_new_comment(autor=who_evaluates, belong_to=who_do_we_evaluate, data=form.cleaned_data)
 
             return redirect('users_app:see_reviews', slug_name=who_do_we_evaluate.slug)
 
@@ -484,7 +435,7 @@ def increase_rating_view(request, slug_name):
         'title': 'Оценить',
         'form': form,
         'who_do_we_evaluate': who_do_we_evaluate,
-        'review': who_do_we_evaluate.comment_set.count(),
+        'review': who_do_we_evaluate.hairdresser.comment_set.count(),
         'values': [0, 1, 2, 3, 4, 5],
     }
     return render(request, 'users_app/increase_rating.html', context)
@@ -493,11 +444,12 @@ def increase_rating_view(request, slug_name):
 def see_reviews_view(request, slug_name):
     """ Возвращает страницу просмотра отзывов """
 
-    hairdresser = Hairdresser.objects.get(slug=slug_name)
-    reviews = hairdresser.comment_set.order_by('-date_added')
+    # hairdresser = Hairdresser.objects.get(slug=slug_name)
+    the_hairdresser = SimpleUser.objects.get(slug=slug_name)
+    reviews = the_hairdresser.hairdresser.comment_set.order_by('-date_added')
     context = {
         'title': 'Просмотр отзывов',
-        'hairdresser': hairdresser,
+        'the_hairdresser': the_hairdresser,
         'reviews': reviews,
     }
 

@@ -104,6 +104,13 @@
 	}
 }
 
+@media (max-width: 319px) {
+	.photo-person2 {
+		width: 100px;
+		height: 100px;
+	}
+}
+
 .main-rating-comment {
     transition: 0.3s;
 }

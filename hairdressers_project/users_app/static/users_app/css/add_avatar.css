@@ -122,6 +122,13 @@ img {
 	}
 }
 
+@media (max-width: 319px) {
+	.result-avatar {
+		width: 200px;
+		height: 200px;
+	}
+}
+
 .add-avatar-btns {
 	margin-top: 30px;
 	display: flex;

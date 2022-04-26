@@ -23,14 +23,14 @@
                 {% if request.user.is_authenticated %}
                 <div class="reg-list">                    
                     <div class="user-container">
+                        <p class="login-name" data-i18n="">{{ user.username|truncatechars:24 }}</p>
                         {% if request.user.simpleuser.avatar %}
                         <a href="{% url 'users_app:avatar' %}" title="Изменить фото профиля"><img class="avatar" src="{{ user.simpleuser.avatar.url }}" alt="Фото"></a>
                         {% else %}
                         <a href="{% url 'users_app:avatar' %}" title="Изменить фото профиля"><img class="avatar" src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Фото"></a>
-                        {% endif %}
-                        <p class="login-name" data-i18n="">{{ user.username }}</p>
+                        {% endif %}                        
                     </div>
-                    <div class="profile-logout">                    
+                    <div class="profile-logout no-menu">                    
                         <a class="reg-item2" href="{% url 'users_app:get_main_profile' user.username  %}" data-i18n="">Профиль</a>
                         <a class="reg-item2" href="{% url 'users_app:logout' %}" data-i18n="">Выход</a>
                     </div>
@@ -40,8 +40,6 @@
                     <a class="reg-item" href="{% url 'users_app:login' %}" data-i18n="">Вход | Регистрация</a>
                 </div>
                 {% endif %}
-{% block header %}
-{% endblock header %}
             </nav>
         </header>
 {% block content %}
@@ -59,5 +57,6 @@
             </div>
         </footer>
     </div>
+    <script type="module" src="{% static 'users_app/js/main_menu.js' %}"></script>
 </body>
 </html>

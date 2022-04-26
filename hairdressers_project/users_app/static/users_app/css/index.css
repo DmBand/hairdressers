@@ -179,6 +179,12 @@
 	}
 }
 
+@media (max-width: 300px) {
+	.title-text {
+		letter-spacing: 4px;
+	}
+}
+
 .selection-link {
 	width: 280px;
 	height: 70px;
@@ -291,6 +297,12 @@
 	}
 }
 
+@media (max-width: 425px) {
+	.top10 {
+		padding: 20px 10px 0;
+	}
+}
+
 .top10-title {
 	font-family: 'Merriwaether';
 	font-weight: 700;
@@ -341,6 +353,12 @@
 	word-wrap: break-word;
 }
 
+@media (max-width: 1430px) {
+	.top10-item {
+		width: auto;
+	}
+}
+
 .top10-city {
 	padding-top: 5px;
 	font-family: 'Merriweather';
@@ -388,6 +406,11 @@
 	color: #BBA9A9;
 }
 
+@media (max-width: 320px) {
+	.result-name-surname {
+		letter-spacing: 1px;
+	}
+}
 
 /* ________DESCRIPTION___________ */
 

@@ -743,6 +743,12 @@
 	}
 }
 
+@media (max-width: 320px) {
+	.portfolio-title {
+		font-size: 14px;
+	}
+}
+
 .del-photo-text {
 	font-family: 'Inter';
 	font-weight: 400;
@@ -842,6 +848,7 @@
 @media (max-width: 425px) {
 	.ptf-item {		
 		width: 280px;
+		height: 350px;
 	}
 }
 
