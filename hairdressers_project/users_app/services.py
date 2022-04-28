@@ -1,9 +1,7 @@
 import os
 import shutil
 
-from django.db.models import F
-
-from .models import SimpleUser, Hairdresser, Comment
+from .models import SimpleUser, Hairdresser
 
 from hairdressers_project.settings import MEDIA_ROOT
 
@@ -128,20 +126,3 @@ def create_new_hairdresser(user: object, data: dict, files: list):
             the_hairdresser.save()
 
     return the_hairdresser
-
-
-def create_new_comment(autor: object, belong_to: object, data: dict):
-    """ Создаёт новый отзыв о парикмахере """
-
-    new_coment = Comment.objects.create(
-        autor=autor.username,
-        belong_to=belong_to.hairdresser,
-        text=data.get('text'),
-        rating_value=data.get('rating_value')
-    )
-
-    # Увеличиваем рейтинг
-    belong_to.hairdresser.rating = F('rating') + data.get('rating_value')
-    belong_to.hairdresser.save()
-
-    return new_coment

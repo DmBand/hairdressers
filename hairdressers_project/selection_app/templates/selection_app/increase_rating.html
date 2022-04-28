@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block styles %}
-<link rel="stylesheet" href="{% static 'users_app/css/increase_rating.css' %}">
+<link rel="stylesheet" href="{% static 'selection_app/css/increase_rating.css' %}">
 {% endblock styles %}
 
 {% block content %}
@@ -21,7 +21,7 @@
                     <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Аватар" class="photo-person2">
                     {% endif %}
                     </a>
-                    <a class="main-rating-comment" href="{% url 'users_app:see_reviews' who_do_we_evaluate.slug %}" title="Просмотр отзывов">
+                    <a class="main-rating-comment" href="{% url 'selection_app:see_reviews' who_do_we_evaluate.slug %}" title="Просмотр отзывов">
                         <div class="rating-person">{{ who_do_we_evaluate.hairdresser.rating }}</div>
                         <div class="comment">{{ review }}</div>
                     </a>
@@ -30,11 +30,11 @@
                     <p class="top10-name">{{ who_do_we_evaluate.name|truncatechars:30|title }}</p>
                     <p class="top10-name">{{ who_do_we_evaluate.surname|truncatechars:30|title }}</p>
                 </div>
-                <a href="{% url 'users_app:see_reviews' who_do_we_evaluate.slug %}" title="Просмотр отзывов" class="new-comment">
+                <a href="{% url 'selection_app:see_reviews' who_do_we_evaluate.slug %}" title="Просмотр отзывов" class="new-comment">
                     <p class="see-comment2">Просмотр отзывов</p>
                 </a>
             </div>
-            <form action="{% url 'users_app:increase_rating' who_do_we_evaluate.slug %}" method="post" class="add-comment-form">
+            <form action="{% url 'selection_app:increase_rating' who_do_we_evaluate.slug %}" method="post" class="add-comment-form">
                 {% csrf_token %}
                 <div class="rating-comment">
                     <p class="rating-description">
