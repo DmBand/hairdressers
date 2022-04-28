@@ -17,7 +17,7 @@ class SelectionView(View):
 
     context = {
         'title': 'Подбор',
-        'city': City.objects.all().order_by('name'),
+        'city': City.objects.order_by('name'),
         'skills': Skill.objects.order_by('name'),
         'hairdresser': Hairdresser.objects.order_by('-rating'),
         'current_city': 'Город не выбран',

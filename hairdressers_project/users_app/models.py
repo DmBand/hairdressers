@@ -24,8 +24,20 @@ class Skill(models.Model):
         verbose_name = 'навык'
 
 
+class Region(models.Model):
+    name = models.CharField(max_length=30, verbose_name='область', unique=True)
+
+    class Meta:
+        verbose_name = 'область'
+        verbose_name_plural = 'области'
+
+    def __str__(self):
+        return self.name
+
+
 class City(models.Model):
     """Модель городов, где живут парикмахеры"""
+    region = models.ForeignKey(Region, on_delete=models.PROTECT, verbose_name='область')
     name = models.CharField(max_length=255, verbose_name='город', db_index=True, unique=True)
 
     def __str__(self):
