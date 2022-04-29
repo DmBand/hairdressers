@@ -25,6 +25,8 @@ class Skill(models.Model):
 
 
 class Region(models.Model):
+    """ Модель областей """
+
     name = models.CharField(max_length=30, verbose_name='область', unique=True)
 
     class Meta:
@@ -36,9 +38,10 @@ class Region(models.Model):
 
 
 class City(models.Model):
-    """Модель городов, где живут парикмахеры"""
+    """Модель городов"""
+
     region = models.ForeignKey(Region, on_delete=models.PROTECT, verbose_name='область')
-    name = models.CharField(max_length=255, verbose_name='город', db_index=True, unique=True)
+    name = models.CharField(max_length=60, verbose_name='город', db_index=True, unique=True)
 
     def __str__(self):
         return self.name
@@ -46,6 +49,7 @@ class City(models.Model):
     class Meta:
         verbose_name = 'город'
         verbose_name_plural = 'города'
+        ordering = ['name']
 
 
 class SimpleUser(models.Model):

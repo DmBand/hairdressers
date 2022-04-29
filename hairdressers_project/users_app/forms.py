@@ -173,7 +173,7 @@ class CreatePortfolioForm(forms.ModelForm):
             'phone': forms.NumberInput(attrs={'class': 'portf-form-input',
                                               'placeholder': 'Пример: +375291112233',
                                               'required': True}),
-            'city': forms.Select(attrs={'class': 'portfolio-city-select'}, ),
+            'city': forms.Select(attrs={'class': 'portfolio-city-select'}),
             'skills': forms.CheckboxSelectMultiple(attrs={'class': 'portf-form-input-cb'}),
             'another_info': forms.Textarea(attrs={'class': 'portfolio-textarea',
                                                   'placeholder': 'Укажите доплнительную информацию о себе: '
