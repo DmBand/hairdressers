@@ -1,13 +1,12 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, SetPasswordForm, PasswordChangeForm
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
-from .models import Hairdresser, SimpleUser, Comment
+from .models import Hairdresser, SimpleUser
 
 
-# main profile 
+# main profile
 class RegistrationUserForm(UserCreationForm):
     """ Форма регистрации нового пользователя """
 
@@ -174,7 +173,7 @@ class CreatePortfolioForm(forms.ModelForm):
             'phone': forms.NumberInput(attrs={'class': 'portf-form-input',
                                               'placeholder': 'Пример: +375291112233',
                                               'required': True}),
-            'city': forms.Select(attrs={'class': 'portfolio-city-select'}, ),
+            'city': forms.Select(attrs={'class': 'portfolio-city-select'}),
             'skills': forms.CheckboxSelectMultiple(attrs={'class': 'portf-form-input-cb'}),
             'another_info': forms.Textarea(attrs={'class': 'portfolio-textarea',
                                                   'placeholder': 'Укажите доплнительную информацию о себе: '
@@ -196,25 +195,3 @@ class DeleteProfileForm(forms.Form):
         'autocomplete': 'off',
         'placeholder': 'Ваш код'}
     ))
-
-
-# Rating
-class IncreaseRatingForm(forms.ModelForm):
-    """ Форма повышения рейтинга парикмахера """
-
-    class Meta:
-        model = Comment
-        fields = [
-            'rating_value', 'text'
-        ]
-
-        widgets = {
-            'text': forms.Textarea(attrs={'class': 'portfolio-textarea2',
-                                          'placeholder': 'Не менее 10 символов!'})
-        }
-
-    def clean_text(self):
-        text = self.cleaned_data.get('text')
-        if len(text) < 10:
-            raise ValidationError('Текст комментария должен содержать не менее 10 символов')
-        return text

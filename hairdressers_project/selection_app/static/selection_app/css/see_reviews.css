@@ -111,7 +111,7 @@
 	padding-left: 30px;
 	cursor: pointer;
 	font-size: 30px;
-	background: url('../assets/svg/rait_24.svg');
+	background: url('../../users_app/assets/svg/rait_24.svg');
 	background-size: 24px;
 	background-position-y: 5px;
 	background-repeat: no-repeat;
@@ -190,7 +190,7 @@
 	position: absolute;
 	content: '';
 	left: 30px;
-	background: url('../assets/svg/add_comment.svg');
+	background: url('../../users_app/assets/svg/add_comment.svg');
 	width: 24px;
 	height: 24px;
 	transition: 0.3s;

@@ -572,12 +572,6 @@
 	}
 }
 
-@media (max-width: 425px) {
-	.another-info::after  {
-		left: 165px;
-	}
-}
-
 .all-skills:hover::before,
 .all-skills:hover::after,
 .phone-number:hover::before,
