@@ -6,6 +6,7 @@ from django.contrib.auth.views import \
     PasswordResetConfirmView, \
     PasswordResetView, \
     PasswordChangeView
+from django.core.cache import cache
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -21,7 +22,7 @@ from .services import *
 def homepage_view(request):
     """Возвращает главную страницу сайта"""
 
-    top10 = Hairdresser.objects.order_by('-rating')[:10].select_related('city')
+    top10 = cache.get_or_set('top10', Hairdresser.objects.order_by('-rating')[:10].select_related('city'), 60)
     context = {
         'title': 'Парикмахеры Беларуси',
         'top10': top10

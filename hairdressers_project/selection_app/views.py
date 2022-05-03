@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
 from django.db.models import Q
 from django.shortcuts import render, redirect
-from django.views import View
 
 from users_app.models import City, Skill, SimpleUser, Hairdresser
 from .forms import IncreaseRatingForm
@@ -9,27 +9,29 @@ from .services import *
 
 
 # selection
-class SelectionView(View):
+def selection_view(request):
     """
     Возвращает страницу подбора парикмахераов:
     включает в себя фильтрацию по городу и навыкам
     """
 
-    context = {
-        'title': 'Подбор',
-        'city': City.objects.order_by('name'),
-        'skills': Skill.objects.order_by('name'),
-        'hairdresser': Hairdresser.objects.order_by('-rating'),
-        'current_city': 'Город не выбран',
-        'chosen_skills': [],
-    }
+    if request.method == 'GET':
+        # Кэширование
+        hairdresser = cache.get_or_set('hairdresser', Hairdresser.objects.order_by('-rating')[:50], 30)
+        cities = cache.get_or_set('cities', City.objects.order_by('name'))
+        skills = cache.get_or_set('skills', Skill.objects.order_by('name'))
 
-    def get(self, request):
-        if request.GET.get('reset'):
-            return render(request, 'selection_app/selection.html', self.context)
+        context = {
+            'title': 'Подбор',
+            'city': cities,
+            'skills': skills,
+            'hairdresser': hairdresser,
+            'current_city': 'Город не выбран',
+            'chosen_skills': [],
+        }
 
-        elif request.GET.get('city') or request.GET.get('skill'):
-            new_context = self.context.copy()
+        if request.GET.get('city') or request.GET.get('skill'):
+            new_context = context.copy()
             chosen_city = request.GET.get('city')
             if chosen_city:
                 new_context['current_city'] = City.objects.get(id=chosen_city)
@@ -53,7 +55,7 @@ class SelectionView(View):
             return render(request, 'selection_app/selection.html', new_context)
 
         else:
-            return render(request, 'selection_app/selection.html', self.context)
+            return render(request, 'selection_app/selection.html', context)
 
 
 # rating and review

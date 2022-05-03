@@ -149,6 +149,16 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'd.bandysik@gmail.com'
 EMAIL_HOST_PASSWORD = 'mxnkbmuelddpfpyc'
 
+# debug toolbar
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+# cache
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'project_cache'),
+        'TIMEOUT': 180,
+    }
+}
