@@ -22,13 +22,16 @@ class SimpleUserAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('username',)}
 
 
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ('autor', 'belong_to', 'text', 'rating_value', 'date_added')
-    list_editable = ('rating_value',)
+class CityAdmin(admin.ModelAdmin):
+    list_display = (
+        'id', 'name', 'region'
+    )
+    search_fields = ('name',)
+    list_filter = ('region',)
 
 
 admin.site.register(Skill)
-admin.site.register(City)
+admin.site.register(Region)
+admin.site.register(City, CityAdmin)
 admin.site.register(Hairdresser, HairdresserAdmin)
 admin.site.register(SimpleUser, SimpleUserAdmin)
-admin.site.register(Comment, CommentAdmin)

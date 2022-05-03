@@ -21,7 +21,7 @@ from .services import *
 def homepage_view(request):
     """Возвращает главную страницу сайта"""
 
-    top10 = Hairdresser.objects.order_by('-rating')[:10]
+    top10 = Hairdresser.objects.order_by('-rating')[:10].select_related('city')
     context = {
         'title': 'Парикмахеры Беларуси',
         'top10': top10
@@ -135,17 +135,16 @@ def delete_main_profile_view(request, slug_name):
 
     # Если пользователь захочет удалить чужой профиль через URL,
     # то его перекинет на страницу удаления своего портфолио
-    if request.user.simpleuser.slug != slug_name:
-        return redirect('users_app:delete_main_profile', slug_name=request.user.simpleuser.slug)
+    if request.user.username != slug_name:
+        return redirect('users_app:delete_main_profile', slug_name=request.user.username)
 
     user = User.objects.get(username=slug_name)
-    user_is_hairdresser = user.simpleuser.is_hairdresser
 
     # Проверочный код, который состоит из никнейма + /id +/profile
     code = f'{user.username}/{user.id}/profile'
 
     if request.method != 'POST':
-        if user_is_hairdresser:
+        if user.simpleuser.is_hairdresser:
             messages.info(request, 'Внимание! У вас есть действующее портфолио парикмахера. ' \
                                    'Оно будет безвозвратно удалено.')
         form = DeleteProfileForm()
@@ -153,7 +152,7 @@ def delete_main_profile_view(request, slug_name):
         form = DeleteProfileForm(data=request.POST)
         if request.POST.get('code') == code:
             # Если пользовтель парикмахер и у него есть фото в портфолио, то удаляем все файлы
-            if user_is_hairdresser:
+            if user.simpleuser.is_hairdresser:
                 delete_portfolio_directory(person_slug=slug_name)
 
             # Удаляем папку с аватаром
@@ -163,7 +162,7 @@ def delete_main_profile_view(request, slug_name):
             return redirect('users_app:homepage')
 
         else:
-            if user_is_hairdresser:
+            if user.simpleuser.is_hairdresser:
                 messages.info(request, 'Внимание! У вас есть действующее портфолио парикмахера. ' \
                                        'Оно будет безвозвратно удалено.')
             messages.error(request, 'Введен неверный код!')
@@ -406,51 +405,3 @@ def delete_portfolio_view(request, slug_name):
     }
 
     return render(request, 'users_app/delete_portfolio.html', context)
-
-
-# rating and review
-@login_required(login_url='users_app:login')
-def increase_rating_view(request, slug_name):
-    """ Возвращает страницу повышения рейтинга и добавления отзыва """
-
-    # Кого оцениваем
-    who_do_we_evaluate = SimpleUser.objects.get(slug=slug_name)
-    # Кто оценивает
-    who_evaluates = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
-
-    # Если парикмахер захочет проголосовать сам за себя, то его перекинет на его портфолио
-    if who_evaluates.slug == who_do_we_evaluate.slug:
-        return redirect('users_app:get_hairdresser', slug_name=who_evaluates.slug)
-
-    if request.method != 'POST':
-        form = IncreaseRatingForm()
-    else:
-        form = IncreaseRatingForm(data=request.POST)
-        if form.is_valid():
-            create_new_comment(autor=who_evaluates, belong_to=who_do_we_evaluate, data=form.cleaned_data)
-
-            return redirect('users_app:see_reviews', slug_name=who_do_we_evaluate.slug)
-
-    context = {
-        'title': 'Оценить',
-        'form': form,
-        'who_do_we_evaluate': who_do_we_evaluate,
-        'review': who_do_we_evaluate.hairdresser.comment_set.count(),
-        'values': [0, 1, 2, 3, 4, 5],
-    }
-    return render(request, 'users_app/increase_rating.html', context)
-
-
-def see_reviews_view(request, slug_name):
-    """ Возвращает страницу просмотра отзывов """
-
-    # hairdresser = Hairdresser.objects.get(slug=slug_name)
-    the_hairdresser = SimpleUser.objects.get(slug=slug_name)
-    reviews = the_hairdresser.hairdresser.comment_set.order_by('-date_added')
-    context = {
-        'title': 'Просмотр отзывов',
-        'the_hairdresser': the_hairdresser,
-        'reviews': reviews,
-    }
-
-    return render(request, 'users_app/see_reviews.html', context)

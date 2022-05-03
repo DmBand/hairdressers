@@ -137,14 +137,14 @@
 
 
 .rating-person {
-	background: url('../assets/svg/rait_24.svg');
+	background: url('../../users_app/assets/svg/rait_24.svg');
 	background-size: 24px;
 	background-position-y: 8px;
 	background-repeat: no-repeat;
 }
 
 .comment {
-	background: url('../assets/svg/comment.svg');
+	background: url('../../users_app/assets/svg/comment.svg');
 	background-size: 24px;
 	background-position-y: 9px;
 	background-repeat: no-repeat;
@@ -221,7 +221,7 @@
 	content: '';
 	left: 18px;
 	top: 12px;
-	background: url('../assets/svg/visibility.svg');
+	background: url('../../users_app/assets/svg/visibility.svg');
 	width: 24px;
 	height: 24px;
 	transition: 0.3s;

@@ -2,8 +2,6 @@ from django.contrib.auth import views as av
 from django.urls import path
 from .views import *
 
-# from django.contrib.auth.views import *
-
 app_name = 'users_app'
 
 urlpatterns = [
@@ -39,7 +37,4 @@ urlpatterns = [
     path('reset_portfolio/<slug:slug_name>/', reset_portfolio_photos_view, name='reset_portfolio'),
     path('delete_portfolio/<slug:slug_name>/', delete_portfolio_view, name='delete_portfolio'),
     path('hairdressers/<slug:slug_name>/', get_one_hairdresser_view, name='get_hairdresser'),
-    # rating and reviews
-    path('increase_rating/<slug:slug_name>/', increase_rating_view, name='increase_rating'),
-    path('see_reviews/<slug:slug_name>/', see_reviews_view, name='see_reviews'),
 ]

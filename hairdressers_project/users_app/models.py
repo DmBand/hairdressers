@@ -24,9 +24,24 @@ class Skill(models.Model):
         verbose_name = 'навык'
 
 
+class Region(models.Model):
+    """ Модель областей """
+
+    name = models.CharField(max_length=30, verbose_name='область', unique=True)
+
+    class Meta:
+        verbose_name = 'область'
+        verbose_name_plural = 'области'
+
+    def __str__(self):
+        return self.name
+
+
 class City(models.Model):
-    """Модель городов, где живут парикмахеры"""
-    name = models.CharField(max_length=255, verbose_name='город', db_index=True, unique=True)
+    """Модель городов"""
+
+    region = models.ForeignKey(Region, on_delete=models.PROTECT, verbose_name='область')
+    name = models.CharField(max_length=60, verbose_name='город', db_index=True, unique=True)
 
     def __str__(self):
         return self.name
@@ -34,6 +49,7 @@ class City(models.Model):
     class Meta:
         verbose_name = 'город'
         verbose_name_plural = 'города'
+        ordering = ['name']
 
 
 class SimpleUser(models.Model):
@@ -75,18 +91,3 @@ class Hairdresser(models.Model):
 
     def __str__(self):
         return self.owner.username
-
-
-class Comment(models.Model):
-    autor = models.CharField(max_length=50, verbose_name='автор')
-    belong_to = models.ForeignKey(Hairdresser, on_delete=models.CASCADE, verbose_name='кому')
-    text = models.TextField(max_length=8000, verbose_name='добавить отзыв')
-    rating_value = models.IntegerField(verbose_name='оценка')
-    date_added = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name_plural = 'комментарии'
-        verbose_name = 'комментарий'
-
-    def __str__(self):
-        return self.text
