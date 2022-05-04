@@ -14,7 +14,7 @@
         <div class="rating-comment-container">
             <div class="photo-rating-name">
                 <div class="photo-and-rating">
-                    <a href="{% url 'users_app:get_hairdresser' who_do_we_evaluate.slug %}">
+                    <a href="{% url 'users_app:get_hairdresser' who_do_we_evaluate.slug %}" title="Портфолио {{ who_do_we_evaluate.slug }}">
                     <img src="{{ who_do_we_evaluate.avatar.url }}" alt="Аватар" class="photo-person2">
                     </a>
                     <a class="main-rating-comment" href="{% url 'selection_app:see_reviews' who_do_we_evaluate.slug %}" title="Просмотр отзывов">

@@ -12,7 +12,7 @@
     </section>
     <section class="review-container">
         <div class="photo-rating-name-button">
-                <a href="{% url 'users_app:get_hairdresser' the_hairdresser.slug %}">
+                <a href="{% url 'users_app:get_hairdresser' the_hairdresser.slug %}" title="Портфолио {{ the_hairdresser.slug }}">
                 <div class="photo-rating-name">
                     <div class="photo-and-rating">
                         <img src="{{ the_hairdresser.avatar.url }}" alt="Аватар" class="photo-person2">

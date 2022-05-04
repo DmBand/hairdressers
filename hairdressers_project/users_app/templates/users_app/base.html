@@ -23,17 +23,17 @@
                 {% if request.user.is_authenticated %}
                 <div class="reg-list">                    
                     <div class="user-container">
-                        <p class="login-name" data-i18n="">{{ user.username|truncatechars:24 }}</p>
+                        <p class="login-name">{{ user.username|truncatechars:24 }}</p>
                         <a href="{% url 'users_app:avatar' %}" title="Изменить фото профиля"><img class="avatar" src="{{ user.simpleuser.avatar.url }}" alt="Фото"></a>
                     </div>
                     <div class="profile-logout no-menu">                    
-                        <a class="reg-item2" href="{% url 'users_app:get_main_profile' user.username  %}" data-i18n="">Профиль</a>
-                        <a class="reg-item2" href="{% url 'users_app:logout' %}" data-i18n="">Выход</a>
+                        <a class="reg-item2" href="{% url 'users_app:get_main_profile' user.username  %}" target="_blank">Профиль</a>
+                        <a class="reg-item2" href="{% url 'users_app:logout' %}">Выход</a>
                     </div>
                 </div>
                 {% else %}
                 <div class="reg-list">
-                    <a class="reg-item" href="{% url 'users_app:login' %}" data-i18n="">Вход | Регистрация</a>
+                    <a class="reg-item" href="{% url 'users_app:login' %}">Вход | Регистрация</a>
                 </div>
                 {% endif %}
             </nav>

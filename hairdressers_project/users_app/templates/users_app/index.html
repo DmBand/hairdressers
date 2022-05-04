@@ -15,7 +15,7 @@
         </div>
         <div class="title-container">
             <h1 class="title-text" data-i18n="">Твой парикмахер</h1>
-            <a href="{% url 'selection_app:selection' %}" class="selection-link">
+            <a href="{% url 'selection_app:selection' %}" class="selection-link" target="_blank">
                 <div class="selection-text">Подобрать</div>
             </a>
         </div> 
@@ -25,7 +25,7 @@
         <h2 class="top10-title">Топ-10 мастеров</h2>
         <ul class="top10-items">
             {% for h in top10 %}
-            <a href="{% url 'users_app:get_hairdresser' h.owner.slug %}" class="top10-link">
+            <a href="{% url 'users_app:get_hairdresser' h.owner.slug %}" class="top10-link" target="_blank">
                 <li class="top10-item">
                     <img src="{{ h.owner.avatar.url }}" alt="Avatar" class="result-photo">
                     <div class="result-rating-container">
