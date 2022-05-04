@@ -40,6 +40,10 @@
         <div class="data-container">
             <div class="data-img">
                 <a href="{% url 'users_app:avatar' %}" title="Изменить фото"><img src="{{ avatar.url }}" alt="avatar" class="prof-img"></a>
+                <div class="del-photo-text">Удалить аватар</div> 
+                <div class="yes-no-container">
+                    <a href="" id="yes-reset"></a> 
+                </div>
             </div>
             <ul class="data-list">
                 <li class="data-item">
@@ -62,4 +66,5 @@
         </div>
     </section>
 </main>
+<script type="module" src="{% static 'users_app/js/reset_btn2.js' %}"></script>
 {% endblock content %}
