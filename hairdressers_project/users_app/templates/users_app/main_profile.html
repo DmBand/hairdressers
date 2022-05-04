@@ -40,10 +40,12 @@
         <div class="data-container">
             <div class="data-img">
                 <a href="{% url 'users_app:avatar' %}" title="Изменить фото"><img src="{{ avatar.url }}" alt="avatar" class="prof-img"></a>
+                {% if not default_avatar %}
                 <div class="del-photo-text">Удалить аватар</div> 
                 <div class="yes-no-container">
                     <a href="{% url 'users_app:delete_avatar' slug %}" id="yes-reset"></a>
                 </div>
+                {% endif %}
             </div>
             <ul class="data-list">
                 <li class="data-item">

@@ -69,6 +69,7 @@ class SimpleUser(models.Model):
         default=default_avatar_path,
         verbose_name='фото профиля'
     )
+    default_avatar = models.BooleanField(default=True)
     slug = models.SlugField(max_length=50, unique=True, db_index=True, verbose_name='URL')
     is_hairdresser = models.BooleanField(default=False, verbose_name='парикмахер')
     date_of_registration = models.DateField(auto_now_add=True, verbose_name='дата регистрации')
@@ -85,7 +86,7 @@ class SimpleUser(models.Model):
 class Hairdresser(models.Model):
     """ Модель парикмахера """
 
-    city = models.ForeignKey(City, on_delete=models.PROTECT)
+    city = models.ForeignKey(City, on_delete=models.PROTECT, null=True)
     phone = PhoneNumberField(verbose_name='номер телефона')
     skills = models.ManyToManyField(Skill, verbose_name='навыки')
     rating = models.IntegerField(default=1, verbose_name='рейтинг')

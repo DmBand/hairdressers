@@ -76,6 +76,9 @@ def add_avatar_view(request):
             # Удаляем старую аватарку из хранилища
             check_number_of_files_in_avatar_directory(person_slug=request.user.simpleuser.slug)
             form.save()
+            person = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
+            person.default_avatar = False
+            person.save()
             return redirect('users_app:get_main_profile', slug_name=request.user.simpleuser.slug)
 
     elif request.POST.get('avatar') == 'no':
@@ -102,6 +105,7 @@ def delete_avatar_view(request, slug_name):
     delete_avatar_directory(person_slug=slug_name)
     person = SimpleUser.objects.get(slug=slug_name)
     person.avatar = default_avatar_path
+    person.default_avatar = True
     person.save()
     return redirect('users_app:get_main_profile', slug_name=slug_name)
 
@@ -118,6 +122,7 @@ def get_main_profile_view(request, slug_name):
         'surname': person.surname,
         'email': person.email,
         'avatar': person.avatar,
+        'default_avatar': person.default_avatar,
         'slug': person.slug
     }
 
