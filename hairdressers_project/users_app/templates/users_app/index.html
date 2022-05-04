@@ -27,11 +27,7 @@
             {% for h in top10 %}
             <a href="{% url 'users_app:get_hairdresser' h.owner.slug %}" class="top10-link">
                 <li class="top10-item">
-                        {% if h.owner.avatar %}
-                        <img src="{{ h.owner.avatar.url }}" alt="Avatar" class="result-photo">
-                        {% else %}
-                        <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Avatar" class="result-photo">
-                        {% endif %}
+                    <img src="{{ h.owner.avatar.url }}" alt="Avatar" class="result-photo">
                     <div class="result-rating-container">
                         <img src="{% static 'users_app/assets/svg/rait_24.svg' %}" alt="rating" class="rating-logo">
                         <p class="rating-value">{{ h.rating }}</p>

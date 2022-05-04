@@ -35,11 +35,7 @@
     {% endif %} 
     <section class="main-title">
         <div class="photo-and-rating">
-            {% if avatar %}
             <img src="{{ avatar.url }}" alt="Аватар" class="photo-person">
-            {% else %}
-            <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Аватар" class="photo-person">
-            {% endif %}
             <a class="main-rating-comment" href="{% url 'selection_app:see_reviews' slug %}" title="Просмотр отзывов">
             <div class="rating-person">{{ rating }}</div>
             <div class="comment">{{ review }}</div>

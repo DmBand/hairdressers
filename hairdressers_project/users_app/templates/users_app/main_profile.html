@@ -39,11 +39,7 @@
     <section class="all-dada">
         <div class="data-container">
             <div class="data-img">
-                {% if avatar %}
                 <a href="{% url 'users_app:avatar' %}" title="Изменить фото"><img src="{{ avatar.url }}" alt="avatar" class="prof-img"></a>
-                {% else %}
-                <a href="{% url 'users_app:avatar' %}" title="Изменить фото"><img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="avatar" class="prof-img"></a>
-                {% endif %}
             </div>
             <ul class="data-list">
                 <li class="data-item">

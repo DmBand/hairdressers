@@ -42,7 +42,7 @@
 }
 
 .photo-item:first-child {
-	background: url('../assets/img/1.jpg');
+	background: url('../assets/img/index-bg1.jpg');
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center -25px;
@@ -55,7 +55,7 @@
 }
 
 .photo-item:last-child {
-	background: url('../assets/img/2.jpg');
+	background: url('../assets/img/index-bg2.jpg');
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center -80px;
@@ -68,7 +68,7 @@
 }
 
 .photo-item2 {
-	background: url('../assets/img/bg2.jpg');
+	background: url('../assets/img/index-bg3.jpg');
 	width: 100%;
 	height: 300px;
 	background-repeat: no-repeat;

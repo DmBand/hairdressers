@@ -15,11 +15,7 @@
                 <a href="{% url 'users_app:get_hairdresser' the_hairdresser.slug %}">
                 <div class="photo-rating-name">
                     <div class="photo-and-rating">
-                        {% if the_hairdresser.avatar %}
                         <img src="{{ the_hairdresser.avatar.url }}" alt="Аватар" class="photo-person2">
-                        {% else %}
-                        <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Аватар" class="photo-person2">
-                        {% endif %}
                         <div class="rating-person2">{{ the_hairdresser.hairdresser.rating }}</div>
                     </div>
                     <div class="result-name-surname2">
