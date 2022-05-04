@@ -14,8 +14,9 @@ from django.utils.decorators import method_decorator
 from django.views.generic import CreateView
 
 from .decorators import user_is_authenticated
-from hairdressers_project.settings import MEDIA_ROOT, MEDIA_URL
+from hairdressers_project.settings import MEDIA_URL
 from .forms import *
+from .models import default_avatar_path
 from .services import *
 
 
@@ -89,6 +90,23 @@ def add_avatar_view(request):
 
 
 @login_required(login_url='users_app:login')
+def delete_avatar_view(request, slug_name):
+    """ Удаление аватарки пользователя """
+
+    # Если пользователь захочет удалить чужую аватарку через URL,
+    # то его перекинет на страницу главного профиля
+    if request.user.simpleuser.slug != slug_name:
+        return redirect('users_app:get_main_profile', slug_name=request.user.simpleuser.slug)
+
+    # Удаляем директорию с аватаром и ставим пользователю дефолтный аватар
+    delete_avatar_directory(person_slug=slug_name)
+    person = SimpleUser.objects.get(slug=slug_name)
+    person.avatar = default_avatar_path
+    person.save()
+    return redirect('users_app:get_main_profile', slug_name=slug_name)
+
+
+@login_required(login_url='users_app:login')
 def get_main_profile_view(request, slug_name):
     """ Возвращает страницу главного профиля пользователя """
 
@@ -99,7 +117,8 @@ def get_main_profile_view(request, slug_name):
         'name': person.name,
         'surname': person.surname,
         'email': person.email,
-        'avatar': person.avatar
+        'avatar': person.avatar,
+        'slug': person.slug
     }
 
     return render(request, 'users_app/main_profile.html', context)

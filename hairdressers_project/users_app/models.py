@@ -1,6 +1,10 @@
+import os
+
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
+
+default_avatar_path = f"{os.path.join('..', 'static', 'users_app', 'assets', 'img', 'default_photo.jpg')}"
 
 
 def path_to_user_portfolio_directory(instance, filename):
@@ -62,7 +66,7 @@ class SimpleUser(models.Model):
     avatar = models.ImageField(
         upload_to=path_to_user_avatar_directory,
         blank=True,
-        default='../static/users_app/assets/img/default_photo.jpg',
+        default=default_avatar_path,
         verbose_name='фото профиля'
     )
     slug = models.SlugField(max_length=50, unique=True, db_index=True, verbose_name='URL')

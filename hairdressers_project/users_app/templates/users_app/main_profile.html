@@ -42,7 +42,7 @@
                 <a href="{% url 'users_app:avatar' %}" title="Изменить фото"><img src="{{ avatar.url }}" alt="avatar" class="prof-img"></a>
                 <div class="del-photo-text">Удалить аватар</div> 
                 <div class="yes-no-container">
-                    <a href="" id="yes-reset"></a> 
+                    <a href="{% url 'users_app:delete_avatar' slug %}" id="yes-reset"></a>
                 </div>
             </div>
             <ul class="data-list">
