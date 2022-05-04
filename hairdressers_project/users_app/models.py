@@ -81,7 +81,7 @@ class SimpleUser(models.Model):
 class Hairdresser(models.Model):
     """ Модель парикмахера """
 
-    city = models.ForeignKey(City, on_delete=models.PROTECT, null=True)
+    city = models.ForeignKey(City, on_delete=models.PROTECT)
     phone = PhoneNumberField(verbose_name='номер телефона')
     skills = models.ManyToManyField(Skill, verbose_name='навыки')
     rating = models.IntegerField(default=1, verbose_name='рейтинг')
