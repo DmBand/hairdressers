@@ -39,10 +39,12 @@
     <section class="all-dada">
         <div class="data-container">
             <div class="data-img">
-                {% if avatar %}
                 <a href="{% url 'users_app:avatar' %}" title="Изменить фото"><img src="{{ avatar.url }}" alt="avatar" class="prof-img"></a>
-                {% else %}
-                <a href="{% url 'users_app:avatar' %}" title="Изменить фото"><img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="avatar" class="prof-img"></a>
+                {% if not default_avatar %}
+                <div class="del-photo-text">Удалить аватар</div> 
+                <div class="yes-no-container">
+                    <a href="{% url 'users_app:delete_avatar' slug %}" id="yes-reset"></a>
+                </div>
                 {% endif %}
             </div>
             <ul class="data-list">
@@ -66,4 +68,5 @@
         </div>
     </section>
 </main>
+<script type="module" src="{% static 'users_app/js/reset_btn2.js' %}"></script>
 {% endblock content %}

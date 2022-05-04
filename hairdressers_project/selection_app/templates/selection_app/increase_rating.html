@@ -15,11 +15,7 @@
             <div class="photo-rating-name">
                 <div class="photo-and-rating">
                     <a href="{% url 'users_app:get_hairdresser' who_do_we_evaluate.slug %}">
-                    {% if who_do_we_evaluate.avatar %}
                     <img src="{{ who_do_we_evaluate.avatar.url }}" alt="Аватар" class="photo-person2">
-                    {% else %}
-                    <img src="{% static 'users_app/assets/img/person/4+.jpg' %}" alt="Аватар" class="photo-person2">
-                    {% endif %}
                     </a>
                     <a class="main-rating-comment" href="{% url 'selection_app:see_reviews' who_do_we_evaluate.slug %}" title="Просмотр отзывов">
                         <div class="rating-person">{{ who_do_we_evaluate.hairdresser.rating }}</div>

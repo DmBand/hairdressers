@@ -1,6 +1,10 @@
+import os
+
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
+
+default_avatar_path = f"{os.path.join('..', 'static', 'users_app', 'assets', 'img', 'default_photo.jpg')}"
 
 
 def path_to_user_portfolio_directory(instance, filename):
@@ -59,7 +63,13 @@ class SimpleUser(models.Model):
     name = models.CharField(max_length=50, verbose_name='имя')
     surname = models.CharField(max_length=50, verbose_name='фамилия')
     email = models.EmailField(verbose_name='адрес эл. почты')
-    avatar = models.ImageField(upload_to=path_to_user_avatar_directory, blank=True, verbose_name='фото профиля')
+    avatar = models.ImageField(
+        upload_to=path_to_user_avatar_directory,
+        blank=True,
+        default=default_avatar_path,
+        verbose_name='фото профиля'
+    )
+    default_avatar = models.BooleanField(default=True)
     slug = models.SlugField(max_length=50, unique=True, db_index=True, verbose_name='URL')
     is_hairdresser = models.BooleanField(default=False, verbose_name='парикмахер')
     date_of_registration = models.DateField(auto_now_add=True, verbose_name='дата регистрации')

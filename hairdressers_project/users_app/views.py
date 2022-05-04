@@ -6,6 +6,7 @@ from django.contrib.auth.views import \
     PasswordResetConfirmView, \
     PasswordResetView, \
     PasswordChangeView
+from django.core.cache import cache
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -13,15 +14,16 @@ from django.utils.decorators import method_decorator
 from django.views.generic import CreateView
 
 from .decorators import user_is_authenticated
-from hairdressers_project.settings import MEDIA_ROOT, MEDIA_URL
+from hairdressers_project.settings import MEDIA_URL
 from .forms import *
+from .models import default_avatar_path
 from .services import *
 
 
 def homepage_view(request):
     """Возвращает главную страницу сайта"""
 
-    top10 = Hairdresser.objects.order_by('-rating')[:10].select_related('city')
+    top10 = cache.get_or_set('top10', Hairdresser.objects.order_by('-rating')[:10].select_related('city'), 60)
     context = {
         'title': 'Парикмахеры Беларуси',
         'top10': top10
@@ -74,6 +76,9 @@ def add_avatar_view(request):
             # Удаляем старую аватарку из хранилища
             check_number_of_files_in_avatar_directory(person_slug=request.user.simpleuser.slug)
             form.save()
+            person = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
+            person.default_avatar = False
+            person.save()
             return redirect('users_app:get_main_profile', slug_name=request.user.simpleuser.slug)
 
     elif request.POST.get('avatar') == 'no':
@@ -88,6 +93,24 @@ def add_avatar_view(request):
 
 
 @login_required(login_url='users_app:login')
+def delete_avatar_view(request, slug_name):
+    """ Удаление аватарки пользователя """
+
+    # Если пользователь захочет удалить чужую аватарку через URL,
+    # то его перекинет на страницу главного профиля
+    if request.user.simpleuser.slug != slug_name:
+        return redirect('users_app:get_main_profile', slug_name=request.user.simpleuser.slug)
+
+    # Удаляем директорию с аватаром и ставим пользователю дефолтный аватар
+    delete_avatar_directory(person_slug=slug_name)
+    person = SimpleUser.objects.get(slug=slug_name)
+    person.avatar = default_avatar_path
+    person.default_avatar = True
+    person.save()
+    return redirect('users_app:get_main_profile', slug_name=slug_name)
+
+
+@login_required(login_url='users_app:login')
 def get_main_profile_view(request, slug_name):
     """ Возвращает страницу главного профиля пользователя """
 
@@ -98,7 +121,9 @@ def get_main_profile_view(request, slug_name):
         'name': person.name,
         'surname': person.surname,
         'email': person.email,
-        'avatar': person.avatar
+        'avatar': person.avatar,
+        'default_avatar': person.default_avatar,
+        'slug': person.slug
     }
 
     return render(request, 'users_app/main_profile.html', context)

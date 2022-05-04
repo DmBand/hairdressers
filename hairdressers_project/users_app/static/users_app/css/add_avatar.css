@@ -115,7 +115,7 @@ img {
 	object-fit: cover;
 }
 
-@media (max-width: 425px) {
+@media (max-width: 768px) {
 	.result-avatar {
 		width: 250px;
 		height: 250px;
