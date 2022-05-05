@@ -146,7 +146,7 @@ cython_debug/
 
 # Mu files
 media/
-hairdressers_project/project_cache/*.djcache
+.djcache
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
