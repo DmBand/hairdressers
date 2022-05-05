@@ -44,7 +44,10 @@ INSTALLED_APPS = [
     # third party apps
     'phonenumber_field',
     'debug_toolbar',
+    'captcha',
 ]
+
+CAPTCHA_IMAGE_SIZE = (100, 35)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
