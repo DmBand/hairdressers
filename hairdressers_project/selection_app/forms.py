@@ -1,6 +1,8 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
+from captcha.fields import CaptchaField
+
 from .models import Comment
 
 
@@ -8,10 +10,11 @@ from .models import Comment
 class IncreaseRatingForm(forms.ModelForm):
     """ Форма повышения рейтинга парикмахера """
 
+    captcha = CaptchaField()
     class Meta:
         model = Comment
         fields = [
-            'rating_value', 'text'
+            'rating_value', 'text', 'captcha'
         ]
 
         widgets = {

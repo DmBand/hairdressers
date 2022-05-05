@@ -315,8 +315,38 @@
 	}
 }
 
-.portf-btns-container2 {
+.captcha-container {
 	margin-top: 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.capthca-title {
+	color: #BBA9A9;
+	letter-spacing: 1px;
+}
+
+.captcha-elem {
+	margin-top: 5px;
+	display: flex;
+	flex-wrap: wrap;
+	column-gap: 10px;
+}
+
+#id_captcha_1 {
+	width: 100px;
+	height: 35px;
+	font-family: 'Merriweather';
+	font-weight: 400;
+	font-size: 20px;
+	text-align: center;
+	letter-spacing: 2px;
+	line-height: 35px;
+}
+
+.portf-btns-container2 {
+	margin-top: 20px;
 	max-width: 600px;
 	display: flex;
 	flex-wrap: wrap;
@@ -337,7 +367,6 @@
 		margin-top: 20px;
 	}
 }
-
 
 .portf-btn-sumbit {
 	font-family: 'Inter';

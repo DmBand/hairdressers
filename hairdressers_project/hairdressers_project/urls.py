@@ -23,11 +23,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('users_app.urls')),
     path('', include('selection_app.urls')),
+    path('captcha/', include('captcha.urls')),
 ]
 
 if settings.DEBUG:
-    # import debug_toolbar
-
     urlpatterns = [
         path('__debug__/', include('debug_toolbar.urls')),
     ] + urlpatterns
