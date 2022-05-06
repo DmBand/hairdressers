@@ -179,8 +179,8 @@ class CreatePortfolioForm(forms.ModelForm):
                                                   'placeholder': 'Укажите доплнительную информацию о себе: '
                                                                  'стоимость услуг, возмжен ли выезд к клиенту, '
                                                                  'стаж, ссылки на электронные сертификаты и т.д.'}),
-            'instagram': forms.URLInput(attrs={'class': 'portf-form-input',
-                                               'placeholder': 'url-адрес'}),
+            'instagram': forms.TextInput(attrs={'class': 'portf-form-input',
+                                                'placeholder': 'Никнейм (например: ivan123.1vanov)'}),
             'portfolio': forms.ClearableFileInput(attrs={'multiple': True,
                                                          'class': 'input input__file',
                                                          'id': 'input__file'}),
