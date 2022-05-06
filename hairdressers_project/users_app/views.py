@@ -295,7 +295,7 @@ def create_portfolio_view(request):
         else:
             print(form.errors)
 
-    context = {'title': 'Регистрация формы', 'form': form, 'files': MAX_COUNT}
+    context = {'title': 'Создание портфолио', 'form': form, 'files': MAX_COUNT}
 
     return render(request, 'users_app/add_portfolio.html', context)
 

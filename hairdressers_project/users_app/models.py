@@ -90,7 +90,7 @@ class Hairdresser(models.Model):
     phone = PhoneNumberField(verbose_name='номер телефона')
     skills = models.ManyToManyField(Skill, verbose_name='навыки')
     rating = models.IntegerField(default=1, verbose_name='рейтинг')
-    instagram = models.URLField(max_length=255, blank=True, verbose_name='инстаграм')
+    instagram = models.CharField(max_length=100, blank=True, verbose_name='инстаграм')
     another_info = models.TextField(max_length=1000, blank=True, verbose_name='дополнительная информация')
     portfolio = models.ImageField(upload_to=path_to_user_portfolio_directory, blank=True, verbose_name='портфолио')
     owner = models.OneToOneField(SimpleUser, on_delete=models.CASCADE)
