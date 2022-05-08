@@ -436,3 +436,7 @@ def delete_portfolio_view(request, slug_name):
 def page_404_view(request, exception):
     context = {'title': 'Страница не найдена...'}
     return render(request, 'users_app/404.html', context)
+
+def page_500_view(request):
+    context = {'title': 'Ошибка сервера...'}
+    return render(request, 'users_app/500.html', context)

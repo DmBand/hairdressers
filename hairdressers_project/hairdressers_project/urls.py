@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 
 from hairdressers_project import settings
-from users_app.views import page_not_found_view
+from users_app.views import page_404_view, page_500_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +28,8 @@ urlpatterns = [
 ]
 
 handler404 = page_404_view
+handler500 = page_500_view
+
 
 if settings.DEBUG:
     urlpatterns = [

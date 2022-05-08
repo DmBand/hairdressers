@@ -38,5 +38,5 @@ urlpatterns = [
     path('reset_portfolio/<slug:slug_name>/', reset_portfolio_photos_view, name='reset_portfolio'),
     path('delete_portfolio/<slug:slug_name>/', delete_portfolio_view, name='delete_portfolio'),
     path('hairdressers/<slug:slug_name>/', get_one_hairdresser_view, name='get_hairdresser'),
-    path("404/", page_not_found_view),
+    path("500/", page_500_view),
 ]
