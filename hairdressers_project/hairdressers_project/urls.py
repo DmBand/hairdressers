@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 
 from hairdressers_project import settings
+from users_app.views import page_400_view, page_403_view, page_404_view, page_500_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,8 +27,13 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
 ]
 
+handler400 = page_400_view
+handler403 = page_403_view
+handler404 = page_404_view
+handler500 = page_500_view
+
 if settings.DEBUG:
     urlpatterns = [
-        path('__debug__/', include('debug_toolbar.urls')),
-    ] + urlpatterns
+                      path('__debug__/', include('debug_toolbar.urls')),
+                  ] + urlpatterns
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

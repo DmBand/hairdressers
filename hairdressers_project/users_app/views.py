@@ -7,7 +7,6 @@ from django.contrib.auth.views import \
     PasswordResetView, \
     PasswordChangeView
 from django.core.cache import cache
-from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -430,3 +429,32 @@ def delete_portfolio_view(request, slug_name):
     }
 
     return render(request, 'users_app/delete_portfolio.html', context)
+
+
+# errors
+def page_400_view(request, exception):
+    """ Возвращает страницу 400 """
+
+    context = {'title': 'Некорректный запрос...'}
+    return render(request, 'users_app/400.html', context, status=400)
+
+
+def page_403_view(request, exception):
+    """ Возвращает страницу 403 """
+
+    context = {'title': 'Доступ запрещен...'}
+    return render(request, 'users_app/403.html', context, status=403)
+
+
+def page_404_view(request, exception):
+    """ Возвращает страницу 404 """
+
+    context = {'title': 'Страница не найдена...'}
+    return render(request, 'users_app/404.html', context, status=404)
+
+
+def page_500_view(request):
+    """ Возвращает страницу 500 """
+
+    context = {'title': 'Ошибка сервера...'}
+    return render(request, 'users_app/500.html', context, status=500)

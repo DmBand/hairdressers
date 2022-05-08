@@ -6,6 +6,7 @@ app_name = 'users_app'
 
 urlpatterns = [
     path('', homepage_view, name='homepage'),
+
     # main_profile
     path('registration/', RegistrationUserView.as_view(), name='register'),
     path('login/', LoginUserView.as_view(), name='login'),
@@ -15,6 +16,7 @@ urlpatterns = [
     path('edit_profile/<slug:slug_name>/', edit_main_profile_view, name='edit_main_profile'),
     path('delete_profile/<slug:slug_name>/', delete_main_profile_view, name='delete_main_profile'),
     path('profile/<slug:slug_name>/', get_main_profile_view, name='get_main_profile'),
+
     # password reset
     path('forgot_password/', ResetPasswordView.as_view(),
          name='password_reset'),
@@ -26,6 +28,7 @@ urlpatterns = [
     path('reset_complete/', av.PasswordResetCompleteView.as_view(
         template_name='users_app/reset_password/password_reset_complete.html'),
          name='password_reset_complete'),
+
     # password change
     path('password_change/', ChangePasswordView.as_view(), name='password_change'),
     path('password_change/done/', av.PasswordChangeDoneView.as_view(
