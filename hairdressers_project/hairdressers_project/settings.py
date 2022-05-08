@@ -12,17 +12,25 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 
+import environ
+
+env = environ.Env(
+
+)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-x*xnr2u6xl$u=isy4p1ri#&3p45qjdwj2u2)98up2#l#*@f6%+'
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
@@ -91,11 +99,11 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hairdressers',
-        'USER': 'postgres',
-        'PASSWORD': '3452',
-        'HOST': '127.0.0.1',
-        'PORT': 5432
+        'NAME': env.str('DB_NAME'),
+        'USER': env.str('DB_USER'),
+        'PASSWORD': env.int('DB_PASSWORD'),
+        'HOST': env.str('DB_HOST'),
+        'PORT': env.int('DB_PORT'),
     }
 }
 
@@ -146,12 +154,12 @@ MEDIA_URL = '/media/'
 
 # email configs
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_BACKEND = env.str('EMAIL_BACKEND')
+EMAIL_HOST = env.str('EMAIL_HOST')
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'd.bandysik@gmail.com'
-EMAIL_HOST_PASSWORD = 'mxnkbmuelddpfpyc'
+EMAIL_HOST_USER = env.str('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD')
 
 # debug toolbar
 INTERNAL_IPS = [
