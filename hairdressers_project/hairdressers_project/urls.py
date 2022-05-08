@@ -27,7 +27,7 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
 ]
 
-# handler404 = page_not_found_view
+handler404 = page_not_found_view
 
 if settings.DEBUG:
     urlpatterns = [
