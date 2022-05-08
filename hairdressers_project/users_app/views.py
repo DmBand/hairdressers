@@ -114,6 +114,11 @@ def get_main_profile_view(request, slug_name):
     """ Возвращает страницу главного профиля пользователя """
 
     person = SimpleUser.objects.get(slug=slug_name)
+    # При попытке получить чужой главный профиль
+    # будет выполнен редирект на свой главный профиль
+    if request.user.username != person.slug:
+        return redirect('users_app:get_main_profile', slug_name=request.user.username)
+
     context = {
         'title': f'Главный профиль: {person.username}',
         'username': person.username,
@@ -133,6 +138,11 @@ def edit_main_profile_view(request, slug_name):
     """ Возвращает страницу редактирования главного профиля """
 
     simple_user = SimpleUser.objects.get(slug=slug_name)
+    # Если пользователь захочет изменить чужой профиль,
+    # то его перекинет на свой главный профиль
+    if request.user.username != simple_user.owner.username:
+        return redirect('users_app:get_main_profile', slug_name=request.user.username)
+
     user = User.objects.get(username=slug_name)
 
     if request.method != 'POST':
@@ -158,9 +168,9 @@ def delete_main_profile_view(request, slug_name):
     """ Возвращает страницу удаления главного профиля """
 
     # Если пользователь захочет удалить чужой профиль через URL,
-    # то его перекинет на страницу удаления своего портфолио
+    # то его перекинет на страницу своего профиля
     if request.user.username != slug_name:
-        return redirect('users_app:delete_main_profile', slug_name=request.user.username)
+        return redirect('users_app:get_main_profile', slug_name=request.user.username)
 
     user = User.objects.get(username=slug_name)
 
@@ -329,15 +339,16 @@ def get_one_hairdresser_view(requset, slug_name):
     try:
         # Получаем список имен файлов из найденной директории
         files = os.listdir(directory)
+        sorted_files = sorted({str(f): os.path.getctime(f'{directory}/{f}') for f in files}, reverse=True)
     except FileNotFoundError:
         context['files'] = []
     else:
         # URL, по которому будут находиться фото пользователя
         url_for_photo = f'{MEDIA_URL}portfolio/{person.slug}'
-        # Сохраняем в context имена файлов и путь к файлам,
+        # Сохраняем в context имена файлов, количество и путь к файлам,
         # после чего в шаблоне проходим циклом по всем файлам
         # и загружаем их на страницу
-        context['files'] = files
+        context['files'] = sorted_files
         context['count'] = len(files)
         context['url_for_photo'] = url_for_photo
 
@@ -348,8 +359,16 @@ def get_one_hairdresser_view(requset, slug_name):
 def edit_portfolio_view(request, slug_name):
     """ Возвращает страницу изменения портфолио """
 
-    # the_hairdresser = Hairdresser.objects.get(slug=slug_name)
+    # Если пользователь захочет изменить чужое портфолио через URL,
+    # то его перекинет на своё портфолио, если он парикмахер,
+    # иначе - на свой главный профиль
     the_hairdresser = SimpleUser.objects.get(slug=slug_name)
+    if request.user.username != the_hairdresser.owner.username:
+        if request.user.simpleuser.is_hairdresser:
+            return redirect('users_app:get_hairdresser', slug_name=request.user.username)
+        else:
+            return redirect('users_app:get_main_profile', slug_name=request.user.username)
+
     # Получаем отдельно список навыков, чтобы отметить в форме уже имеющиеся навыки
     skills = the_hairdresser.hairdresser.skills.all()
 
@@ -397,7 +416,7 @@ def delete_portfolio_view(request, slug_name):
     # Если пользователь захочет удалить чужое портфолио через URL,
     # то его перекинет на страницу удаления своего портфолио
     if request.user.simpleuser.slug != slug_name:
-        return redirect('users_app:delete_portfolio', slug_name=request.user.simpleuser.slug)
+        return redirect('users_app:get_main_profile', slug_name=request.user.simpleuser.slug)
 
     user = SimpleUser.objects.get(slug=slug_name)
 
