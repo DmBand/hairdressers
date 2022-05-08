@@ -124,19 +124,9 @@
 .reg-fields {
 	margin-top: 30px;
 	padding: 0 20px;
-	background: url('../assets/img/ch_main_bg.png');
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-position: 97% 0px;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-}
-
-@media (max-width: 1160px) {
-	.reg-fields {
-		background: none;
-	}
 }
 
 @media (max-width: 650px) {
@@ -153,12 +143,7 @@
 	font-weight: 400;
 	color: #fff;
 	letter-spacing: 2px;
-}
-
-@media (max-width: 1160px) {
-	.reg-form {
-		align-items: center;
-	}
+	align-items: center;
 }
 
 .all-rows {
@@ -166,12 +151,7 @@
 	flex-direction: column;
 	row-gap: 20px;
 	width: 100%;
-}
-
-@media (max-width: 1160px) {
-	.all-rows {
-		align-items: center;		
-	}
+	align-items: center;
 }
  
 .form-row {
@@ -209,12 +189,7 @@
 	font-size: 18px;
 	line-height: 40px;
 	letter-spacing: 2px;
-}
-
-@media (max-width: 1160px) {
-	.reg-form-input {
-		width: 600px;
-	}
+	width: 600px;
 }
 
 @media (max-width: 830px) {

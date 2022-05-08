@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 
 from hairdressers_project import settings
+from users_app.views import page_not_found_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +26,8 @@ urlpatterns = [
     path('', include('selection_app.urls')),
     path('captcha/', include('captcha.urls')),
 ]
+
+# handler404 = page_not_found_view
 
 if settings.DEBUG:
     urlpatterns = [

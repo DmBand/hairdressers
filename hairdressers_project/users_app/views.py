@@ -430,3 +430,9 @@ def delete_portfolio_view(request, slug_name):
     }
 
     return render(request, 'users_app/delete_portfolio.html', context)
+
+
+#errors
+def page_not_found_view(request):
+    context = {'title': 'Страница не найдена...'}
+    return render(request, 'users_app/404.html', context)
