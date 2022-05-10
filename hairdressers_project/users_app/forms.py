@@ -17,7 +17,7 @@ class RegistrationUserForm(UserCreationForm):
     )
     # Валидатор для имени и фамилии
     first_and_last_name_validator = RegexValidator(
-        regex=r'^[a-zA-Zа-яА-Я-]*$',
+        regex=r'^[a-zA-Zа-яёА-ЯЁ-]*$',
         message='Допускаются буквы а-яА-Я, a-zA-Z.'
     )
 
@@ -82,7 +82,7 @@ class EditProfileForm(forms.ModelForm):
 
     # Валидатор для имени и фамилии
     first_and_last_name_validator = RegexValidator(
-        regex=r'^[a-zA-Zа-яА-Я-]*$',
+        regex=r'^[a-zA-Zа-яёА-ЯЁ-]*$',
         message='Допускаются буквы а-яА-Я, a-zA-Z.'
     )
 
