@@ -2,6 +2,10 @@ from django.contrib import admin
 from .models import *
 
 
+class SkillAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
 class HairdresserAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'owner', 'city', 'rating',
@@ -30,7 +34,7 @@ class CityAdmin(admin.ModelAdmin):
     list_filter = ('region',)
 
 
-admin.site.register(Skill)
+admin.site.register(Skill, SkillAdmin)
 admin.site.register(Region)
 admin.site.register(City, CityAdmin)
 admin.site.register(Hairdresser, HairdresserAdmin)
