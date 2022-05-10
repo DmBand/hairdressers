@@ -620,14 +620,19 @@
 	width: 70%;
 	margin: 0 auto;
 	letter-spacing: 2px;
-	text-align: justify;
+	text-align: start;
 	color: #BBA9A9;
 	line-height: 25px;
 	font-size: 22px;
 	display: flex;
 	flex-wrap: wrap;
 	column-gap: 20px;
-	row-gap: 10px;
+	row-gap: 15px;
+}
+
+.common-style {
+	max-height: 220px;
+	overflow: auto;
 }
 
 .common-style-pre {
@@ -636,7 +641,6 @@
 	font-size: 22px;
 	line-height: 35px;
 	white-space: pre-wrap;
-	text-align: start;
 }
 
 @media (max-width: 1024px) {
@@ -669,6 +673,7 @@
 		font-size: 15px;
 		row-gap: 0;
 		margin: 10px 0 0 0px;
+		/* width: 100%; */
 	}
 }
 
@@ -680,6 +685,8 @@
 }
 
 .common-style li {
+	border-bottom: 1px solid #BDAE82;
+	padding-bottom: 2px;
 	list-style: circle inside;
 	width: 250px;
 }
@@ -687,6 +694,12 @@
 @media (max-width: 1024px) {
 	.common-style li {
 		width: 200px;
+	}
+}
+
+@media (max-width: 425px) {
+	.common-style li {
+		width: 90%;
 	}
 }
 

@@ -3,7 +3,7 @@ from .models import *
 
 
 class SkillAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('id', 'name')
 
 
 class HairdresserAdmin(admin.ModelAdmin):
