@@ -301,9 +301,6 @@ def create_portfolio_view(request):
             # Редирект на страницу портфолио
             return redirect('users_app:get_hairdresser', slug_name=request.user.username)
 
-        else:
-            print(form.errors)
-
     context = {'title': 'Создание портфолио', 'form': form, 'files': MAX_COUNT}
 
     return render(request, 'users_app/add_portfolio.html', context)
@@ -339,12 +336,14 @@ def get_one_hairdresser_view(requset, slug_name):
     try:
         # Получаем список имен файлов из найденной директории
         files = os.listdir(directory)
-        sorted_files = sorted({str(f): os.path.getctime(f'{directory}/{f}') for f in files}, reverse=True)
     except FileNotFoundError:
         context['files'] = []
     else:
         # URL, по которому будут находиться фото пользователя
         url_for_photo = f'{MEDIA_URL}portfolio/{person.slug}'
+        # Файлы отображаются по дате добавления в портфолио
+        all_files = {str(f): os.path.getmtime(f'{directory}/{f}') for f in files}
+        sorted_files = sorted(all_files, key=all_files.get, reverse=True)
         # Сохраняем в context имена файлов, количество и путь к файлам,
         # после чего в шаблоне проходим циклом по всем файлам
         # и загружаем их на страницу

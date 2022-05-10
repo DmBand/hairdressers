@@ -28,7 +28,8 @@ def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
     # 1) формируем словарь, в котором ключ - название файла, значение - дата создания файла;
     # 2) Сотрируем словарь по убыванию (у старых файлов время создания меньше, чем у новых);
     # 3) Получаем список названий файлов, отсортированный по дате создания.
-    the_oldest = sorted({str(f): os.path.getctime(f'{directory}/{f}') for f in files}, reverse=True)
+    all_files = {str(f): os.path.getmtime(f'{directory}/{f}') for f in files}
+    the_oldest = sorted(all_files, key=all_files.get, reverse=True)
 
     # Определяем количество файлов в портфолио и количество новых файлов
     number_of_files_in_portfolio = len(files)

@@ -18,7 +18,7 @@ def path_to_user_avatar_directory(instance, filename):
 class Skill(models.Model):
     """ Модель навыков парикмахеров """
 
-    name = models.CharField(max_length=50, verbose_name='навык', db_index=True)
+    name = models.CharField(max_length=150, verbose_name='навык', db_index=True)
 
     def __str__(self):
         return self.name
@@ -26,6 +26,7 @@ class Skill(models.Model):
     class Meta:
         verbose_name_plural = 'навыки'
         verbose_name = 'навык'
+        ordering = ['name']
 
 
 class Region(models.Model):
