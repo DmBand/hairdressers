@@ -1,0 +1,1 @@
+web: gunicorn hairdressers_project/hairdressers_project.wsgi --log-file -
