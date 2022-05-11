@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 import environ
+import dj_database_url
 
 env = environ.Env()
 
@@ -57,6 +58,7 @@ CAPTCHA_IMAGE_SIZE = (100, 35)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -169,3 +171,11 @@ CACHES = {
         'TIMEOUT': 180,
     }
 }
+
+# Heroku: Update database configuration from $DATABASE_URL.
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+# Уменьшить размер статических файлов при их обслуживании
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
