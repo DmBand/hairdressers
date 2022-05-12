@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-x*xnr2u6xl$u=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get('DEBUG', default=True))
 
-ALLOWED_HOSTS = ['127.0.0.1', 'hairdressers.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'hairdressers4you.herokuapp.com']
 
 # Application definition
 
