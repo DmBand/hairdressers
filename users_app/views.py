@@ -12,8 +12,9 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView
 
-from .decorators import user_is_authenticated
 from hairdressers_project.settings import MEDIA_URL
+from .decorators import user_is_authenticated
+
 from .forms import *
 from .models import default_avatar_path
 from .services import *

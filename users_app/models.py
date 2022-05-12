@@ -4,7 +4,7 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
 
-default_avatar_path = f"{os.path.join('..', 'static', 'users_app', 'assets', 'img', 'default_photo.jpg')}"
+default_avatar_path = f"{os.path.join('./static', 'users_app', 'assets', 'img', 'default_photo.jpg')}"
 
 
 def path_to_user_portfolio_directory(instance, filename):
