@@ -33,7 +33,6 @@ DEBUG = bool(os.environ.get('DEBUG', default=True))
 ALLOWED_HOSTS = ['127.0.0.1', 'hairdressers4you.herokuapp.com']
 
 # Application definition
-
 INSTALLED_APPS = [
     # Default apps
     'django.contrib.admin',
