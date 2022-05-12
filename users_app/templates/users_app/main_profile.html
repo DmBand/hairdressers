@@ -1,0 +1,72 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'users_app/css/main_profile.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<main class="main">
+    <section class="profile-buttons">
+        <ul class="btn-list">
+            <a href="{% url 'users_app:get_main_profile' user.username %}" class="btn-block-active">
+                <li class="btn-item">Главный профиль</li>
+            </a>
+            {% if user.simpleuser.is_hairdresser %}
+            <a href="{% url 'users_app:get_hairdresser' user.username %}" class="btn-block">
+                <li class="btn-item">Портфолио</li>
+            </a>
+            {% else %}
+            <a href="{% url 'users_app:create_portfolio' %}" class="btn-block">
+                <li class="btn-item">Создать портфолио</li>
+            </a>
+            {% endif %}
+        </ul>
+        <ul class="btn-list">
+            <a href="{% url 'users_app:edit_main_profile' request.user.simpleuser.slug %}" class="btn-block2">
+                <li class="btn-item2">Редактировать</li>
+            </a>
+            <a href="{% url 'users_app:delete_main_profile' request.user.simpleuser.slug %}" class="btn-block3">
+                <li class="btn-item2">Удалить</li>
+            </a>
+        </ul>
+        <ul class="btn-list" style="border: none;">
+            <a href="{% url 'users_app:password_change' %}" class="btn-block4">
+                <li class="btn-item2">Изменить пароль</li>
+            </a>
+        </ul>
+    </section>
+    <section class="all-dada">
+        <div class="data-container">
+            <div class="data-img">
+                <a href="{% url 'users_app:avatar' %}" title="Изменить фото"><img src="{{ avatar.url }}" alt="avatar" class="prof-img"></a>
+                {% if not default_avatar %}
+                <div class="del-photo-text">Удалить аватар</div> 
+                <div class="yes-no-container">
+                    <a href="{% url 'users_app:delete_avatar' slug %}" id="yes-reset"></a>
+                </div>
+                {% endif %}
+            </div>
+            <ul class="data-list">
+                <li class="data-item">
+                    <p class="data-label">Логин</p>
+                    <p class="data-text">{{ username }}</p>                    
+                </li>
+                <li class="data-item">
+                    <p class="data-label">Имя</p>
+                    <p class="data-text">{{ name|truncatechars:31|title }}</p>
+                </li>
+                <li class="data-item">
+                    <p class="data-label">Фамилия</p>
+                    <p class="data-text">{{ surname|truncatechars:31|title }}</p>
+                </li>
+                <li class="data-item">
+                    <p class="data-label">Эл. адрес</p>
+                    <p class="data-text">{{ email|truncatechars:31 }}</p>
+                </li>                
+            </ul>           
+        </div>
+    </section>
+</main>
+<script type="module" src="{% static 'users_app/js/reset_btn2.js' %}"></script>
+{% endblock content %}

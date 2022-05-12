@@ -1,0 +1,33 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'users_app/css/registration.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<main class="main-reg">
+    <section class="reg-title">
+        <h1 class="reg-title-text">Регистрация</h1>
+    </section>
+    <section class="reg-fields">
+        <form method="post" action="{% url 'users_app:register' %}" class="reg-form">
+            {% csrf_token %}
+            <div class="other-errors">{{ form.non_field_errors }}</div>
+            <ul class="all-rows">
+                {% for f in form %}
+                <li class="form-row">
+                    <label for="{{ f.id_for_label }}" class="reg-form-label">{{ f.label }}*</label>
+                    {{ f.errors }}
+                    {{ f }}
+                </li>                
+                {% endfor %}
+            </ul>
+             <div class="reg-btn-container">
+                <button type="submit" class="reg-btn">Регистрация</button>
+                <a href="{% url 'users_app:login' %}"><p class="reg-btn3">Вход</p></a>
+            </div>
+        </form>
+    </section>
+</main>
+{% endblock content %} 

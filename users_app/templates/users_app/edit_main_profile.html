@@ -1,0 +1,47 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'users_app/css/edit_main_profile.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<main class="main-reg">
+    <section class="profile-buttons">
+        <ul class="btn-list">
+            <a href="{% url 'users_app:get_main_profile' user.username %}" class="btn-block">
+                <li class="btn-item">Главный профиль</li>
+            </a>
+            {% if user.simpleuser.is_hairdresser %}
+            <a href="{% url 'users_app:get_hairdresser' user.username %}" class="btn-block">
+                <li class="btn-item">Портфолио</li>
+            </a>
+            {% else %}
+            <a href="{% url 'users_app:create_portfolio' %}" class="btn-block">
+                <li class="btn-item">Создать портфолио</li>
+            </a>
+            {% endif %}
+        </ul>
+    </section>
+    <section class="reg-title2">
+        <h1 class="reg-title-text">Редактировать главный профиль</h1>
+    </section>
+    <section class="reg-fields">
+        <form method="post" action="{% url 'users_app:edit_main_profile' request.user.simpleuser.slug %}" class="reg-form">
+            {% csrf_token %}
+            <ul class="all-rows">
+                {% for f in form %}
+                <li class="form-row">
+                    <label for="{{ f.id_for_label }}" class="reg-form-label">{{ f.label }}</label>
+                    {{ f.errors }}
+                    {{ f }}                    
+                </li>
+                {% endfor %}
+            </ul>
+             <div class="reg-btn-container3">
+                <button type="submit" class="portf-btn-sumbit">Применить</button>
+            </div>
+        </form>
+    </section>
+</main>
+{% endblock content %} 

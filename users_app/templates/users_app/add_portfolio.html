@@ -1,0 +1,85 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'users_app/css/add_portfolio.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<main class="main">
+    <section class="profile-buttons">
+        <ul class="btn-list">
+            <a href="{% url 'users_app:get_main_profile' user.username %}" class="btn-block">
+                <li class="btn-item">Главный профиль</li>
+            </a>
+            {% if user.simpleuser.is_hairdresser %}
+            <a href="{% url 'users_app:get_hairdresser' user.username %}" class="btn-block">
+                <li class="btn-item">Портфолио</li>
+            </a>
+            {% else %}
+            <a href="{% url 'users_app:create_portfolio' %}" class="btn-block-active">
+                <li class="btn-item">Создать портфолио</li>
+            </a>
+            {% endif %}
+        </ul>
+    </section>
+    <section class="add-portfolio-section">
+        <h1 class="reg-title-text">Создать портфолио</h1>
+        <form class="add-portfolio-form" action="{% url 'users_app:create_portfolio' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="one-field">
+                <label for="{{ form.phone.id_for_label }}" class="portf-form-label">Номер телефона</label>
+                {{ form.phone.errors }}
+                {{ form.phone }}
+            </div>
+            <div class="one-field">
+                <p class="portf-form-label">Выберите ваш город</p>
+                {{ form.city.errors }}
+                {{ form.city }}
+            </div>
+            <div class="one-field">
+                <p class="portf-form-label">Выберите ваши навыки</p>
+                {{ form.skills.errors }}
+                <div class="skills-container">
+                    {% for skill in form.skills.field.choices.queryset %}
+                    <label class="portf-form-label-cb">
+                        <input name="skills" value="{{ skill.id }}" class="portf-form-input-cb" type="checkbox">
+                        {{ skill.name }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="one-field">
+                <p class="portf-form-label">Прочее</p>
+                {{ form.another_info.errors }}
+                {{ form.another_info }}
+            </div>
+            <div class="one-field">
+                {{ form.instagram.errors }}
+                <label class="portf-form-label" for="{{ form.instagram.id_for_label }}">Instagram</label>
+                {{ form.instagram }}
+            </div>
+            <div class="one-field">
+                <p class="portf-form-label">Добавьте свои работы (не более {{ files }} файлов)</p>
+                <p class="portf-form-label-add">*при превышении допустимого количества файлов, автоматически будут удалены самые старые файлы в портфолио</p>
+                {{ form.portfolio.errors }}
+                <div class="input__wrapper">
+                    {{ form.portfolio }}
+                    <label for="input__file" class="input__file-button">
+                        <span class="input__file-icon-wrapper"><img class="input__file-icon" src="{% static 'users_app/assets/svg/file_upload_black_48dp.svg' %}" alt="Выбрать файл" width="25"></span>
+                        <span class="input__file-button-text">Выберите файлы</span>
+                    </label>
+                </div>
+            </div>
+            <div class="portf-btns-container">
+                <button class="portf-btn-sumbit" type="submit">Сохранить</button>
+                <a class="portf-btn-reset" href="">
+                    <div class="portf-reset-link">Сброс</div>
+                </a>
+            </div>
+        </form>
+    </section>
+</main>
+<script type="module" src="{% static 'users_app/js/add_photo_btn.js' %}"></script>
+{% endblock content %}

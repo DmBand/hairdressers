@@ -1,0 +1,67 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'selection_app/css/selection.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<main class="main2">
+    <div class="filters">
+        <div class="filters-title">Критерии отбора</div>
+        <form class="filter-city" action="{% url 'selection_app:selection' %}" method="get">
+            <p class="form-title">Город / населенный пункт</p>
+            <div class="city-form-container">
+                <select name="city" class="select">
+                    <option selected value="{{ current_city.id }}" class="option">{{ current_city }}</option>
+                    {% for c in city %}
+                    <option value="{{ c.id }}" class="option">{{ c.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <p class="form-title">Специализаия</p>
+            <div class="skill-form-container">
+                {% for skill in skills %}
+                    {% if skill.id in chosen_skills %}
+                    <label class="label-name">
+                        <input checked value="{{ skill.id }}" name="skill" type="checkbox" class="input-variant">
+                        {{ skill }}
+                    </label>
+                    {% else %}
+                    <label class="label-name">
+                        <input value="{{ skill.id }}" name="skill" type="checkbox" class="input-variant">
+                        {{ skill }}
+                    </label>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="form-buttons">
+                <button class="selection-btn" type="submit">Применить</button>
+                <a class="selection-btn-reset" href="{% url 'selection_app:selection' %}">
+                    <div class="reset-link">Сброс</div>
+                </a>
+            </div>
+        </form>    
+    </div>
+    <div class="result">
+        <div class="filters-title">Результат</div>
+        <ul class="result-items" id="items">
+            {% for h in hairdresser %}
+            <a href="{% url 'users_app:get_hairdresser' h.owner.slug %}" class="result-link" target="_blank">
+                <li class="result-item">
+                    <img src="{{ h.owner.avatar.url }}" alt="Avatar" class="result-photo">
+                    <div class="result-rating-container">
+                        <img src="{% static 'users_app/assets/svg/rait_24.svg' %}" alt="rating" class="rating-logo">
+                        <p class="rating-value">{{ h.rating }}</p>
+                    </div>
+                    <div class="result-name-surname">
+                        <p class="result-name">{{ h.owner.name|truncatechars:21|title }}</p>
+                        <p class="result-name">{{ h.owner.surname|truncatechars:21|title }}</p>
+                    </div>
+                </li>
+            </a>
+            {% endfor %}
+        </ul>
+    </div>
+</main>
+{% endblock content %}

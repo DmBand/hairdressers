@@ -1,0 +1,40 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'users_app/css/delete_main_profile.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<main class="main-reg">
+    <section class="reg-title2">
+        <h1 class="reg-title-text">Удаление главного профиля</h1>
+    </section>
+    <section class="delete-profile">
+        <div class="del-description-container">
+            <p>
+                <span class="span-1">
+                    {{ user.first_name }} {{ user.last_name }}
+                </span>,
+            </p>
+            <p>
+                <span class="span-2">Вы собираетесь полностью удалить свой профиль!</span>
+            </p>
+            <p class="del-description">
+                <span class="span-1">Все данные будут безвозвратно удалены.</span>
+            </p>
+        </div>
+        <form action="{% url 'users_app:delete_main_profile' user.username %}" method="post" class="del-profile-form">
+            {% csrf_token %}
+            <p class="del-hint">Для подтверждения удаления, пожалуйста, введите следующий код:</p>
+            <p class="del-code">{{ code }}</p>
+            {% for message in messages %}
+            <p class="del-profile-message">{{ message }}</p>
+            {% endfor %}
+            {{ form.code }}
+            <button type="submit" class="del-profile-btn">Удалить профиль</button>
+        </form>
+    </section>
+</main>
+
+{% endblock content %}

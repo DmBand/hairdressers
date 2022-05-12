@@ -1,0 +1,34 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+ 
+{% block styles %}
+<link rel="stylesheet" href="{% static 'users_app/css/login.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<main class="main-reg">
+    <section class="reg-title">
+        <h1 class="reg-title-text">Вход</h1>
+    </section>
+    <section class="reg-fields">
+        <form method="post" action="{% url 'users_app:login' %}" class="reg-form">
+            {% csrf_token %}
+            <div class="other-errors">{{ form.non_field_errors }}</div>
+            <ul class="all-rows">
+                {% for f in form %}
+                <li class="form-row">
+                    <label for="{{ f.id_for_label }}" class="reg-form-label">{{ f.label }}</label>
+                    {{ f }}
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="reg-btn-container2">
+                <button type="submit" class="reg-btn">Войти</button>
+                <a href="{% url 'users_app:register' %}"><p class="reg-btn2">Регистрация</p></a>
+                <a href="{% url 'users_app:password_reset' %}"><p class="reset-password-btn">Забыли пароль?</p></a>
+                
+            </div>
+        </form>
+    </section>
+</main>
+{% endblock content %}

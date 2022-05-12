@@ -1,0 +1,71 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'selection_app/css/increase_rating.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<main class="main-reg">
+    <section class="reg-title">
+        <h1 class="reg-title-text">Добавить отзыв</h1>
+    </section>
+    <section class="increase-rating">
+        <div class="rating-comment-container">
+            <div class="photo-rating-name">
+                <div class="photo-and-rating">
+                    <a href="{% url 'users_app:get_hairdresser' who_do_we_evaluate.slug %}" title="Портфолио {{ who_do_we_evaluate.slug }}">
+                    <img src="{{ who_do_we_evaluate.avatar.url }}" alt="Аватар" class="photo-person2">
+                    </a>
+                    <a class="main-rating-comment" href="{% url 'selection_app:see_reviews' who_do_we_evaluate.slug %}" title="Просмотр отзывов">
+                        <div class="rating-person">{{ who_do_we_evaluate.hairdresser.rating }}</div>
+                        <div class="comment">{{ review }}</div>
+                    </a>
+                </div>
+                <div class="result-name-surname2">
+                    <p class="top10-name">{{ who_do_we_evaluate.name|truncatechars:30|title }}</p>
+                    <p class="top10-name">{{ who_do_we_evaluate.surname|truncatechars:30|title }}</p>
+                </div>
+                <a href="{% url 'selection_app:see_reviews' who_do_we_evaluate.slug %}" title="Просмотр отзывов" class="new-comment">
+                    <p class="see-comment2">Просмотр отзывов</p>
+                </a>
+            </div>
+            <form action="{% url 'selection_app:increase_rating' who_do_we_evaluate.slug %}" method="post" class="add-comment-form">
+                {% csrf_token %}
+                <div class="rating-comment">
+                    <p class="rating-description">
+                        Оцените работу мастера
+                    </p>
+                    <div class="radio-container">
+                        {% for num in values %}
+                        <div class="l-i">
+                            <label class="add-rating-label" for="r{{ num }}">{{ num }}</label>
+                            {% if num == 0 %}
+                            <input checked id="r{{ num }}" type="radio" name="{{ form.rating_value.name }}" value="{{ num }}" class="add-rating-input">
+                            {% else %}
+                            <input id="r{{ num }}" type="radio" name="{{ form.rating_value.name }}" value="{{ num }}" class="add-rating-input">
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="comment-container">
+                        <label class="rating-description">Добавьте отзыв о работе мастера</label>
+                        {{ form.text.errors }}
+                        {{ form.text }}
+                    </div>
+                    <div class="captcha-container">
+                        <p class="capthca-title">Введите текст с картинки</p>
+                        <div class="captcha-elem">{{ form.captcha }}</div>
+                    </div>                    
+                </div>
+                <div class="portf-btns-container2">
+                    <button class="portf-btn-sumbit" type="submit">Сохранить</button>
+                    <a class="portf-btn-reset" href="">
+                        <div class="portf-reset-link">Сброс</div>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+{% endblock content %} 

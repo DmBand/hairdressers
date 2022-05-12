@@ -1,0 +1,118 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'users_app/css/portfolio.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<main class="main">
+    {% if request.user.simpleuser.slug == slug %}
+    <section class="profile-buttons">
+        <ul class="btn-list">
+            <a href="{% url 'users_app:get_main_profile' user.username %}" class="btn-block">
+                <li class="btn-item">Главный профиль</li>
+            </a>
+            {% if user.simpleuser.is_hairdresser %}
+            <a href="{% url 'users_app:get_hairdresser' user.username %}" class="btn-block-active">
+                <li class="btn-item">Портфолио</li>
+            </a>
+            {% else %}
+            <a href="{% url 'users_app:create_portfolio' %}" class="btn-block">
+                <li class="btn-item">Создать портфолио</li>
+            </a>
+            {% endif %}
+        </ul>
+        <ul class="btn-list" style="border: none;">
+            <a href="{% url 'users_app:edit_portfolio' request.user.simpleuser.slug %}" class="btn-block2">
+                <li class="btn-item2">Редактировать</li>
+            </a>
+            <a href="{% url 'users_app:delete_portfolio' request.user.simpleuser.slug %}" class="btn-block3">
+                <li class="btn-item2">Удалить</li>
+            </a>
+        </ul>
+    </section>
+    {% endif %} 
+    <section class="main-title">
+        <div class="photo-and-rating">
+            <img src="{{ avatar.url }}" alt="Аватар" class="photo-person">
+            <a class="main-rating-comment" href="{% url 'selection_app:see_reviews' slug %}" title="Просмотр отзывов">
+            <div class="rating-person">{{ rating }}</div>
+            <div class="comment">{{ review }}</div>
+            </a>
+        </div>
+        <div class="main-name-city">            
+            <h1 class="name-surname">{{ name|truncatechars:28|title }}</h1>
+            <h1 class="name-surname">{{ surname|truncatechars:28|title }}</h1>
+            <h2 class="city">{{ city }}</h2>
+            <div class="comment-btns-container">
+                {% if request.user.simpleuser.slug != slug %}
+                <a href="{% url 'selection_app:increase_rating' slug %}" title="Оценить / добавить отзыв" class="new-comment">
+                    <p class="add-comment">Добавить отзыв</p>
+                </a>
+                {% endif %}
+                <a href="{% url 'selection_app:see_reviews' slug %}" title="Просмотр отзывов" class="new-comment">
+                    <p class="see-comment">Просмотр отзывов</p>
+                </a>
+            </div>
+        </div>
+    </section>
+    <section class="skills-and-info">
+        <div class="info">
+            <div class="title-info all-skills">Специализация</div>
+            <ul class="common-style">
+                {% for skill in skills %}
+                <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="info">
+            <div class="title-info phone-number">Номер телефона</div>
+            <a class="common-style" href="tel:{{ phone }}">{{ phone }}</a>
+        </div>
+        <div class="info">
+            <div class="title-info email">Email</div>
+            <a class="common-style" href="mailto:{{ email }}">{{ email }}</a>
+        </div>
+        <div class="info">
+            <div class="title-info instagram">Instagram</div>
+            {% if instagram %}
+            <a href="https://www.instagram.com/{{ instagram }}/" class="common-style" target="_blank">{{ instagram }}</a>
+            {% else %}
+            <span class="common-style">-</span>
+            {% endif %}
+        </div>
+        <div class="info">
+            <div class="title-info another-info">Прочее</div>
+            {% if another_info %}
+            <p class="common-style-pre">{{ another_info }}</p>
+            {% else %}
+            <span class="common-style">-</span>
+            {% endif %}
+        </div>
+    </section>
+    <section class="portfolio">
+        {% if files %}
+        <div class="portf-title-container">
+            <div class="portfolio-title">Портфолио
+                <span style="font-family: 'Inter';">(</span>{{ count }}<span style="font-family: 'Inter';">)</span>
+            </div>
+            {% if request.user.simpleuser.slug == slug %}
+            <div class="del-photo-text">Удалить все фото</div>
+            <div class="yes-no-container">
+                <a href="{% url 'users_app:reset_portfolio' slug %}" id="yes-reset"></a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="portfolio-items">
+            {% for f in files %}
+                <img src="{{url_for_photo}}/{{ f }}" alt="img1" class="ptf-item">
+            {% endfor %}
+        {% else %}
+                <p class="p-info">Нет работ в портфолио...</p>
+        {% endif %}
+        </div>
+    </section>
+</main>
+<script type="module" src="{% static 'users_app/js/reset_btn.js' %}"></script>
+{% endblock content %}

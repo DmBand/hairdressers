@@ -1,0 +1,49 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'selection_app/css/see_reviews.css' %}">
+{% endblock styles %}
+ 
+{% block content %}
+<main class="main-reg">
+    <section class="reg-title">
+        <h1 class="reg-title-text">Отзывы ({{ reviews.count }})</h1>
+    </section>
+    <section class="review-container">
+        <div class="photo-rating-name-button">
+                <a href="{% url 'users_app:get_hairdresser' the_hairdresser.slug %}" title="Портфолио {{ the_hairdresser.slug }}">
+                <div class="photo-rating-name">
+                    <div class="photo-and-rating">
+                        <img src="{{ the_hairdresser.avatar.url }}" alt="Аватар" class="photo-person2">
+                        <div class="rating-person2">{{ the_hairdresser.hairdresser.rating }}</div>
+                    </div>
+                    <div class="result-name-surname2">
+                        <p class="top10-name">{{ the_hairdresser.name|truncatechars:28|title }}</p>
+                        <p class="top10-name">{{ the_hairdresser.surname|truncatechars:28|title }}</p>
+                    </div>
+                </div>
+            </a>
+            {% if request.user.simpleuser.slug != the_hairdresser.slug %}
+            <a href="{% url 'selection_app:increase_rating' the_hairdresser.slug %}" class="new-comment2">
+                <p class="add-comment2">Добавить отзыв</p>
+            </a>
+            {% endif %}
+        </div>
+        <div class="reviews">
+            {% for review in reviews %}
+            <div class="one-review-container">
+                <div class="review-autor-date">
+                    <p class="review-autor">Автор: <span class="span-review">{{ review.autor }}</span></p>
+                    <p class="review-date">Дата: <span class="span-review">{{ review.date_added|date:'d-m-Y H:i' }}</span></p>
+                </div>
+                <div class="review-title-text">
+                    <p class="review-title">Отзыв:</p>
+                    <pre class="review-text">{{ review.text }}</pre>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock content %}

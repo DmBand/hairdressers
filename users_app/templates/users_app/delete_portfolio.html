@@ -1,0 +1,42 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'users_app/css/delete_portfolio.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<main class="main-reg">
+    <section class="reg-title2">
+        <h1 class="reg-title-text">Удаление портфолио</h1>
+    </section>
+    <section class="delete-profile">
+        <div class="del-description-container">
+            <p>
+                <span class="span-1">{{ hairdresser.name }} {{ hairdresser.surname }}</span>,
+            </p>
+            <p>
+                <span class="span-2">Вы собираетесь полностью удалить своё портфолио!</span>
+            </p>
+            <p>
+                <span class="span-1">Все данные портфолио будут безвозвратно удалены, профиль не будет
+                    отображаться на странице подбора парикмахеров, Вы потеряете заработанный рейтинг.</span>
+            </p>
+            <p>
+                <span class="span-3">В будущем Вам будет доступно создание нового портфолио.</span>
+            </p>
+        </div>
+        <form action="{% url 'users_app:delete_portfolio' hairdresser.slug %}" method="post" class="del-profile-form">
+            {% csrf_token %}
+            <p class="del-hint">Для подтверждения удаления, пожалуйста, введите следующий код:</p>
+            <p class="del-code">{{ code }}</p>
+            {% for message in messages %}
+            <p class="del-profile-message">{{ message }}</p>
+            {% endfor %}
+            {{ form.code }}
+            <button type="submit" class="del-profile-btn">Удалить портфолио</button>
+        </form>
+    </section>
+</main>
+
+{% endblock content %}

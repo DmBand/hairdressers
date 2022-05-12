@@ -1,0 +1,220 @@
+.main-reg {
+    flex: 1 1 auto;
+    margin-top: 10px;
+	display: flex;
+	flex-direction: column;
+}
+ 
+.reg-title2 {
+	margin: 20px auto 0;
+}
+
+.reg-title-text {
+	font-family: 'Merriwaether';
+	font-weight: 700;
+	font-size: 35px;
+	text-transform: uppercase;
+	color: #BDAE82;
+	letter-spacing: 4px;
+	text-align: center;
+}
+
+@media (max-width: 768px) {
+	.reg-title-text {
+		font-size: 25px;
+	}
+}
+
+@media (max-width: 425px) {
+	.reg-title-text {
+		font-size: 20px;	
+		letter-spacing: 2px;
+	}
+}
+
+.del-description-container {
+	margin-top: 30px;
+	padding-bottom: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-family: 'Merriwaether';
+	font-weight: 700;
+	font-size: 15px;
+	letter-spacing: 2px;
+	color: #fff;
+	text-align: center;
+	text-transform: uppercase;
+	row-gap: 5px;
+	border-bottom: 2px solid #BDAE82;
+}
+
+.span-1 {
+	color: #BBA9A9; 
+	font-size: 25px;
+}
+
+.span-2 {
+	color: #8f0c0c; 
+	font-size: 25px;
+}
+
+.span-3 {
+	font-size: 20px;
+	color: #fff;
+}
+
+@media (max-width: 768px) {
+	.span-1 {
+		font-size: 20px;
+	}
+	.span-2 {
+		font-size: 20px;
+	}
+	.span-3 {
+		font-size: 15px;
+		line-height: 15px;
+	}
+}
+
+@media (max-width: 425px) {
+	.span-1 {
+		font-size: 15px;
+	}
+	.span-2 {
+		font-size: 15px;
+	}
+}
+
+.del-profile-form {
+	margin-top: 50px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	letter-spacing: 2px;
+}
+
+@media (max-width: 768px) {
+	.del-profile-form {
+		margin-top: 20px;
+	}
+}
+
+.del-hint {
+	font-family: 'Merriwaether';
+	font-weight: 700;
+	color: #BBA9A9;
+	font-size: 25px;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+@media (max-width: 768px) {
+	.del-hint {
+		font-size: 16px;
+	}
+}
+
+@media (max-width: 425px) {
+	.del-hint {
+		font-size: 14px;
+		line-height: 20px;
+	}
+}
+
+.del-code {
+	font-family: 'Inter';
+	font-weight: 400;
+	margin-top: 25px;
+	border: 2px solid #BBA9A9;
+	padding: 10px 15px;
+	color: #fff;
+	font-size: 25px;
+	letter-spacing: 2px;
+}
+
+@media (max-width: 768px) {
+	.del-code {
+		font-size: 20px;
+	}
+} 
+
+@media (max-width: 425px) {
+	.del-code {
+		font-size: 15px;
+	}
+}
+
+.del-profile-message {
+	margin-top: 25px;
+	font-family: 'Merriwaether';
+	font-weight: 700;
+	font-size: 20px;
+	color: #8f0c0c;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	text-align: center;
+}
+
+@media (max-width: 425px) {
+	.del-profile-message {
+		font-size: 15px;
+	}
+}
+
+.del-profile-input {
+	margin-top: 20px;
+	padding: 5px 15px;
+	font-family: 'Merriwaether';
+	font-weight: 400;
+	font-size: 30px;
+	width: 600px;
+	height: 50px;
+	text-align: center;
+}
+
+@media (max-width: 768px) {
+	.del-profile-input {
+		font-size: 25px;
+	}
+}
+
+@media (max-width: 650px) {
+	.del-profile-input {
+		width: 95%;
+	}
+}
+
+@media (max-width: 425px) {
+	.del-profile-input {
+		font-size: 20px;
+	}
+}
+
+.del-profile-btn {
+	margin-top: 25px;
+	width: 250px;
+	height: 40px;
+	font-family: 'Inter';
+	font-weight: 400;
+	font-size: 15px;
+	background-color: #000;
+	color: #fff;
+	border: 2px solid #fff;
+	text-transform: uppercase;
+	letter-spacing: 3px;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+@media (max-width: 425px) {
+	.del-profile-btn {
+		width: 220px;
+		font-size: 12px;
+	}
+}
+
+.del-profile-btn:hover {
+	border-color: #8f0c0c;
+	color: #8f0c0c;
+}

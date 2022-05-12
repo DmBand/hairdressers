@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'users_app/css/common.css' %}">
+    {% block styles %}
+    {% endblock styles %}
+    <link rel="shortcut icon" href="{% static 'users_app/assets/svg/icon.svg' %}">
+</head>
+<body>
+    <div class="container" id="main">
+        <header class="header">
+            <nav class="nav">
+                <a class="main-page-link" href="{% url 'users_app:homepage' %}" title="Главная страница">
+                    <div class="main-page-logo"></div>
+                </a>
+                {% if request.user.is_authenticated %}
+                <div class="reg-list">                    
+                    <div class="user-container">
+                        <p class="login-name">{{ user.username|truncatechars:24 }}</p>
+                        <a href="{% url 'users_app:avatar' %}" title="Изменить фото профиля"><img class="avatar" src="{{ user.simpleuser.avatar.url }}" alt="Фото"></a>
+                    </div>
+                    <div class="profile-logout no-menu">                    
+                        <a class="reg-item2" href="{% url 'users_app:get_main_profile' user.username  %}" target="_blank">Профиль</a>
+                        <a class="reg-item2" href="{% url 'users_app:logout' %}">Выход</a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="reg-list">
+                    <a class="reg-item" href="{% url 'users_app:login' %}">Вход | Регистрация</a>
+                </div>
+                {% endif %}
+            </nav>
+        </header>
+{% block content %}
+{% endblock content %}
+        <footer class="footer">
+            <div class="footer-elements">
+                <p class="footer-year">2022</p>
+                <a href="mailto:d.bandysik@gmail.com" class="footer-link" title="Написать">
+                    <p class="footer-name">Дмитрий Бандысик</p>
+                    <img src="{% static 'users_app/assets/svg/mail.svg' %}" alt="Написать" class="footer-img">
+                </a>
+                <a href="#main" class="footer-up-link" title="Вверх">
+                    <img src="{% static 'users_app/assets/svg/arrow_upward_white_24dp.svg' %}" alt="В начало">
+                </a>
+            </div>
+        </footer>
+    </div>
+    <script type="module" src="{% static 'users_app/js/main_menu.js' %}"></script>
+</body>
+</html>

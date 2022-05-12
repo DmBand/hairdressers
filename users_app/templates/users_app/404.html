@@ -1,0 +1,19 @@
+{% extends 'users_app/base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'users_app/css/page_errors.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<div class="main-reg">
+    <div class="code-container">
+        <p class="status-code">404</p>
+        <p class="code-text">Страница не найдена</p>
+    </div>
+    <div class="code-description">
+        <p class="status-text">К сожалению, запрашиваемая Вами страница не найдена.</p>
+        <p class="status-text">Возможно, Вы перешли по ссылке, в которой была допущена ошибка, или страница была удалена.</p>
+    </div>
+</div>
+{% endblock content %}
