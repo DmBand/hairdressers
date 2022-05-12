@@ -20,7 +20,7 @@ env = environ.Env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-environ.Env.read_env(os.path.join(BASE_DIR, '../.env'))
+environ.Env.read_env(os.path.join(BASE_DIR, './.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -167,7 +167,7 @@ INTERNAL_IPS = ['127.0.0.1']
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': os.path.join(BASE_DIR, 'project_cache'),
+        'LOCATION': os.path.join(BASE_DIR, '../project_cache'),
         'TIMEOUT': 180,
     }
 }
