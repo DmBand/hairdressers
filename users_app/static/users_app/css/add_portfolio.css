@@ -118,7 +118,7 @@
 	background-size: contain;
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 1439px) {
 	.add-portfolio-section {		
 		background: none;
 		align-items: center;
@@ -220,7 +220,7 @@
 
 .skills-container {
 	max-width: 600px;
-	height: 100px;
+	height: 150px;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
@@ -228,24 +228,22 @@
 	margin-top: 10px;
 }
 
-.portf-form-label-cb {
-	color: #BDAE82;
-	margin: 0 5px 5px 0;
-	cursor: pointer;
-	width: 30%;
+@media (max-width: 768px) {
+	.skills-container {
+		height: 200px;
+	}
 }
 
-@media (max-width: 650px) {
-	.portf-form-label-cb {
-		font-size: 14px;
-		width: 48%;
-	}
+.portf-form-label-cb {
+	color: #BDAE82;
+	margin: 0 5px 10px 0;
+	cursor: pointer;
+	width: 100%;
 }
 
 @media (max-width: 425px) {
 	.portf-form-label-cb {
 		font-size: 12px;
-		
 	}
 }
 
@@ -332,7 +330,7 @@
 	margin-top: 10px;
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 1439px) {
 	.input__file-button {
 		margin: 10px auto 0;
 	}
