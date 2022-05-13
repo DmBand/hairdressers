@@ -626,13 +626,12 @@
 	font-size: 22px;
 	display: flex;
 	flex-wrap: wrap;
-	column-gap: 20px;
-	row-gap: 15px;
 }
 
 .common-style {
-	max-height: 220px;
+	max-height: 250px;
 	overflow: auto;
+	transition: 0.5s;
 }
 
 .common-style-pre {
@@ -640,6 +639,8 @@
 	font-weight: 400;
 	font-size: 22px;
 	line-height: 35px;
+	column-gap: 20px;
+	row-gap: 15px;
 	white-space: pre-wrap;
 }
 
@@ -673,7 +674,6 @@
 		font-size: 15px;
 		row-gap: 0;
 		margin: 10px 0 0 0px;
-		/* width: 100%; */
 	}
 }
 
@@ -685,21 +685,15 @@
 }
 
 .common-style li {
-	border-bottom: 1px solid #BDAE82;
 	padding-bottom: 2px;
 	list-style: circle inside;
-	width: 250px;
+	width: 95%;
+	margin-bottom: 15px;
 }
 
 @media (max-width: 1024px) {
 	.common-style li {
-		width: 200px;
-	}
-}
-
-@media (max-width: 425px) {
-	.common-style li {
-		width: 90%;
+		margin-bottom: 5px;
 	}
 }
 
