@@ -19,9 +19,9 @@ let inputs = document.querySelectorAll('.input__file');
                 countFiles = this.files.length;
 
             if (countFiles) {
-                if (countFiles > 20) {
+                if (countFiles > 15) {
                     text.classList.add('red-text');
-                    label.querySelector('.input__file-button-text').innerText = 'Не более 20 файлов за раз (' + countFiles + ')' ;
+                    label.querySelector('.input__file-button-text').innerText = 'Не более 15 файлов за раз (' + countFiles + ')' ;
                     resetBtn.innerText = 'Сбросить всё';
                     submitBtn.classList.add('none-class');
                     btnWrapper.classList.add('add-width');                            

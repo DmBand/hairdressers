@@ -5,13 +5,12 @@ from .models import SimpleUser, Hairdresser
 
 from hairdressers_project.settings import MEDIA_ROOT
 
-MAX_COUNT = 20
-
+MAX_COUNT = 15
 
 def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
     """
     Проверяет уже имеющееся количество файлов в портфолио пользователя.
-    Один пользователь может загружать не более 20 фотографий в портфолио (MAX_COUNT).
+    Один пользователь может загружать не более 15 фотографий в портфолио (MAX_COUNT).
     По мере добавления новых фотографий, старые будут удаляться.
     """
 
