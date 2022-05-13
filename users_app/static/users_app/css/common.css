@@ -407,9 +407,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .footer-link {
 	display: flex;
-	column-gap: 10px;
 	color: #fff;
 	transition: 0.3s;
+}
+
+.footer-name {
+	margin-right: 10px;
 }
 
 .footer-link:hover {
