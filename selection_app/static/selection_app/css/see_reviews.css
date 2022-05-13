@@ -68,7 +68,6 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	row-gap: 20px;
 	max-width: 300px;
 }
 
@@ -129,6 +128,7 @@
 }
 
 .result-name-surname2 {
+	margin-top: 20px;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;

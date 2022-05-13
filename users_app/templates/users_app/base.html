@@ -23,7 +23,7 @@
                 {% if request.user.is_authenticated %}
                 <div class="reg-list">                    
                     <div class="user-container">
-                        <p class="login-name">{{ user.username|truncatechars:24 }}</p>
+                        <p class="login-name">{{ user.username|truncatechars:24 }}</p>            
                         <a href="{% url 'users_app:avatar' %}" title="Изменить фото профиля"><img class="avatar" src="{{ user.simpleuser.avatar.url }}" alt="Фото"></a>
                     </div>
                     <div class="profile-logout no-menu">                    

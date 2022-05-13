@@ -1,6 +1,6 @@
 {% extends 'users_app/base.html' %}
 {% load static %}
-
+ 
 {% block styles %}
 <link rel="stylesheet" href="{% static 'selection_app/css/selection.css' %}">
 {% endblock styles %}
@@ -46,6 +46,9 @@
     <div class="result">
         <div class="filters-title">Результат</div>
         <ul class="result-items" id="items">
+            {% if hairdresser|length_is:"0" %}
+            <p class="no-results">К сожалению, по Вашему запросу ничего не найдено...</p>
+            {% else %}
             {% for h in hairdresser %}
             <a href="{% url 'users_app:get_hairdresser' h.owner.slug %}" class="result-link" target="_blank">
                 <li class="result-item">
@@ -61,6 +64,7 @@
                 </li>
             </a>
             {% endfor %}
+            {% endif %}
         </ul>
     </div>
 </main>
