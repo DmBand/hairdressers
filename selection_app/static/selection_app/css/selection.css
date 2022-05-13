@@ -280,6 +280,25 @@
 	}
 }
 
+.no-results {
+	font-family: 'Merriweather';
+	color: #fff;
+	font-size: 18px;
+	text-align: center;
+}
+
+@media (max-width: 768px) {
+	.no-results {
+		font-size: 15px;
+	}
+}
+
+@media (max-width: 425px) {
+	.no-results {
+		font-size: 13px;
+	}
+}
+
 .result-item {
 	display: flex;
 	flex-direction: column;
