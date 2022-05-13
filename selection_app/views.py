@@ -17,7 +17,7 @@ def selection_view(request):
 
     if request.method == 'GET':
         # Кэширование
-        hairdresser = cache.get_or_set('hairdresser', Hairdresser.objects.order_by('-rating')[:50], 30)
+        hairdresser = cache.get_or_set('hairdresser', Hairdresser.objects.order_by('-rating')[:48], 30)
         cities = cache.get_or_set('cities', City.objects.order_by('name'))
         skills = cache.get_or_set('skills', Skill.objects.order_by('name'))
 

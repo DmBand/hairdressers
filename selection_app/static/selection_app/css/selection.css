@@ -285,6 +285,7 @@
 	color: #fff;
 	font-size: 18px;
 	text-align: center;
+	letter-spacing: 1px;
 }
 
 @media (max-width: 768px) {

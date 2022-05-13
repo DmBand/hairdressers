@@ -149,12 +149,13 @@
 .all-rows {
 	display: flex;
 	flex-direction: column;
-	row-gap: 20px;
+	/* row-gap: 20px; */
 	width: 100%;
 	align-items: center;
 }
  
 .form-row {
+	margin-top: 20px;
 	display: flex;
 	flex-direction: column;
 }

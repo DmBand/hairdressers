@@ -67,13 +67,13 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	row-gap: 20px;
+	/* row-gap: 20px; */
 	max-width: 300px;
 }
 
 @media (max-width: 880px) {
 	.photo-rating-name {
-		row-gap: 10px;
+		/* row-gap: 10px; */
 		margin: 0 auto;
 	}
 }
@@ -163,6 +163,7 @@
 }
 
 .result-name-surname2 {
+	margin: 20px auto 0;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
@@ -175,13 +176,14 @@
 
 @media (max-width: 425px) {
 	.result-name-surname2  {
+		margin: 10px auto 0;
 		letter-spacing: 1px;
 	}
 }
 
 .see-comment2 {
 	width: 250px;
-	margin: 0 auto;
+	margin: 20px auto 0;
 	position: relative;
 	font-family: 'Inter';
 	font-weight: 400;
@@ -206,6 +208,7 @@
 
 @media (max-width: 425px) {
 	.see-comment2  {
+		margin: 10px auto 0;
 		width: 205px;
 		font-size: 12px;
 	}
@@ -331,10 +334,11 @@
 	margin-top: 5px;
 	display: flex;
 	flex-wrap: wrap;
-	column-gap: 10px;
+	/* column-gap: 10px; */
 }
 
 #id_captcha_1 {
+	margin-left: 15px;
 	width: 100px;
 	height: 35px;
 	font-family: 'Merriweather';
@@ -363,7 +367,6 @@
 	.portf-btns-container2 {
 		flex-direction: column;
 		align-items: center;
-		row-gap: 15px;
 		margin-top: 20px;
 	}
 }
@@ -406,6 +409,12 @@
 @media (max-width: 650px) {
 	.portf-btn-reset {
 		width: 160px;
+	}
+}
+
+@media (max-width: 425px) {
+	.portf-btn-reset {
+		margin-top: 15px;
 	}
 }
 

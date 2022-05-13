@@ -157,10 +157,8 @@
 .add-portfolio-form {
 	display: flex;
 	flex-direction: column;
-	padding-top: 30px;
 	font-family: 'Merriweather';
 	font-weight: 400;
-	row-gap: 30px;
 }
 
 @media (max-width: 425px) {
@@ -170,6 +168,7 @@
 }
 
 .one-field {
+	margin-top: 30px;
 	display: flex;
 	flex-direction: column;
 }
@@ -349,7 +348,7 @@
 }
 
 .portf-btns-container {
-	margin-top: 10px;
+	margin-top: 30px;
 	max-width: 600px;
 	display: flex;
 	flex-wrap: wrap;
@@ -373,7 +372,6 @@
 	.portf-btns-container {
 		flex-direction: column;
 		align-items: center;
-		row-gap: 15px;
 	}
 }
 
@@ -415,6 +413,12 @@
 @media (max-width: 650px) {
 	.portf-btn-reset {
 		width: 170px;
+	}
+}
+
+@media (max-width: 425px) {
+	.portf-btn-reset {
+		margin-top: 15px;
 	}
 }
 

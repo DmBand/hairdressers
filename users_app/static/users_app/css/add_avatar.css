@@ -140,7 +140,6 @@ img {
 @media (max-width: 425px) {
 	.add-avatar-btns {
 		column-gap: 0px;
-		row-gap: 20px;
 	}
 }
 
@@ -171,6 +170,12 @@ img {
 .av-btn-no{
 	color: #fff;
 	border: 2px solid #fff;
+}
+
+@media (max-width: 469px) {
+	.av-btn-no {
+		margin-top: 20px;
+	}
 }
 
 .av-btn-no:hover {
