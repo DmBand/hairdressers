@@ -1,11 +1,14 @@
 import os
 import shutil
+from PIL import Image
 
 from .models import SimpleUser, Hairdresser
 
 from hairdressers_project.settings import MEDIA_ROOT
 
 MAX_COUNT = 15
+PHOTO_CUALITY = 60
+
 
 def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
     """
@@ -71,6 +74,22 @@ def check_number_of_files_in_avatar_directory(person_slug: str):
         os.remove(f'{directory}/{files[0]}')
 
 
+def compress_image(person_slug: str):
+    """ Сжимает изображения в портфолио """
+
+    directory = f'{MEDIA_ROOT}/portfolio/{person_slug}'
+    # filess = os.listdir(directory)
+    # print(filess)
+    try:
+        files = os.listdir(directory)
+    except FileNotFoundError:
+        return
+    for f in files:
+        # print(f)
+        im = Image.open(f'{directory}/{f}')
+        im.save(f'{directory}/{f}', quality=PHOTO_CUALITY)
+
+
 def delete_portfolio_directory(person_slug: str):
     """ Удаляет папку портфолио со всеми фотографиями  """
 
@@ -124,5 +143,6 @@ def create_new_hairdresser(user: object, data: dict, files: list):
         for f in files:
             the_hairdresser.portfolio = f
             the_hairdresser.save()
+            compress_image(person_slug=the_hairdresser.owner.slug)
 
     return the_hairdresser
