@@ -63,7 +63,7 @@ class SimpleUser(models.Model):
     username = models.CharField(max_length=30, verbose_name='логин')
     name = models.CharField(max_length=50, verbose_name='имя')
     surname = models.CharField(max_length=50, verbose_name='фамилия')
-    email = models.EmailField(verbose_name='адрес эл. почты')
+    email = models.EmailField(verbose_name='адрес эл. почты', unique=True)
     avatar = models.ImageField(
         upload_to=path_to_user_avatar_directory,
         blank=True,

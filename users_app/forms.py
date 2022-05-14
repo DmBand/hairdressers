@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, SetPasswordForm, PasswordChangeForm
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
 from .models import Hairdresser, SimpleUser
@@ -55,6 +56,12 @@ class RegistrationUserForm(UserCreationForm):
             'username', 'first_name', 'last_name', 'email',
             'password1', 'password2'
         )
+
+    def clean_email(self):
+        email = self.cleaned_data['email'].strip()
+        if User.objects.filter(email__iexact=email).exists():
+            raise ValidationError('Пользователь с таким эл. адресом уже существует')
+        return email
 
 
 class AddAvatarForm(forms.ModelForm):
