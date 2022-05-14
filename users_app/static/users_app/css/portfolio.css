@@ -774,6 +774,7 @@
 }
 
 .yes-no-container {
+    margin-top: 10px;
 	display: flex;
 	flex-wrap: wrap;
 	text-align: center;

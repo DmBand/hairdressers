@@ -383,6 +383,7 @@ def edit_portfolio_view(request, slug_name):
                 for f in files:
                     the_hairdresser.hairdresser.portfolio = f
                     the_hairdresser.hairdresser.save()
+                compress_image(person_slug=the_hairdresser.slug)
 
             return redirect('users_app:get_hairdresser', slug_name=the_hairdresser.slug)
 
