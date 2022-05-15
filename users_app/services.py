@@ -1,5 +1,6 @@
 import os
 import shutil
+import time
 from PIL import Image
 
 from .models import SimpleUser, Hairdresser
@@ -8,6 +9,7 @@ from hairdressers_project.settings import MEDIA_ROOT
 
 MAX_COUNT = 15
 PHOTO_CUALITY = 60
+TIME_TO_COMPRESS = 60
 
 
 def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
@@ -78,14 +80,13 @@ def compress_image(person_slug: str):
     """ Сжимает изображения в портфолио """
 
     directory = f'{MEDIA_ROOT}/portfolio/{person_slug}'
-    # filess = os.listdir(directory)
-    # print(filess)
+    now = time.time()
     try:
-        files = os.listdir(directory)
+        # Сжимаем только файлы, время изменения (создания) которых было менее TIME_TO_COMPRESS секунд назад
+        files = [f for f in os.listdir(directory) if now - os.path.getmtime(f'{directory}/{f}') <= TIME_TO_COMPRESS]
     except FileNotFoundError:
         return
     for f in files:
-        # print(f)
         im = Image.open(f'{directory}/{f}')
         im.save(f'{directory}/{f}', quality=PHOTO_CUALITY)
 
