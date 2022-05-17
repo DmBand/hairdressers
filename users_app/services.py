@@ -50,7 +50,7 @@ def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
         for f in files_to_be_deleted:
             os.remove(f'{directory}/{f}')
 
-    # Если после добавления новых файлов общее количество станет > 20,
+    # Если после добавления новых файлов общее количество станет > 15,
     # то удаляем лишние старые файлы
     elif number_of_files_in_portfolio + number_of_recived_files > MAX_COUNT:
         number_of_files_to_delete = (number_of_files_in_portfolio + number_of_recived_files) - MAX_COUNT
