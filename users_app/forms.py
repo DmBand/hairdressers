@@ -48,7 +48,10 @@ class RegistrationUserForm(UserCreationForm):
         label='Пароль',
         validators=[password_validator],
         widget=forms.PasswordInput(attrs={'class': 'reg-form-input'}))
-    password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput(attrs={'class': 'reg-form-input'}))
+    password2 = forms.CharField(
+        label='Повторите пароль',
+        widget=forms.PasswordInput(attrs={'class': 'reg-form-input'})
+    )
 
     class Meta:
         model = User
@@ -92,7 +95,6 @@ class EditProfileForm(forms.ModelForm):
         regex=r'^[a-zA-Zа-яёА-ЯЁ-]*$',
         message='Допускаются буквы а-яА-Я, a-zA-Z.'
     )
-
     first_name = forms.CharField(
         label='Имя',
         validators=[first_and_last_name_validator],
@@ -135,7 +137,6 @@ class ResetPasswordForm(SetPasswordForm):
         strip=False,
         validators=[password_validator]
     )
-
     new_password2 = forms.CharField(
         label="Подтвердите пароль",
         strip=False,
@@ -177,20 +178,37 @@ class CreatePortfolioForm(forms.ModelForm):
             'another_info', 'instagram', 'portfolio'
         ]
         widgets = {
-            'phone': forms.NumberInput(attrs={'class': 'portf-form-input',
-                                              'placeholder': 'Пример: +375291112233',
-                                              'required': True}),
-            'city': forms.Select(attrs={'class': 'portfolio-city-select'}),
-            'skills': forms.CheckboxSelectMultiple(attrs={'class': 'portf-form-input-cb'}),
-            'another_info': forms.Textarea(attrs={'class': 'portfolio-textarea',
-                                                  'placeholder': 'Укажите доплнительную информацию о себе: '
-                                                                 'стоимость услуг, возмжен ли выезд к клиенту, '
-                                                                 'стаж, ссылки на электронные сертификаты и т.д.'}),
-            'instagram': forms.TextInput(attrs={'class': 'portf-form-input',
-                                                'placeholder': 'Никнейм (например: ivan123.1vanov)'}),
-            'portfolio': forms.ClearableFileInput(attrs={'multiple': True,
-                                                         'class': 'input input__file',
-                                                         'id': 'input__file'}),
+            'phone': forms.NumberInput(
+                attrs={'class': 'portf-form-input',
+                       'placeholder': 'Пример: +375291112233',
+                       'required': True}
+            ),
+
+            'city': forms.Select(
+                attrs={'class': 'portfolio-city-select'}
+            ),
+
+            'skills': forms.CheckboxSelectMultiple(
+                attrs={'class': 'portf-form-input-cb'}
+            ),
+
+            'another_info': forms.Textarea(
+                attrs={'class': 'portfolio-textarea',
+                       'placeholder': 'Укажите доплнительную информацию о себе: '
+                                      'стоимость услуг, возмжен ли выезд к клиенту, '
+                                      'стаж, ссылки на электронные сертификаты и т.д.'}
+            ),
+
+            'instagram': forms.TextInput(
+                attrs={'class': 'portf-form-input',
+                       'placeholder': 'Никнейм (например: ivan123.1vanov)'}
+            ),
+
+            'portfolio': forms.ClearableFileInput(
+                attrs={'multiple': True,
+                       'class': 'input input__file',
+                       'id': 'input__file'}
+            )
         }
 
 
