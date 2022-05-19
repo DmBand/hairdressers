@@ -7,23 +7,11 @@ class SimpleUserModelTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        user = User.objects.create(
-            username='test',
-            first_name='test',
-            last_name='test',
-            email='test@mail.ru'
-        )
+        user = User.objects.create()
+        simple_user = SimpleUser.objects.create(owner=user)
+        Hairdresser.objects.create(owner=simple_user)
 
-        simple_user = SimpleUser.objects.create(
-            username=user.username,
-            name=user.first_name,
-            surname=user.last_name,
-            email=user.email,
-            slug=user.username,
-            owner=user
-        )
-
-    def test_max_field_length(self):
+    def test_max_field_length_simpleuser(self):
         """
         Checking the maximum length of a simpleuser model fields
         """
@@ -36,3 +24,14 @@ class SimpleUserModelTest(TestCase):
                 self.assertEquals(length[len_], 30)
             else:
                 self.assertEquals(length[len_], 50)
+
+    def test_max_field_length_hairdresser(self):
+        """
+        Checking the maximum length of a hairdresser model fields
+        """
+
+        hairdresser = Hairdresser.objects.get(id=1)
+        instagram = hairdresser._meta.get_field('instagram').max_length
+        another_info = hairdresser._meta.get_field('another_info').max_length
+        self.assertEquals(instagram, 100)
+        self.assertEquals(another_info, 1000)
