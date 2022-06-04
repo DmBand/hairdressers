@@ -31,7 +31,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['localhost']
 
 # Application definition
 
@@ -181,4 +181,4 @@ DATABASES['default'].update(db_from_env)
 # Уменьшить размер статических файлов при их обслуживании
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-SECURE_SSL_REDIRECT = True
+# SECURE_SSL_REDIRECT = True

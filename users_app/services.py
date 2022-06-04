@@ -1,14 +1,14 @@
 import os
 import shutil
 import time
-from PIL import Image
+from PIL import Image, ExifTags
 
 from .models import SimpleUser, Hairdresser
 
 from hairdressers_project.settings import MEDIA_ROOT
 
 MAX_COUNT = 15
-PHOTO_CUALITY = 60
+PHOTO_CUALITY = 40
 TIME_TO_COMPRESS = 60
 
 
@@ -88,7 +88,21 @@ def compress_image(person_slug: str):
         return
     for f in files:
         im = Image.open(f'{directory}/{f}')
-        im.save(f'{directory}/{f}', quality=PHOTO_CUALITY)
+        for orientation in ExifTags.TAGS.keys():
+            if ExifTags.TAGS[orientation] == 'Orientation':
+                break
+        exif = im._getexif()
+        try:
+            if exif[orientation] == 3:
+                im = im.rotate(180, expand=True)
+            elif exif[orientation] == 6:
+                im = im.rotate(270, expand=True)
+            elif exif[orientation] == 8:
+                im = im.rotate(90, expand=True)
+        except (TypeError, KeyError):
+            im.save(f'{directory}/{f}', quality=PHOTO_CUALITY, optimize=True)
+        else:
+            im.save(f'{directory}/{f}', quality=PHOTO_CUALITY, optimize=True)
 
 
 def delete_portfolio_directory(person_slug: str):
