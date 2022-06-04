@@ -72,8 +72,8 @@ class AddAvatarForm(forms.ModelForm):
         fields = ['avatar']
 
         widgets = {
-            'avatar': forms.ClearableFileInput(attrs={'class': 'input input__file2',
-                                                      'id': 'input__file2'})
+            'avatar': forms.FileInput(attrs={'class': 'input input__file2',
+                                             'id': 'input__file2'})
         }
 
 
@@ -188,9 +188,9 @@ class CreatePortfolioForm(forms.ModelForm):
                                                                  'стаж, ссылки на электронные сертификаты и т.д.'}),
             'instagram': forms.TextInput(attrs={'class': 'portf-form-input',
                                                 'placeholder': 'Никнейм (например: ivan123.1vanov)'}),
-            'portfolio': forms.ClearableFileInput(attrs={'multiple': True,
-                                                         'class': 'input input__file',
-                                                         'id': 'input__file'}),
+            'portfolio': forms.FileInput(attrs={'multiple': True,
+                                                'class': 'input input__file',
+                                                'id': 'input__file'}),
         }
 
 

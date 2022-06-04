@@ -78,6 +78,7 @@ def add_avatar_view(request):
             person = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
             person.default_avatar = False
             person.save()
+            compress_avatar(person_slug=request.user.simpleuser.slug)
             return redirect('users_app:get_main_profile', slug_name=request.user.simpleuser.slug)
 
     elif request.POST.get('avatar') == 'no':
@@ -297,7 +298,7 @@ def create_portfolio_view(request):
             # Меняем флаг пользователя - он теперь парикмахер
             user.is_hairdresser = True
             user.save()
-            compress_image(person_slug=user.slug)
+            compress_images_in_portfolio(person_slug=user.slug)
 
             # Редирект на страницу портфолио
             return redirect('users_app:get_hairdresser', slug_name=request.user.username)
@@ -384,7 +385,7 @@ def edit_portfolio_view(request, slug_name):
                 for f in files:
                     the_hairdresser.hairdresser.portfolio = f
                     the_hairdresser.hairdresser.save()
-                compress_image(person_slug=the_hairdresser.slug)
+                compress_images_in_portfolio(person_slug=the_hairdresser.slug)
 
             return redirect('users_app:get_hairdresser', slug_name=the_hairdresser.slug)
 
