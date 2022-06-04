@@ -1,14 +1,14 @@
 import os
 import shutil
 import time
-from PIL import Image
+from PIL import Image, ExifTags
 
 from .models import SimpleUser, Hairdresser
 
 from hairdressers_project.settings import MEDIA_ROOT
 
 MAX_COUNT = 15
-PHOTO_CUALITY = 60
+PHOTO_CUALITY = 30
 TIME_TO_COMPRESS = 60
 
 
@@ -76,7 +76,32 @@ def check_number_of_files_in_avatar_directory(person_slug: str):
         os.remove(f'{directory}/{files[0]}')
 
 
-def compress_image(person_slug: str):
+def compress_avatar(person_slug: str):
+    """ Сжимает главное фото профиля """
+    directory = f'{MEDIA_ROOT}/avatars/{person_slug}'
+    try:
+        file = os.listdir(directory)[0]
+    except FileNotFoundError:
+        return
+    im = Image.open(f'{directory}/{file}')
+    for orientation in ExifTags.TAGS.keys():
+        if ExifTags.TAGS[orientation] == 'Orientation':
+            break
+    exif = im._getexif()
+    try:
+        if exif[orientation] == 3:
+            im = im.rotate(180, expand=True)
+        elif exif[orientation] == 6:
+            im = im.rotate(270, expand=True)
+        elif exif[orientation] == 8:
+            im = im.rotate(90, expand=True)
+    except (TypeError, KeyError):
+        im.save(f'{directory}/{file}', quality=PHOTO_CUALITY, optimize=True)
+    else:
+        im.save(f'{directory}/{file}', quality=PHOTO_CUALITY, optimize=True)
+
+
+def compress_images_in_portfolio(person_slug: str):
     """ Сжимает изображения в портфолио """
 
     directory = f'{MEDIA_ROOT}/portfolio/{person_slug}'
@@ -88,7 +113,21 @@ def compress_image(person_slug: str):
         return
     for f in files:
         im = Image.open(f'{directory}/{f}')
-        im.save(f'{directory}/{f}', quality=PHOTO_CUALITY)
+        for orientation in ExifTags.TAGS.keys():
+            if ExifTags.TAGS[orientation] == 'Orientation':
+                break
+        exif = im._getexif()
+        try:
+            if exif[orientation] == 3:
+                im = im.rotate(180, expand=True)
+            elif exif[orientation] == 6:
+                im = im.rotate(270, expand=True)
+            elif exif[orientation] == 8:
+                im = im.rotate(90, expand=True)
+        except (TypeError, KeyError):
+            im.save(f'{directory}/{f}', quality=PHOTO_CUALITY, optimize=True)
+        else:
+            im.save(f'{directory}/{f}', quality=PHOTO_CUALITY, optimize=True)
 
 
 def delete_portfolio_directory(person_slug: str):
@@ -144,6 +183,6 @@ def create_new_hairdresser(user: object, data: dict, files: list):
         for f in files:
             the_hairdresser.portfolio = f
             the_hairdresser.save()
-            compress_image(person_slug=the_hairdresser.owner.slug)
+            compress_images_in_portfolio(person_slug=the_hairdresser.owner.slug)
 
     return the_hairdresser
