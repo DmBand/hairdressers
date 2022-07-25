@@ -153,6 +153,7 @@
 @media (max-width: 1115px) {
 	.title-text {
 		line-height: 75px;
+		text-align: center;
 	}
 }
 
