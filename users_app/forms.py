@@ -10,7 +10,6 @@ from .models import Hairdresser, SimpleUser
 # main profile
 class RegistrationUserForm(UserCreationForm):
     """ Форма регистрации нового пользователя """
-
     # Валидатор для username
     username_validator = RegexValidator(
         regex=r'^[0-9a-zA-Z_-]*$',
@@ -21,7 +20,6 @@ class RegistrationUserForm(UserCreationForm):
         regex=r'^[a-zA-Zа-яёА-ЯЁ-]*$',
         message='Допускаются буквы а-яА-Я, a-zA-Z.'
     )
-
     # Валидатор пароля
     password_validator = RegexValidator(
         regex=r'^[^а-яёА-ЯЁ]+$',
@@ -32,29 +30,40 @@ class RegistrationUserForm(UserCreationForm):
         label='Логин',
         max_length=30,
         validators=[username_validator],
-        widget=forms.TextInput(attrs={'class': 'reg-form-input'}))
+        widget=forms.TextInput(attrs={'class': 'reg-form-input'}),
+    )
     first_name = forms.CharField(
         label='Имя',
         validators=[first_and_last_name_validator],
-        widget=forms.TextInput(attrs={'class': 'reg-form-input'})
+        widget=forms.TextInput(attrs={'class': 'reg-form-input'}),
     )
     last_name = forms.CharField(
         label='Фамилия',
         validators=[first_and_last_name_validator],
-        widget=forms.TextInput(attrs={'class': 'reg-form-input'})
+        widget=forms.TextInput(attrs={'class': 'reg-form-input'}),
     )
-    email = forms.EmailField(label='Эл. адрес', widget=forms.EmailInput(attrs={'class': 'reg-form-input'}))
+    email = forms.EmailField(
+        label='Эл. адрес', 
+        widget=forms.EmailInput(attrs={'class': 'reg-form-input'}),
+    )
     password1 = forms.CharField(
         label='Пароль',
         validators=[password_validator],
         widget=forms.PasswordInput(attrs={'class': 'reg-form-input'}))
-    password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput(attrs={'class': 'reg-form-input'}))
+    password2 = forms.CharField(
+        label='Повторите пароль',
+        widget=forms.PasswordInput(attrs={'class': 'reg-form-input'}),
+    )
 
     class Meta:
         model = User
         fields = (
-            'username', 'first_name', 'last_name', 'email',
-            'password1', 'password2'
+            'username', 
+            'first_name', 
+            'last_name', 
+            'email',
+            'password1', 
+            'password2',
         )
 
     def clean_email(self):
@@ -70,7 +79,6 @@ class AddAvatarForm(forms.ModelForm):
     class Meta:
         model = SimpleUser
         fields = ['avatar']
-
         widgets = {
             'avatar': forms.FileInput(attrs={'class': 'input input__file2',
                                              'id': 'input__file2'})
@@ -79,40 +87,44 @@ class AddAvatarForm(forms.ModelForm):
 
 class LoginUserForm(AuthenticationForm):
     """ Форма авторизации пользователей """
-
-    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'reg-form-input'}))
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'reg-form-input'}))
+    username = forms.CharField(
+        label='Логин', 
+        widget=forms.TextInput(attrs={'class': 'reg-form-input'}),
+    )
+    password = forms.CharField(
+        label='Пароль', 
+        widget=forms.PasswordInput(attrs={'class': 'reg-form-input'}),
+    )
 
 
 class EditProfileForm(forms.ModelForm):
     """ Форма редактирования главного профиля """
-
     # Валидатор для имени и фамилии
     first_and_last_name_validator = RegexValidator(
         regex=r'^[a-zA-Zа-яёА-ЯЁ-]*$',
-        message='Допускаются буквы а-яА-Я, a-zA-Z.'
+        message='Допускаются буквы а-яА-Я, a-zA-Z.',
     )
 
     first_name = forms.CharField(
         label='Имя',
         validators=[first_and_last_name_validator],
-        widget=forms.TextInput(attrs={'class': 'reg-form-input'})
+        widget=forms.TextInput(attrs={'class': 'reg-form-input'}),
     )
     last_name = forms.CharField(
         label='Фамилия',
         validators=[first_and_last_name_validator],
-        widget=forms.TextInput(attrs={'class': 'reg-form-input'})
+        widget=forms.TextInput(attrs={'class': 'reg-form-input'}),
     )
 
     class Meta:
         model = User
         fields = [
-            'first_name', 'last_name'
+            'first_name', 
+            'last_name',
         ]
-
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'reg-form-input'}),
-            'last_name': forms.TextInput(attrs={'class': 'reg-form-input'})
+            'last_name': forms.TextInput(attrs={'class': 'reg-form-input'}),
         }
 
 
@@ -122,20 +134,17 @@ class ResetPasswordForm(SetPasswordForm):
     Форма создания нового пароля после сброса старого
     (без ввода старого пароля)
     """
-
     # Валидатор пароля
     password_validator = RegexValidator(
         regex=r'^[^а-яёА-ЯЁ]+$',
-        message='Символы кириллицы (а-яА-Я) не допускаются.'
+        message='Символы кириллицы (а-яА-Я) не допускаются.',
     )
-
     new_password1 = forms.CharField(
         label="Новый пароль",
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         strip=False,
-        validators=[password_validator]
+        validators=[password_validator],
     )
-
     new_password2 = forms.CharField(
         label="Подтвердите пароль",
         strip=False,
@@ -145,20 +154,17 @@ class ResetPasswordForm(SetPasswordForm):
 
 class ChangePasswordForm(PasswordChangeForm):
     """ Форма изменения пароля (с вводом старого пароля) """
-
     # Валидатор пароля
     password_validator = RegexValidator(
         regex=r'^[^а-яёА-ЯЁ]+$',
-        message='Символы кириллицы (а-яА-Я) не допускаются.'
+        message='Символы кириллицы (а-яА-Я) не допускаются.',
     )
-
     new_password1 = forms.CharField(
         label="Новый пароль",
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         strip=False,
-        validators=[password_validator]
+        validators=[password_validator],
     )
-
     new_password2 = forms.CharField(
         label="Подтвердите пароль",
         strip=False,
@@ -173,8 +179,12 @@ class CreatePortfolioForm(forms.ModelForm):
     class Meta:
         model = Hairdresser
         fields = [
-            'phone', 'city', 'skills',
-            'another_info', 'instagram', 'portfolio'
+            'phone', 
+            'city', 
+            'skills',
+            'another_info', 
+            'instagram', 
+            'portfolio',
         ]
         widgets = {
             'phone': forms.NumberInput(attrs={'class': 'portf-form-input',
@@ -196,7 +206,6 @@ class CreatePortfolioForm(forms.ModelForm):
 
 class DeleteProfileForm(forms.Form):
     """ Форма удаления портфолио и профиля пользователя """
-
     code = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'del-profile-input',
         'autocomplete': 'off',

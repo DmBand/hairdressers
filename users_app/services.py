@@ -18,7 +18,6 @@ def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
     Один пользователь может загружать не более 15 фотографий в портфолио (MAX_COUNT).
     По мере добавления новых фотографий, старые будут удаляться.
     """
-
     # Опеределяем путь к файлам и название файлов в портфолио.
     # Если директория не найдена, значит пользователь добавляет файлы первый раз -
     # прекращаем работу функции
@@ -27,29 +26,24 @@ def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
         files = os.listdir(directory)
     except FileNotFoundError:
         return
-
     # Формируем список файлов по дате создания (самые старые идут в конце списка):
     # 1) формируем словарь, в котором ключ - название файла, значение - дата создания файла;
     # 2) Сотрируем словарь по убыванию (у старых файлов время создания меньше, чем у новых);
     # 3) Получаем список названий файлов, отсортированный по дате создания.
     all_files = {str(f): os.path.getmtime(f'{directory}/{f}') for f in files}
     the_oldest = sorted(all_files, key=all_files.get, reverse=True)
-
     # Определяем количество файлов в портфолио и количество новых файлов
     number_of_files_in_portfolio = len(files)
     number_of_recived_files = len(new_files)
-
     # Если портфолио пустое, то прекращаем работу функции
     if number_of_files_in_portfolio == 0:
         return
-
     # Если портфолио полное, то удаляем нужное количество старых файлов,
     # равное количеству новых файлов
     elif number_of_files_in_portfolio == MAX_COUNT:
         files_to_be_deleted = the_oldest[-number_of_recived_files:]
         for f in files_to_be_deleted:
             os.remove(f'{directory}/{f}')
-
     # Если после добавления новых файлов общее количество станет > 15,
     # то удаляем лишние старые файлы
     elif number_of_files_in_portfolio + number_of_recived_files > MAX_COUNT:
@@ -64,7 +58,6 @@ def check_number_of_files_in_avatar_directory(person_slug: str):
     Проверяет наличие аватара в папке пользователя и,
     в случае загрузки нового аватара, удаляет старый из папки хранения
     """
-
     # Определяем директорию хранения файлов
     directory = f'{MEDIA_ROOT}/avatars/{person_slug}'
     try:
@@ -103,7 +96,6 @@ def compress_avatar(person_slug: str):
 
 def compress_images_in_portfolio(person_slug: str):
     """ Сжимает изображения в портфолио """
-
     directory = f'{MEDIA_ROOT}/portfolio/{person_slug}'
     now = time.time()
     try:
@@ -132,7 +124,6 @@ def compress_images_in_portfolio(person_slug: str):
 
 def delete_portfolio_directory(person_slug: str):
     """ Удаляет папку портфолио со всеми фотографиями  """
-
     directory = f'{MEDIA_ROOT}/portfolio/{person_slug}'
     try:
         shutil.rmtree(directory)
@@ -143,7 +134,6 @@ def delete_portfolio_directory(person_slug: str):
 
 def delete_avatar_directory(person_slug: str):
     """ Удаляет папку аватара с самим аватаром  """
-
     directory = f'{MEDIA_ROOT}/avatars/{person_slug}'
     try:
         shutil.rmtree(directory)
@@ -154,7 +144,6 @@ def delete_avatar_directory(person_slug: str):
 
 def create_new_user(user: object):
     """ Создаёт нового пользователя в БД (после регистрации) """
-
     return SimpleUser.objects.create(
         owner=user,
         username=user.username,
@@ -167,7 +156,6 @@ def create_new_user(user: object):
 
 def create_new_hairdresser(user: object, data: dict, files: list):
     """ Создаёт нового парикмахера """
-
     the_hairdresser = Hairdresser.objects.create(
         city=data.get('city'),
         phone=data.get('phone'),
@@ -177,12 +165,10 @@ def create_new_hairdresser(user: object, data: dict, files: list):
     )
     all_skills = data.get('skills')
     the_hairdresser.skills.add(*all_skills)
-
     if files:
         check_number_of_files_in_portfolio(person_slug=user.slug, new_files=files)
         for f in files:
             the_hairdresser.portfolio = f
             the_hairdresser.save()
             compress_images_in_portfolio(person_slug=the_hairdresser.owner.slug)
-
     return the_hairdresser
