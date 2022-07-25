@@ -9,14 +9,14 @@ from .models import Comment
 # Rating
 class IncreaseRatingForm(forms.ModelForm):
     """ Форма повышения рейтинга парикмахера """
-
     captcha = CaptchaField()
     class Meta:
         model = Comment
         fields = [
-            'rating_value', 'text', 'captcha'
+            'rating_value', 
+            'text', 
+            'captcha',
         ]
-
         widgets = {
             'text': forms.Textarea(attrs={'class': 'portfolio-textarea2',
                                           'placeholder': 'Не менее 10 символов!'})
