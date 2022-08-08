@@ -9,12 +9,14 @@ from .models import Comment
 # Rating
 class IncreaseRatingForm(forms.ModelForm):
     """ Форма повышения рейтинга парикмахера """
-
     captcha = CaptchaField()
+
     class Meta:
         model = Comment
         fields = [
-            'rating_value', 'text', 'captcha'
+            'rating_value',
+            'text',
+            'captcha'
         ]
 
         widgets = {
