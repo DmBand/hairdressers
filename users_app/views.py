@@ -1,11 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import \
-    LoginView, \
-    PasswordResetConfirmView, \
-    PasswordResetView, \
-    PasswordChangeView
+from django.contrib.auth.views import (LoginView,
+                                       PasswordResetConfirmView,
+                                       PasswordResetView,
+                                       PasswordChangeView)
 from django.core.cache import cache
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -21,7 +20,6 @@ from .services import *
 
 def homepage_view(request):
     """Возвращает главную страницу сайта"""
-
     top10 = cache.get_or_set('top10', Hairdresser.objects.order_by('-rating')[:10].select_related('city'), 60)
     context = {
         'title': 'Парикмахеры Беларуси',
@@ -38,7 +36,6 @@ class RegistrationUserView(CreateView):
     Возвращает форму регистрации пользователя и, в случае успешной регистрации,
     перенаправляет пользователя на главную страницу сайта
     """
-
     form_class = RegistrationUserForm
     template_name = 'users_app/register.html'
     success_url = reverse_lazy('users_app:homepage')
@@ -63,7 +60,6 @@ def add_avatar_view(request):
     Если пользователь не загрузит аватарку, то будет установлено
     стандартное изображение
     """
-
     if request.POST.get('avatar') == 'yes':
         form = AddAvatarForm(
             request.POST,
@@ -95,12 +91,8 @@ def add_avatar_view(request):
 @login_required(login_url='users_app:login')
 def delete_avatar_view(request, slug_name):
     """ Удаление аватарки пользователя """
-
-    # Если пользователь захочет удалить чужую аватарку через URL,
-    # то его перекинет на страницу главного профиля
     if request.user.simpleuser.slug != slug_name:
         return redirect('users_app:get_main_profile', slug_name=request.user.simpleuser.slug)
-
     # Удаляем директорию с аватаром и ставим пользователю дефолтный аватар
     delete_avatar_directory(person_slug=slug_name)
     person = SimpleUser.objects.get(slug=slug_name)
@@ -113,10 +105,7 @@ def delete_avatar_view(request, slug_name):
 @login_required(login_url='users_app:login')
 def get_main_profile_view(request, slug_name):
     """ Возвращает страницу главного профиля пользователя """
-
     person = SimpleUser.objects.get(slug=slug_name)
-    # При попытке получить чужой главный профиль
-    # будет выполнен редирект на свой главный профиль
     if request.user.username != person.slug:
         return redirect('users_app:get_main_profile', slug_name=request.user.username)
 
@@ -130,34 +119,27 @@ def get_main_profile_view(request, slug_name):
         'default_avatar': person.default_avatar,
         'slug': person.slug
     }
-
     return render(request, 'users_app/main_profile.html', context)
 
 
 @login_required(login_url='users_app:login')
 def edit_main_profile_view(request, slug_name):
     """ Возвращает страницу редактирования главного профиля """
-
     simple_user = SimpleUser.objects.get(slug=slug_name)
-    # Если пользователь захочет изменить чужой профиль,
-    # то его перекинет на свой главный профиль
     if request.user.username != simple_user.owner.username:
         return redirect('users_app:get_main_profile', slug_name=request.user.username)
 
     user = User.objects.get(username=slug_name)
-
     if request.method != 'POST':
         form = EditProfileForm(instance=user)
     else:
         form = EditProfileForm(instance=user, data=request.POST)
         if form.is_valid():
             form.save()
-
             # Меняем данные модели SimpleUser
             simple_user.name = form.cleaned_data.get('first_name')
             simple_user.surname = form.cleaned_data.get('last_name')
             simple_user.save()
-
             return redirect('users_app:get_main_profile', slug_name=user.username)
 
     context = {'title': 'Редактирование главного профиля', 'form': form}
@@ -167,20 +149,15 @@ def edit_main_profile_view(request, slug_name):
 @login_required(login_url='users_app:login')
 def delete_main_profile_view(request, slug_name):
     """ Возвращает страницу удаления главного профиля """
-
-    # Если пользователь захочет удалить чужой профиль через URL,
-    # то его перекинет на страницу своего профиля
     if request.user.username != slug_name:
         return redirect('users_app:get_main_profile', slug_name=request.user.username)
 
     user = User.objects.get(username=slug_name)
-
     # Проверочный код, который состоит из никнейма + /id +/profile
     code = f'{user.username}/{user.id}/profile'
-
     if request.method != 'POST':
         if user.simpleuser.is_hairdresser:
-            messages.info(request, 'Внимание! У вас есть действующее портфолио парикмахера. ' \
+            messages.info(request, 'Внимание! У вас есть действующее портфолио парикмахера. '
                                    'Оно будет безвозвратно удалено.')
         form = DeleteProfileForm()
     else:
@@ -189,16 +166,13 @@ def delete_main_profile_view(request, slug_name):
             # Если пользовтель парикмахер и у него есть фото в портфолио, то удаляем все файлы
             if user.simpleuser.is_hairdresser:
                 delete_portfolio_directory(person_slug=slug_name)
-
             # Удаляем папку с аватаром
             delete_avatar_directory(person_slug=slug_name)
             user.delete()
-
             return redirect('users_app:homepage')
-
         else:
             if user.simpleuser.is_hairdresser:
-                messages.info(request, 'Внимание! У вас есть действующее портфолио парикмахера. ' \
+                messages.info(request, 'Внимание! У вас есть действующее портфолио парикмахера. '
                                        'Оно будет безвозвратно удалено.')
             messages.error(request, 'Введен неверный код!')
 
@@ -208,7 +182,6 @@ def delete_main_profile_view(request, slug_name):
         'code': code,
         'user': user,
     }
-
     return render(request, 'users_app/delete_main_profile.html', context)
 
 
@@ -219,7 +192,6 @@ class LoginUserView(LoginView):
     В случае успешной авторизации перенаправляет пользователя
     на главную страницу сайта
     """
-
     form_class = LoginUserForm
     template_name = 'users_app/login.html'
 
@@ -256,7 +228,6 @@ class ResetPasswordView(PasswordResetView):
 
 class ResetPasswordConfirmView(PasswordResetConfirmView):
     """ Страница ввода нового пароля после сброса """
-
     # Переопределили форму в forms.py
     form_class = ResetPasswordForm
     template_name = 'users_app/reset_password/password_reset_confirm.html'
@@ -266,7 +237,6 @@ class ResetPasswordConfirmView(PasswordResetConfirmView):
 # change password
 class ChangePasswordView(PasswordChangeView):
     """ Страница ввода нового пароля при изменении пароля (с вводом старого) """
-
     # Переопределили форму в Forms.py
     form_class = ChangePasswordForm
     template_name = 'users_app/change_password/password_change_form.html'
@@ -277,9 +247,6 @@ class ChangePasswordView(PasswordChangeView):
 @login_required(login_url='users_app:login')
 def create_portfolio_view(request):
     """ Возвращает страницу с формой регистрации нового парикмахера """
-
-    # Если у пользователя уже есть портфолио, то перенаправляем
-    # на страницу его портфолио
     if request.user.simpleuser.is_hairdresser:
         return redirect('users_app:get_hairdresser', slug_name=request.user.simpleuser.slug)
 
@@ -290,27 +257,22 @@ def create_portfolio_view(request):
         if form.is_valid():
             # Получаем текущего пользователя из БД
             user = SimpleUser.objects.get(slug=request.user.username)
-
             # Получаем список файлов для портфолио и создаём нового парикмахера
             files = request.FILES.getlist('portfolio')
             create_new_hairdresser(user=user, data=form.cleaned_data, files=files)
-
             # Меняем флаг пользователя - он теперь парикмахер
             user.is_hairdresser = True
             user.save()
             compress_images_in_portfolio(person_slug=user.slug)
-
             # Редирект на страницу портфолио
             return redirect('users_app:get_hairdresser', slug_name=request.user.username)
 
     context = {'title': 'Создание портфолио', 'form': form, 'files': MAX_COUNT}
-
     return render(request, 'users_app/add_portfolio.html', context)
 
 
 def get_one_hairdresser_view(request, slug_name):
     """ Возвращает страницу парикмахера (портфолио) """
-
     person = SimpleUser.objects.get(slug=slug_name)
     try:
         skills = person.hairdresser.skills.all().order_by('name')
@@ -331,10 +293,8 @@ def get_one_hairdresser_view(request, slug_name):
         'slug': person.username,
         'review': person.hairdresser.comment_set.count(),
     }
-
     # Получаем путь к директории хранения файлов пользователя
     directory = f'{MEDIA_ROOT}/portfolio/{person.slug}'
-
     # Если пользователь первый раз добавляет фотографии, то файлов
     # в директории и самой директории ещё не будет. В этом случае
     # передаём в шаблон пустой список фотографий
@@ -362,10 +322,6 @@ def get_one_hairdresser_view(request, slug_name):
 @login_required(login_url='users_app:login')
 def edit_portfolio_view(request, slug_name):
     """ Возвращает страницу изменения портфолио """
-
-    # Если пользователь захочет изменить чужое портфолио через URL,
-    # то его перекинет на своё портфолио, если он парикмахер,
-    # иначе - на свой главный профиль
     the_hairdresser = SimpleUser.objects.get(slug=slug_name)
     if request.user.username != the_hairdresser.owner.username:
         if request.user.simpleuser.is_hairdresser:
@@ -375,7 +331,6 @@ def edit_portfolio_view(request, slug_name):
 
     # Получаем отдельно список навыков, чтобы отметить в форме уже имеющиеся навыки
     skills = the_hairdresser.hairdresser.skills.all()
-
     if request.method != 'POST':
         form = CreatePortfolioForm(instance=the_hairdresser.hairdresser)
     else:
@@ -389,7 +344,6 @@ def edit_portfolio_view(request, slug_name):
                     the_hairdresser.hairdresser.portfolio = f
                     the_hairdresser.hairdresser.save()
                 compress_images_in_portfolio(person_slug=the_hairdresser.slug)
-
             return redirect('users_app:get_hairdresser', slug_name=the_hairdresser.slug)
 
     context = {
@@ -404,9 +358,6 @@ def edit_portfolio_view(request, slug_name):
 @login_required(login_url='users_app:login')
 def reset_portfolio_photos_view(request, slug_name):
     """ Удаление всех фотографий в портфолио """
-
-    # Если пользователь попытается удалить чужие фото через URL,
-    # то его перекинет на главную страницу сайта
     if request.user.simpleuser.slug != slug_name:
         return redirect('users_app:homepage')
 
@@ -418,16 +369,12 @@ def reset_portfolio_photos_view(request, slug_name):
 def delete_portfolio_view(request, slug_name):
     """ Возвращает страницу удаления портфолио """
 
-    # Если пользователь захочет удалить чужое портфолио через URL,
-    # то его перекинет на страницу удаления своего портфолио
     if request.user.simpleuser.slug != slug_name:
         return redirect('users_app:get_main_profile', slug_name=request.user.simpleuser.slug)
 
     user = SimpleUser.objects.get(slug=slug_name)
-
     # Проверочный код, который состоит из никнейма + /id + /portfolio
     code = f'{user.username}/{user.hairdresser.id}/portfolio'
-
     if request.method != 'POST':
         form = DeleteProfileForm()
     else:
@@ -451,34 +398,29 @@ def delete_portfolio_view(request, slug_name):
         'code': code,
         'hairdresser': user,
     }
-
     return render(request, 'users_app/delete_portfolio.html', context)
 
 
 # errors
 def page_400_view(request, exception):
     """ Возвращает страницу 400 """
-
     context = {'title': 'Некорректный запрос...'}
     return render(request, 'users_app/400.html', context, status=400)
 
 
 def page_403_view(request, exception):
     """ Возвращает страницу 403 """
-
     context = {'title': 'Доступ запрещен...'}
     return render(request, 'users_app/403.html', context, status=403)
 
 
 def page_404_view(request, exception):
     """ Возвращает страницу 404 """
-
     context = {'title': 'Страница не найдена...'}
     return render(request, 'users_app/404.html', context, status=404)
 
 
 def page_500_view(request):
     """ Возвращает страницу 500 """
-
     context = {'title': 'Ошибка сервера...'}
     return render(request, 'users_app/500.html', context, status=500)
