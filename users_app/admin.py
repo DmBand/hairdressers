@@ -7,7 +7,7 @@ from .models import (Skill,
 
 
 class SkillAdmin(admin.ModelAdmin):
-    """ Модель навыков """
+    """ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ """
     list_display = (
         'id',
         'name'
@@ -15,7 +15,7 @@ class SkillAdmin(admin.ModelAdmin):
 
 
 class HairdresserAdmin(admin.ModelAdmin):
-    """ Модель парикмахера """
+    """ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ """
     list_display = (
         'id',
         'owner',
@@ -33,31 +33,41 @@ class HairdresserAdmin(admin.ModelAdmin):
 
 
 class SimpleUserAdmin(admin.ModelAdmin):
-    """ Модель простого пользователя """
+    """ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ """
     list_display = (
-        'id',
-        'username',
-        'name',
-        'surname',
+        'id', 
+        'username', 
+        'name', 
+        'surname', 
         'email',
-        'is_hairdresser',
-        'avatar',
-        'date_of_registration'
+        'is_hairdresser', 
+        'avatar', 
+        'date_of_registration',
     )
-    list_display_links = ('username',)
-    list_editable = ('is_hairdresser',)
-    prepopulated_fields = {'slug': ('username',)}
+    list_display_links = (
+        'username',
+    )
+    list_editable = (
+        'is_hairdresser',
+    )
+    prepopulated_fields = {
+        'slug': ('username',),
+    }
 
 
 class CityAdmin(admin.ModelAdmin):
-    """ Модель города """
+    """ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ """
     list_display = (
-        'id',
-        'name',
-        'region'
+        'id', 
+        'name', 
+        'region',
     )
-    search_fields = ('name',)
-    list_filter = ('region',)
+    search_fields = (
+        'name',
+    )
+    list_filter = (
+        'region',
+    )
 
 
 admin.site.register(Skill, SkillAdmin)

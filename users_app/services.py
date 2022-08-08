@@ -26,29 +26,24 @@ def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
         files = os.listdir(directory)
     except FileNotFoundError:
         return
-
     # Формируем список файлов по дате создания (самые старые идут в конце списка):
     # 1) формируем словарь, в котором ключ - название файла, значение - дата создания файла;
     # 2) Сотрируем словарь по убыванию (у старых файлов время создания меньше, чем у новых);
     # 3) Получаем список названий файлов, отсортированный по дате создания.
     all_files = {str(f): os.path.getmtime(f'{directory}/{f}') for f in files}
     the_oldest = sorted(all_files, key=all_files.get, reverse=True)
-
     # Определяем количество файлов в портфолио и количество новых файлов
     number_of_files_in_portfolio = len(files)
     number_of_recived_files = len(new_files)
-
     # Если портфолио пустое, то прекращаем работу функции
     if number_of_files_in_portfolio == 0:
         return
-
     # Если портфолио полное, то удаляем нужное количество старых файлов,
     # равное количеству новых файлов
     elif number_of_files_in_portfolio == MAX_COUNT:
         files_to_be_deleted = the_oldest[-number_of_recived_files:]
         for f in files_to_be_deleted:
             os.remove(f'{directory}/{f}')
-
     # Если после добавления новых файлов общее количество станет > 15,
     # то удаляем лишние старые файлы
     elif number_of_files_in_portfolio + number_of_recived_files > MAX_COUNT:
@@ -176,5 +171,4 @@ def create_new_hairdresser(user: object, data: dict, files: list):
             the_hairdresser.portfolio = f
             the_hairdresser.save()
             compress_images_in_portfolio(person_slug=the_hairdresser.owner.slug)
-
     return the_hairdresser

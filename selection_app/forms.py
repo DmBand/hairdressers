@@ -14,11 +14,10 @@ class IncreaseRatingForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = [
-            'rating_value',
-            'text',
-            'captcha'
+            'rating_value', 
+            'text', 
+            'captcha',
         ]
-
         widgets = {
             'text': forms.Textarea(attrs={'class': 'portfolio-textarea2',
                                           'placeholder': 'Не менее 10 символов!'})

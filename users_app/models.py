@@ -94,7 +94,28 @@ class SimpleUser(models.Model):
         upload_to=path_to_user_avatar_directory,
         blank=True,
         default=default_avatar_path,
-        verbose_name='фото профиля'
+        verbose_name='фото профиля',
+    )
+    default_avatar = models.BooleanField(
+        default=True,
+    )
+    slug = models.SlugField(
+        max_length=50, 
+        unique=True, 
+        db_index=True, 
+        verbose_name='URL',
+    )
+    is_hairdresser = models.BooleanField(
+        default=False, 
+        verbose_name='парикмахер',
+    )
+    date_of_registration = models.DateField(
+        auto_now_add=True, 
+        verbose_name='дата регистрации',
+    )
+    owner = models.OneToOneField(
+        User, 
+        on_delete=models.CASCADE,
     )
     default_avatar = models.BooleanField(default=True)
     slug = models.SlugField(

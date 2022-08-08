@@ -33,5 +33,4 @@ def create_new_comment(autor: object, belong_to: object, data: dict):
     # Увеличиваем рейтинг
     belong_to.hairdresser.rating = F('rating') + data.get('rating_value')
     belong_to.hairdresser.save()
-
     return new_coment

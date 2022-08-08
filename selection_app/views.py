@@ -16,7 +16,11 @@ def selection_view(request):
     """
     if request.method == 'GET':
         # Кэширование
-        hairdresser = cache.get_or_set('hairdresser', Hairdresser.objects.order_by('-rating')[:48], 30)
+        hairdresser = cache.get_or_set(
+            'hairdresser', 
+            Hairdresser.objects.order_by('-rating')[:48],
+            30,
+        )
         cities = cache.get_or_set('cities', City.objects.order_by('name'))
         skills = cache.get_or_set('skills', Skill.objects.order_by('name'))
         context = {
@@ -33,8 +37,10 @@ def selection_view(request):
             if chosen_city:
                 new_context['current_city'] = City.objects.get(id=chosen_city)
                 # Убираем из списка городов выбранный город, чтобы он не отображался 2 раза
-                new_context['city'] = City.objects.filter(~Q(id=chosen_city)).order_by('name')
-
+                new_context['city'] = (City.objects
+                    .filter(~Q(id=chosen_city))
+                    .order_by('name')
+                )
             chosen_skill = [skill for skill in request.GET.getlist(key='skill')]
             if chosen_skill:
                 # Определим переданные навыки, чтобы они отмечались как выбранные
@@ -69,7 +75,11 @@ def increase_rating_view(request, slug_name):
     else:
         form = IncreaseRatingForm(data=request.POST)
         if form.is_valid():
-            create_new_comment(autor=who_evaluates, belong_to=who_do_we_evaluate, data=form.cleaned_data)
+            create_new_comment(
+                autor=who_evaluates, 
+                belong_to=who_do_we_evaluate, 
+                data=form.cleaned_data
+            )
             return redirect('selection_app:see_reviews', slug_name=who_do_we_evaluate.slug)
 
     context = {

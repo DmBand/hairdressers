@@ -9,5 +9,4 @@ def user_is_authenticated(view):
             return redirect('users_app:homepage')
         else:
             return view(requset, *args, **kwargs)
-
     return wrapper
