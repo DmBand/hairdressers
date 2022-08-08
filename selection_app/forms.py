@@ -10,6 +10,7 @@ from .models import Comment
 class IncreaseRatingForm(forms.ModelForm):
     """ Форма повышения рейтинга парикмахера """
     captcha = CaptchaField()
+
     class Meta:
         model = Comment
         fields = [

@@ -1,35 +1,39 @@
 from django.contrib import admin
-from .models import *
+from .models import (Skill,
+                     Region,
+                     City,
+                     Hairdresser,
+                     SimpleUser)
 
 
 class SkillAdmin(admin.ModelAdmin):
+    """ ������ ������� """
     list_display = (
-        'id', 'name',
+        'id',
+        'name'
     )
 
 
 class HairdresserAdmin(admin.ModelAdmin):
+    """ ������ ����������� """
     list_display = (
-        'id', 
-        'owner', 
-        'city', 
+        'id',
+        'owner',
+        'city',
         'rating',
-        'phone', 
-        'another_info',
+        'phone',
+        'another_info'
     )
     list_display_links = (
-        'id', 
-        'owner',
-    )
-    list_filter = (
         'id',
+        'owner'
     )
-    list_editable = (
-        'rating',
-    )
+    list_filter = ('id',)
+    list_editable = ('rating',)
 
 
 class SimpleUserAdmin(admin.ModelAdmin):
+    """ ������ �������� ������������ """
     list_display = (
         'id', 
         'username', 
@@ -52,6 +56,7 @@ class SimpleUserAdmin(admin.ModelAdmin):
 
 
 class CityAdmin(admin.ModelAdmin):
+    """ ������ ������ """
     list_display = (
         'id', 
         'name', 

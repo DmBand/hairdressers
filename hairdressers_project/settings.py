@@ -13,7 +13,6 @@ import os
 from pathlib import Path
 
 import environ
-import dj_database_url
 
 env = environ.Env()
 
@@ -31,7 +30,11 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'hairdressers4you.online',
+    'www.hairdressers4you.online'
+]
 
 # Application definition
 
@@ -58,7 +61,6 @@ CAPTCHA_IMAGE_SIZE = (100, 35)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -130,13 +132,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru'
 
-# TIME_ZONE = 'UTC'
 TIME_ZONE = 'Europe/Minsk'
 
 USE_I18N = True
 
-# USE_TZ = True
-USE_TZ = False
+USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -173,12 +173,5 @@ CACHES = {
     }
 }
 
-# Heroku: Update database configuration from $DATABASE_URL.
-
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
-
-# Уменьшить размер статических файлов при их обслуживании
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# SECURE_SSL_REDIRECT = True
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True

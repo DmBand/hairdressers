@@ -31,7 +31,6 @@ def selection_view(request):
             'current_city': 'Город не выбран',
             'chosen_skills': [],
         }
-
         if request.GET.get('city') or request.GET.get('skill'):
             new_context = context.copy()
             chosen_city = request.GET.get('city')
@@ -47,7 +46,6 @@ def selection_view(request):
                 # Определим переданные навыки, чтобы они отмечались как выбранные
                 # после применения фильтра:
                 new_context['chosen_skills'] = [int(id_) for id_ in chosen_skill]
-
             # Фильтруем результат в зависимости от переданных данных
             new_context = get_selection_by_filters(
                 model=Hairdresser,
