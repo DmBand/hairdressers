@@ -308,11 +308,14 @@ def create_portfolio_view(request):
     return render(request, 'users_app/add_portfolio.html', context)
 
 
-def get_one_hairdresser_view(requset, slug_name):
+def get_one_hairdresser_view(request, slug_name):
     """ Возвращает страницу парикмахера (портфолио) """
 
     person = SimpleUser.objects.get(slug=slug_name)
-    skills = person.hairdresser.skills.all().order_by('name')
+    try:
+        skills = person.hairdresser.skills.all().order_by('name')
+    except:
+        return redirect('users_app:get_main_profile', slug_name=request.user.username)
     context = {
         'title': f'Портфолио: {person.name.title()} {person.surname.title()}',
         'name': person.name,
@@ -353,7 +356,7 @@ def get_one_hairdresser_view(requset, slug_name):
         context['count'] = len(files)
         context['url_for_photo'] = url_for_photo
 
-    return render(requset, 'users_app/portfolio.html', context)
+    return render(request, 'users_app/portfolio.html', context)
 
 
 @login_required(login_url='users_app:login')
