@@ -49,10 +49,6 @@ class RegistrationUserForm(UserCreationForm):
         label='Эл. адрес', 
         widget=forms.EmailInput(attrs={'class': 'reg-form-input'}),
     )
-    email = forms.EmailField(
-        label='Эл. адрес',
-        widget=forms.EmailInput(attrs={'class': 'reg-form-input'})
-    )
     password1 = forms.CharField(
         label='Пароль',
         validators=[password_validator],
