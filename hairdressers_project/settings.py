@@ -50,11 +50,13 @@ INSTALLED_APPS = [
     # My apps
     'users_app.apps.UsersAppConfig',
     'selection_app.apps.SelectionAppConfig',
+    'drf_app.apps.DrfAppConfig',
 
     # third party apps
     'phonenumber_field',
     'debug_toolbar',
     'captcha',
+    'rest_framework',
 ]
 
 CAPTCHA_IMAGE_SIZE = (100, 35)
