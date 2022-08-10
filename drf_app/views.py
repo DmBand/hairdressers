@@ -46,3 +46,19 @@ class CreateUpdateUserAPIView(APIView):
         data = {'successful': f'first_name и/или last_name успешно изменены!'}
         return Response(data, status=status.HTTP_200_OK)
 
+    def delete(self, request, *args, **kwargs):
+        # TODO досуп!
+        username = kwargs.get('username')
+        if not username:
+            return Response({'error': 'Username не передан'})
+        try:
+            user = User.objects.get(username=username)
+        except:
+            return Response({'error': f'Пользователь {username} не найден'})
+
+        user.delete()
+        data = {'successful': f'Пользователь {username} успешно удален!'}
+        return Response(data, status=status.HTTP_200_OK)
+
+
+
