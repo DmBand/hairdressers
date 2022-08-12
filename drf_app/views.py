@@ -1,17 +1,20 @@
 from django.contrib.auth.models import User
 from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from users_app.models import Hairdresser, City, SimpleUser
+from .permissons import IsOwnerOrReadOnly
 from .serialazers import (CreateUserSerialazer,
-                          UpdateUserSerialazer)
+                          UpdateUserSerialazer,
+                          SimpleUserSerialazer)
 
 
 # TODO ДОСТУПЫ!
 
-class CreateUpdateUserAPIView(APIView):
-    """ Регистрация и изменение данных простого пользователя """
+class CreateUserAPIView(APIView):
+    """ Регистрация пользователя """
 
     def post(self, request, *args, **kwargs):
         serialazer = CreateUserSerialazer(data=request.data)
@@ -25,15 +28,36 @@ class CreateUpdateUserAPIView(APIView):
             data = serialazer.errors
             return Response(data)
 
+
+class UpdateDeleteUserAPIView(APIView):
+    """ Изменение и удаление данных пользователя """
+
+    permission_classes = (
+        # IsAuthenticated,
+        IsOwnerOrReadOnly,
+    )
+
+    def get(self, request, *args, **kwargs):
+        username = kwargs.get('username')
+        if not username:
+            return Response({'error': 'Username не передан'})
+        instance = User.objects.filter(username=username).first()
+        if not instance:
+            return Response({'error': f'Пользователь {username} не найден'})
+        self.check_object_permissions(request=request, obj=instance)
+        data = SimpleUserSerialazer(instance.simpleuser)
+        return Response(data.data)
+
     def put(self, request, *args, **kwargs):
         username = kwargs.get('username')
         if not username:
             return Response({'error': 'Username не передан'})
-        try:
-            instance = User.objects.get(username=username)
-        except:
+
+        instance = User.objects.filter(username=username).first()
+        if not instance:
             return Response({'error': f'Пользователь {username} не найден'})
 
+        self.check_object_permissions(request=request, obj=instance)
         serialazer = UpdateUserSerialazer(data=request.data, instance=instance)
         serialazer.is_valid(raise_exception=True)
         if 'first_name' not in serialazer.validated_data and 'last_name' not in serialazer.validated_data:
@@ -51,14 +75,17 @@ class CreateUpdateUserAPIView(APIView):
         username = kwargs.get('username')
         if not username:
             return Response({'error': 'Username не передан'})
-        try:
-            user = User.objects.get(username=username)
-        except:
+
+        user = User.objects.filter(username=username).first()
+        if not user:
             return Response({'error': f'Пользователь {username} не найден'})
 
+        self.check_object_permissions(request=request, obj=user)
         user.delete()
         data = {'successful': f'Пользователь {username} успешно удален!'}
         return Response(data, status=status.HTTP_200_OK)
 
 
-
+class CreateUpdateHairdresserAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        pass
