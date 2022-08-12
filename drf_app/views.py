@@ -33,7 +33,7 @@ class UpdateDeleteUserAPIView(APIView):
     """ Изменение и удаление данных пользователя """
 
     permission_classes = (
-        # IsAuthenticated,
+        IsAuthenticated,
         IsOwnerOrReadOnly,
     )
 
