@@ -68,7 +68,7 @@ class CreateUserSerialazer(serializers.Serializer):
 
 
 class UpdateUserSerialazer(serializers.Serializer):
-
+    """ Изменение или удаление пользователя """
     UNUSED_FIELDS = [
         'email',
         'password1',
@@ -108,6 +108,7 @@ class UpdateUserSerialazer(serializers.Serializer):
 
 
 class SimpleUserSerialazer(serializers.ModelSerializer):
+    """ Простой пользователь """
     owner = serializers.SlugRelatedField(slug_field='username', read_only=True)
 
     class Meta:
