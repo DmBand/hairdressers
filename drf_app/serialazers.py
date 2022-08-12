@@ -69,11 +69,6 @@ class CreateUserSerialazer(serializers.Serializer):
 
 class UpdateUserSerialazer(serializers.Serializer):
     """ Изменение или удаление пользователя """
-    UNUSED_FIELDS = [
-        'email',
-        'password1',
-        'password2'
-    ]
     first_and_last_name_validator = RegexValidator(
         regex=r'^[a-zA-Zа-яёА-ЯЁ-]*$',
         message='Допускаются буквы а-яА-Я, a-zA-Z.'
