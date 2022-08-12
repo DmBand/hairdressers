@@ -68,6 +68,7 @@ class CreateUserSerialazer(serializers.Serializer):
 
 
 class UpdateUserSerialazer(serializers.Serializer):
+
     UNUSED_FIELDS = [
         'email',
         'password1',
@@ -104,3 +105,20 @@ class UpdateUserSerialazer(serializers.Serializer):
             simple_user.save()
 
         return instance
+
+
+class SimpleUserSerialazer(serializers.ModelSerializer):
+    owner = serializers.SlugRelatedField(slug_field='username', read_only=True)
+
+    class Meta:
+        model = SimpleUser
+        fields = (
+            'owner',
+            'username',
+            'name',
+            'surname',
+            'email',
+            'slug',
+            'is_hairdresser',
+            'date_of_registration',
+        )
