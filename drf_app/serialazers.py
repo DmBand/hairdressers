@@ -68,11 +68,7 @@ class CreateUserSerialazer(serializers.Serializer):
 
 
 class UpdateUserSerialazer(serializers.Serializer):
-    UNUSED_FIELDS = [
-        'email',
-        'password1',
-        'password2'
-    ]
+    """ Изменение или удаление пользователя """
     first_and_last_name_validator = RegexValidator(
         regex=r'^[a-zA-Zа-яёА-ЯЁ-]*$',
         message='Допускаются буквы а-яА-Я, a-zA-Z.'
@@ -104,3 +100,21 @@ class UpdateUserSerialazer(serializers.Serializer):
             simple_user.save()
 
         return instance
+
+
+class SimpleUserSerialazer(serializers.ModelSerializer):
+    """ Простой пользователь """
+    owner = serializers.SlugRelatedField(slug_field='username', read_only=True)
+
+    class Meta:
+        model = SimpleUser
+        fields = (
+            'owner',
+            'username',
+            'name',
+            'surname',
+            'email',
+            'slug',
+            'is_hairdresser',
+            'date_of_registration',
+        )
