@@ -9,7 +9,7 @@ from rest_framework import permissions
 #         return bool(request.user == )
 
 
-class IsOwnerOrReadOnly(permissions.BasePermission):
-
+class IsOwner(permissions.BasePermission):
+    """ Открывает доступ только владельцу """
     def has_object_permission(self, request, view, obj):
         return obj.username == request.user.username
