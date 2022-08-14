@@ -119,3 +119,15 @@ class CreateHairdresserAPIView(APIView):
             user.save()
             data = {'successful': 'Портфолио успешно создано!'}
             return Response(data, status=status.HTTP_200_OK)
+
+
+class GetHairdresserAPIView(APIView):
+    """ Просмотр портфолио парикмахера """
+
+    def get(self, request, **kwargs):
+        owner = kwargs.get('username')
+        hairdresser = Hairdresser.objects.filter(owner__username=owner).first()
+        if not hairdresser:
+            return Response({'error': f'Портфолио не найдено. Проверьте имя пользователя'})
+        serialazer = GetHairdresserSerialazer(hairdresser)
+        return Response(serialazer.data, status=status.HTTP_200_OK)
