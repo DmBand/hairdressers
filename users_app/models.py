@@ -148,17 +148,20 @@ class Hairdresser(models.Model):
     instagram = models.CharField(
         max_length=100,
         blank=True,
-        verbose_name='инстаграм'
+        verbose_name='инстаграм',
+        null=True
     )
     another_info = models.TextField(
         max_length=1000,
         blank=True,
-        verbose_name='дополнительная информация'
+        verbose_name='дополнительная информация',
+        null=True
     )
     portfolio = models.ImageField(
         upload_to=path_to_user_portfolio_directory,
         blank=True,
-        verbose_name='портфолио'
+        verbose_name='портфолио',
+        null=True
     )
     owner = models.OneToOneField(
         SimpleUser,
