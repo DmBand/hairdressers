@@ -249,8 +249,8 @@ def create_portfolio_view(request):
             # Получаем список файлов для портфолио и создаём нового парикмахера
             files = request.FILES.getlist('portfolio')
             create_new_hairdresser(
-                user=user, 
-                data=form.cleaned_data, 
+                user=user,
+                data=form.cleaned_data,
                 files=files
             )
             # Меняем флаг пользователя - он теперь парикмахер
@@ -309,7 +309,6 @@ def get_one_hairdresser_view(request, slug_name):
         context['url_for_photo'] = url_for_photo
 
     return render(request, 'users_app/portfolio.html', context)
-
 
 
 @login_required(login_url='users_app:login')
