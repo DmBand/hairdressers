@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
-from rest_framework import serializers
+from rest_framework import serializers, status
+from rest_framework.response import Response
 
 from users_app.models import City, SimpleUser, Skill, Hairdresser
 from users_app.services import create_new_user, create_new_hairdresser
@@ -180,6 +181,7 @@ class GetHairdresserSerialazer(serializers.ModelSerializer):
 
 class CreateHairdresserSerialazer(serializers.ModelSerializer):
     """ Создать парикмахера """
+
     def __init__(self, data, **kwargs):
         super().__init__(data=data)
         self.user = kwargs.get('user')
@@ -199,5 +201,44 @@ class CreateHairdresserSerialazer(serializers.ModelSerializer):
             user=self.user,
             data=validated_data,
         )
-
         return hairdresser
+
+
+class UpdateHairdresserSerialazer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Hairdresser
+        fields = (
+            'city',
+            'phone',
+            'skills',
+            'instagram',
+            'another_info',
+        )
+
+    def is_valid(self, raise_exception=False):
+        city = self.initial_data.get('city')
+        phone = self.initial_data.get('phone')
+        skills = self.initial_data.get('skills')
+        if not city:
+            self.initial_data['city'] = self.instance.city.id
+        if not phone:
+            self.initial_data['phone'] = str(self.instance.phone)
+        if not skills:
+            current_skills = [skill.id for skill in self.instance.skills.all()]
+            self.initial_data['skills'] = current_skills
+        super().is_valid(raise_exception=raise_exception)
+
+    def update(self, instance, validated_data):
+        instance.city = validated_data.get('city', instance.city)
+        instance.phone = validated_data.get('phone', instance.phone)
+        instance.instagram = validated_data.get('instagram', instance.instagram)
+        instance.another_info = validated_data.get('another_info', instance.another_info)
+        all_skills = validated_data.get('skills')
+        current_skills = instance.skills.all()
+        if all_skills:
+            for skill in current_skills:
+                instance.skills.remove(skill.id)
+            instance.skills.add(*all_skills)
+        instance.save()
+        return instance
