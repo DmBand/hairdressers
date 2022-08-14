@@ -193,13 +193,20 @@ class CreatePortfolioForm(forms.ModelForm):
                 attrs={
                     'class': 'portf-form-input',
                     'placeholder': 'Пример: +375291112233',
-                    'required': True}
+                    'required': True
+                }
             ),
             'city': forms.Select(
-                attrs={'class': 'portfolio-city-select'}
+                attrs={
+                    'class': 'portfolio-city-select',
+                    'required': True
+                }
             ),
             'skills': forms.CheckboxSelectMultiple(
-                attrs={'class': 'portf-form-input-cb'}
+                attrs={
+                    'class': 'portf-form-input-cb',
+                    'required': True
+                }
             ),
             'another_info': forms.Textarea(
                 attrs={

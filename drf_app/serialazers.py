@@ -2,8 +2,8 @@ from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from rest_framework import serializers
 
-from users_app.models import City, SimpleUser
-from users_app.services import create_new_user
+from users_app.models import City, SimpleUser, Skill, Hairdresser
+from users_app.services import create_new_user, create_new_hairdresser
 
 
 class CreateUserSerialazer(serializers.Serializer):
@@ -104,7 +104,10 @@ class UpdateUserSerialazer(serializers.Serializer):
 
 class SimpleUserSerialazer(serializers.ModelSerializer):
     """ Простой пользователь """
-    owner = serializers.SlugRelatedField(slug_field='username', read_only=True)
+    owner = serializers.SlugRelatedField(
+        slug_field='username',
+        read_only=True,
+    )
 
     class Meta:
         model = SimpleUser
@@ -118,3 +121,83 @@ class SimpleUserSerialazer(serializers.ModelSerializer):
             'is_hairdresser',
             'date_of_registration',
         )
+
+
+class CityWithIDSerialazer(serializers.ModelSerializer):
+    """ Город со всеми полями """
+    region = serializers.SlugRelatedField(
+        slug_field='name',
+        read_only=True,
+    )
+
+    class Meta:
+        model = City
+        fields = '__all__'
+
+
+class CityWithoutIDSerialazer(serializers.ModelSerializer):
+    """ Город без поля ID """
+    region = serializers.SlugRelatedField(
+        slug_field='name',
+        read_only=True,
+    )
+
+    class Meta:
+        model = City
+        exclude = (
+            'id',
+        )
+
+
+class SkillSerialazer(serializers.ModelSerializer):
+    """ Простой пользователь """
+
+    class Meta:
+        model = Skill
+        fields = '__all__'
+
+
+class GetHairdresserSerialazer(serializers.ModelSerializer):
+    """ Парикмахер """
+    owner = serializers.SlugRelatedField(
+        slug_field='username',
+        read_only=True,
+    )
+    city = CityWithoutIDSerialazer()
+    skills = serializers.SlugRelatedField(
+        slug_field='name',
+        read_only=True,
+        many=True
+    )
+
+    class Meta:
+        model = Hairdresser
+        exclude = (
+            'id',
+            'portfolio',
+        )
+
+
+class CreateHairdresserSerialazer(serializers.ModelSerializer):
+    """ Создать парикмахера """
+    def __init__(self, data, **kwargs):
+        super().__init__(data=data)
+        self.user = kwargs.get('user')
+
+    class Meta:
+        model = Hairdresser
+        fields = (
+            'city',
+            'phone',
+            'skills',
+            'instagram',
+            'another_info',
+        )
+
+    def create(self, validated_data):
+        hairdresser = create_new_hairdresser(
+            user=self.user,
+            data=validated_data,
+        )
+
+        return hairdresser

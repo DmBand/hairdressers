@@ -154,7 +154,7 @@ def create_new_user(user: object):
     )
 
 
-def create_new_hairdresser(user: object, data: dict, files: list):
+def create_new_hairdresser(user: object, data: dict, files: list = None):
     """ Создаёт нового парикмахера """
     the_hairdresser = Hairdresser.objects.create(
         city=data.get('city'),
