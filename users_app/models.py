@@ -132,7 +132,6 @@ class Hairdresser(models.Model):
     city = models.ForeignKey(
         City,
         on_delete=models.PROTECT,
-        null=True,
         related_name='hairdresser'
     )
     phone = PhoneNumberField(verbose_name='номер телефона')
