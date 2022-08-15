@@ -1,9 +1,12 @@
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
-from rest_framework import serializers, status
-from rest_framework.response import Response
+from rest_framework import serializers
 
-from users_app.models import City, SimpleUser, Skill, Hairdresser
+from users_app.models import (City,
+                              SimpleUser,
+                              Skill,
+                              Hairdresser,
+                              Region)
 from users_app.services import create_new_user, create_new_hairdresser
 
 
@@ -205,7 +208,6 @@ class CreateHairdresserSerialazer(serializers.ModelSerializer):
 
 
 class UpdateHairdresserSerialazer(serializers.ModelSerializer):
-
     class Meta:
         model = Hairdresser
         fields = (
