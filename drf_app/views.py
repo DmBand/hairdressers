@@ -1,17 +1,22 @@
 from django.contrib.auth.models import User
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from users_app.models import Hairdresser, SimpleUser
+from users_app.models import (Hairdresser,
+                              SimpleUser,
+                              Skill,
+                              City)
 from .permissons import IsOwner, IsHairdresserOwner
 from .serialazers import (CreateUserSerialazer,
                           UpdateUserSerialazer,
                           SimpleUserSerialazer,
                           GetHairdresserSerialazer,
                           CreateHairdresserSerialazer,
-                          UpdateHairdresserSerialazer,)
+                          UpdateHairdresserSerialazer,
+                          SkillSerialazer,
+                          CityWithIDSerialazer)
 
 
 # TODO ДОСТУПЫ!
@@ -195,3 +200,54 @@ class UpdateDeleteHairdresserAPIView(APIView):
         data = {'successful': f'Портфолио пользователя {username} успешно удалено!'}
         return Response(data, status=status.HTTP_200_OK)
 
+
+class SkillsAPIView(APIView):
+    """ Просмотр доступных навыков """
+    def get(self, request):
+        skills = Skill.objects.all().order_by('id')
+        serialazer = SkillSerialazer(skills, many=True)
+        return Response(
+            serialazer.data,
+            status=status.HTTP_200_OK
+        )
+
+
+class CitiesAPIView(generics.ListAPIView):
+    """ Просмотр всех городов """
+    queryset = City.objects.all().order_by('region')
+    serializer_class = CityWithIDSerialazer
+
+
+class GetCityAPIView(APIView):
+    """ Просмотр конкретного города """
+    def get(self, request, **kwargs):
+        pk = kwargs.get('pk')
+        city = City.objects.filter(pk=pk)
+        if not city:
+            return Response(
+                {'error': 'Город не найден!'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        serialazer = CityWithIDSerialazer(city, many=True)
+        return Response(
+            serialazer.data,
+            status=status.HTTP_200_OK
+        )
+
+
+class GetAllCitiesInTheRegion(APIView):
+    """ Просмотр всех городов одной области """
+    def get(self, request, **kwargs):
+        pk = kwargs.get('pk')
+        cities = City.objects.filter(region__pk=pk)
+        if not cities:
+            return Response(
+                {'error': 'Города не найдены! Проверьте правильность передаваемых данных'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serialazer = CityWithIDSerialazer(cities, many=True)
+        return Response(
+            serialazer.data,
+            status=status.HTTP_200_OK
+        )
