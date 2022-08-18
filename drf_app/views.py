@@ -42,6 +42,7 @@ class CreateUserAPIView(APIView):
 
 class UpdateDeleteUserAPIView(APIView):
     """ Изменение и удаление данных пользователя """
+
     permission_classes = (
         IsAuthenticated,
         IsOwner,
@@ -111,6 +112,7 @@ class UpdateDeleteUserAPIView(APIView):
 
 class CreateHairdresserAPIView(APIView):
     """ Создание парикмахера """
+
     permission_classes = (
         IsAuthenticated,
     )
@@ -152,6 +154,7 @@ class GetHairdresserAPIView(APIView):
 
 class UpdateDeleteHairdresserAPIView(APIView):
     """ Изменение и удаление портфолио парикмахера """
+
     permission_classes = (
         IsAuthenticated,
         IsHairdresserOwner,
@@ -204,6 +207,7 @@ class UpdateDeleteHairdresserAPIView(APIView):
 
 class SkillsAPIView(APIView):
     """ Просмотр доступных навыков """
+
     def get(self, request):
         skills = Skill.objects.all().order_by('id')
         serialazer = SkillSerialazer(skills, many=True)
@@ -215,12 +219,14 @@ class SkillsAPIView(APIView):
 
 class CitiesAPIView(generics.ListAPIView):
     """ Просмотр всех городов """
+
     queryset = City.objects.all().order_by('region')
     serializer_class = CityWithIDSerialazer
 
 
 class GetCityAPIView(APIView):
     """ Просмотр конкретного города """
+
     def get(self, request, **kwargs):
         pk = kwargs.get('pk')
         city = City.objects.filter(pk=pk)
@@ -238,6 +244,7 @@ class GetCityAPIView(APIView):
 
 class GetAllCitiesInTheRegion(APIView):
     """ Просмотр всех городов одной области """
+
     def get(self, request, **kwargs):
         pk = kwargs.get('pk')
         cities = City.objects.filter(region__pk=pk)
