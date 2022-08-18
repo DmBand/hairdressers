@@ -10,6 +10,8 @@ urlpatterns = [
     path('create_hairdresser/', CreateHairdresserAPIView.as_view()),
     path('get_hairdresser/<slug:username>/', GetHairdresserAPIView.as_view()),
     path('update_delete_hairdresser/<slug:username>/', UpdateDeleteHairdresserAPIView.as_view()),
+    # selection
+    path('selection/', SelectionAPIView.as_view()),
     # other
     path('get_skills/', SkillsAPIView.as_view()),
     path('get_cities/', CitiesAPIView.as_view()),

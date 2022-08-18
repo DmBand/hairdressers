@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from selection_app.services import get_selection_by_filters
 from users_app.models import (Hairdresser,
                               SimpleUser,
                               Skill,
@@ -251,3 +252,36 @@ class GetAllCitiesInTheRegion(APIView):
             serialazer.data,
             status=status.HTTP_200_OK
         )
+
+
+class SelectionAPIView(APIView):
+    """ Подбор парикмахеров по критериям """
+
+    def get(self, request):
+        city = request.data.get('city')
+        skills = request.data.get('skill')
+        skills_list = [skill for skill in skills] if skills else []
+        if not city and not skills_list:
+            return Response(
+                {'error': 'Не переданы критерии поиска!'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        result = get_selection_by_filters(
+            model=Hairdresser,
+            context={},
+            city=city,
+            skills=skills_list,
+        )
+        serialazer = GetHairdresserSerialazer(
+            result.get('hairdresser'),
+            many=True
+        )
+        if not serialazer.data:
+            return Response(
+                {'error': 'По Вашему запросу результаты не найдены'}
+            )
+        return Response(
+            serialazer.data,
+            status=status.HTTP_200_OK
+        )
+
