@@ -12,6 +12,7 @@ from users_app.services import create_new_user, create_new_hairdresser
 
 class CreateUserSerialazer(serializers.Serializer):
     """ Регистрация пользователя """
+
     username_validator = RegexValidator(
         regex=r'^[0-9a-zA-Z_-]*$',
         message='Допускаются буквы a-zA-Z, цифры и символы _- (не более 30).',
@@ -73,6 +74,7 @@ class CreateUserSerialazer(serializers.Serializer):
 
 class UpdateUserSerialazer(serializers.Serializer):
     """ Изменение или удаление пользователя """
+
     first_and_last_name_validator = RegexValidator(
         regex=r'^[a-zA-Zа-яёА-ЯЁ-]*$',
         message='Допускаются буквы а-яА-Я, a-zA-Z.'
@@ -108,6 +110,7 @@ class UpdateUserSerialazer(serializers.Serializer):
 
 class SimpleUserSerialazer(serializers.ModelSerializer):
     """ Простой пользователь """
+
     owner = serializers.SlugRelatedField(
         slug_field='username',
         read_only=True,
@@ -129,6 +132,7 @@ class SimpleUserSerialazer(serializers.ModelSerializer):
 
 class CityWithIDSerialazer(serializers.ModelSerializer):
     """ Город со всеми полями """
+
     region = serializers.SlugRelatedField(
         slug_field='name',
         read_only=True,
@@ -141,6 +145,7 @@ class CityWithIDSerialazer(serializers.ModelSerializer):
 
 class CityWithoutIDSerialazer(serializers.ModelSerializer):
     """ Город без поля ID """
+
     region = serializers.SlugRelatedField(
         slug_field='name',
         read_only=True,
@@ -163,6 +168,7 @@ class SkillSerialazer(serializers.ModelSerializer):
 
 class GetHairdresserSerialazer(serializers.ModelSerializer):
     """ Парикмахер """
+
     owner = serializers.SlugRelatedField(
         slug_field='username',
         read_only=True,
@@ -208,6 +214,8 @@ class CreateHairdresserSerialazer(serializers.ModelSerializer):
 
 
 class UpdateHairdresserSerialazer(serializers.ModelSerializer):
+    """ Обновить портфолио парикмахера """
+
     class Meta:
         model = Hairdresser
         fields = (
