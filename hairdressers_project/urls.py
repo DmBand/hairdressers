@@ -18,7 +18,10 @@ from django.urls import path, include
 from django.conf.urls.static import static
 
 from hairdressers_project import settings
-from users_app.views import page_400_view, page_403_view, page_404_view, page_500_view
+from users_app.views import (page_400_view,
+                             page_403_view,
+                             page_404_view,
+                             page_500_view)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
