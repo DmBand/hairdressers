@@ -12,6 +12,7 @@ class Comment(models.Model):
         Hairdresser, 
         on_delete=models.CASCADE, 
         verbose_name='кому',
+        related_name='comments',
     )
     text = models.TextField(
         max_length=8000, 
