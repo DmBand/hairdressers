@@ -8,6 +8,7 @@ from users_app.models import (City,
                               Hairdresser,
                               Region)
 from users_app.services import create_new_user, create_new_hairdresser
+from selection_app.models import Comment
 
 
 class CreateUserSerialazer(serializers.Serializer):
@@ -188,6 +189,21 @@ class GetHairdresserSerialazer(serializers.ModelSerializer):
         )
 
 
+class GetHairdresserOnlyUsername(serializers.ModelSerializer):
+    """ Никнейм парикмахера """
+
+    owner = serializers.SlugRelatedField(
+        slug_field='username',
+        read_only=True,
+    )
+
+    class Meta:
+        model = Hairdresser
+        fields = (
+            'owner',
+        )
+
+
 class CreateHairdresserSerialazer(serializers.ModelSerializer):
     """ Создать парикмахера """
 
@@ -252,3 +268,13 @@ class UpdateHairdresserSerialazer(serializers.ModelSerializer):
             instance.skills.add(*all_skills)
         instance.save()
         return instance
+
+
+class GetHairdresserCommentsSerialazer(serializers.ModelSerializer):
+    """ Отзывы о парикмахере """
+
+    belong_to = GetHairdresserOnlyUsername()
+
+    class Meta:
+        model = Comment
+        exclude = ('id',)

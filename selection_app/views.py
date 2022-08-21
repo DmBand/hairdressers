@@ -86,7 +86,7 @@ def increase_rating_view(request, slug_name):
         'title': 'Оценить',
         'form': form,
         'who_do_we_evaluate': who_do_we_evaluate,
-        'review': who_do_we_evaluate.hairdresser.comment_set.count(),
+        'review': who_do_we_evaluate.hairdresser.comments.count(),
         'values': [0, 1, 2, 3, 4, 5],
     }
     return render(request, 'selection_app/increase_rating.html', context)
@@ -96,7 +96,7 @@ def see_reviews_view(request, slug_name):
     """ Возвращает страницу просмотра отзывов """
     # hairdresser = Hairdresser.objects.get(slug=slug_name)
     the_hairdresser = SimpleUser.objects.get(slug=slug_name)
-    reviews = the_hairdresser.hairdresser.comment_set.order_by('-date_added')
+    reviews = the_hairdresser.hairdresser.comments.order_by('-date_added')
     context = {
         'title': 'Просмотр отзывов',
         'the_hairdresser': the_hairdresser,

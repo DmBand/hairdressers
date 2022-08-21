@@ -283,7 +283,7 @@ def get_one_hairdresser_view(request, slug_name):
         'instagram': person.hairdresser.instagram,
         'another_info': person.hairdresser.another_info,
         'slug': person.username,
-        'review': person.hairdresser.comment_set.count(),
+        'review': person.hairdresser.comments.count(),
     }
     # Получаем путь к директории хранения файлов пользователя
     directory = f'{MEDIA_ROOT}/portfolio/{person.slug}'
