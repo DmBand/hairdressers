@@ -14,6 +14,8 @@ urlpatterns = [
     path('update_delete_hairdresser/<slug:username>/', UpdateDeleteHairdresserAPIView.as_view()),
     # selection
     path('selection/', SelectionAPIView.as_view()),
+    # comments
+    path('comments/<slug:username>/', GetCommentsAPIView.as_view()),
     # other
     path('get_skills/', SkillsAPIView.as_view()),
     path('get_cities/', CitiesAPIView.as_view()),

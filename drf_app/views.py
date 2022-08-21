@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from selection_app.models import Comment
 from selection_app.services import get_selection_by_filters
 from users_app.models import (Hairdresser,
                               SimpleUser,
@@ -17,7 +18,8 @@ from .serialazers import (CreateUserSerialazer,
                           CreateHairdresserSerialazer,
                           UpdateHairdresserSerialazer,
                           SkillSerialazer,
-                          CityWithIDSerialazer)
+                          CityWithIDSerialazer,
+                          GetHairdresserCommentsSerialazer, )
 
 
 # TODO ДОСТУПЫ!
@@ -292,3 +294,25 @@ class SelectionAPIView(APIView):
             status=status.HTTP_200_OK
         )
 
+
+class GetCommentsAPIView(APIView):
+    """ Отзывы о парикмахере """
+
+    def get(self, request, **kwargs):
+        username = kwargs.get('username')
+        user = SimpleUser.objects.filter(username=username)
+        if not user:
+            return Response(
+                {'error': f'Пользователь "{username}" не найден'}
+            )
+        comments = Comment.objects.filter(
+            belong_to__owner__username=username
+        )
+        serialazer = GetHairdresserCommentsSerialazer(
+            comments,
+            many=True
+        )
+        return Response(
+            serialazer.data,
+            status=status.HTTP_200_OK
+        )
