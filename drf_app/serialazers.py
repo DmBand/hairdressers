@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
+from rest_framework.response import Response
 
 from users_app.models import (City,
                               SimpleUser,
@@ -292,8 +294,6 @@ class CreateCommentSerialazer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = (
-            'autor',
-            'belong_to',
             'text',
             'rating_value',
         )
@@ -306,24 +306,16 @@ class CreateCommentSerialazer(serializers.ModelSerializer):
         )
         return comment
 
-
-# def create(self, validated_data):
-#         email = validated_data.get('email')
-#         if User.objects.filter(email__iexact=email).exists():
-#             raise serializers.ValidationError({email: 'Пользователь с таким эл. адресом уже существует'})
-
-#         password1 = validated_data.get('password1')
-#         password2 = validated_data.get('password2')
-#         if password1 != password2:
-#             raise serializers.ValidationError({password1: "Пароли не совпадают"})
-
-#         user = User.objects.create_user(
-#             username=validated_data.get('username'),
-#             first_name=validated_data.get('first_name'),
-#             last_name=validated_data.get('last_name'),
-#             email=email,
-#             password=password1,
-#         )
-
-#         simple_user = create_new_user(user=user)
-#         return simple_user
+    def is_valid(self, raise_exception=False):
+        super().is_valid()
+        text = self.validated_data.get('text')
+        if len(text) < 10:
+            raise ValidationError(
+                {'error': 'Текст комментария должен содержать не менее 10 символов!'}
+            )
+        rating = self.validated_data.get('rating_value')
+        if rating < 0 or rating > 5:
+            raise ValidationError(
+                {'error': 'Рейтинг должен быть от 0 до 5 включительно!'}
+            )
+        return text, rating

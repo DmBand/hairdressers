@@ -19,8 +19,8 @@ from .serialazers import (CreateUserSerialazer,
                           UpdateHairdresserSerialazer,
                           SkillSerialazer,
                           CityWithIDSerialazer,
-                          GetHairdresserCommentsSerialazer, 
-                          CreateCommentSerialazer,)
+                          GetHairdresserCommentsSerialazer,
+                          CreateCommentSerialazer, )
 
 
 # TODO ДОСТУПЫ!
@@ -328,13 +328,20 @@ class AddCommentAPIview(APIView):
     )
 
     def post(self, request, **kwargs):
-        who_do_we_evaluate = SimpleUser.objects.get(slug=kwargs.get('username'))
+        who_do_we_evaluate = (SimpleUser.objects
+                              .filter(slug=kwargs.get('username'))
+                              .first())
+        if not who_do_we_evaluate:
+            return Response(
+                {'errpr': f'Парикмахер {kwargs.get("username")} не найден!'},
+                status=status.HTTP_404_NOT_FOUND
+            )
         who_evaluates = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
         if who_evaluates.slug == who_do_we_evaluate.slug:
             return Response(
-                {'error': 'Неверные данные!'}        
+                {'error': 'Неверные данные!'},
+                status=status.HTTP_403_FORBIDDEN
             )
-
         serialazer = CreateCommentSerialazer(
             data=request.data,
             autor=who_evaluates,
@@ -343,19 +350,4 @@ class AddCommentAPIview(APIView):
         if serialazer.is_valid(raise_exception=True):
             serialazer.save()
             data = {'successful': 'Отзыв успешно добавлен!'}
-            return Response(
-                data,
-                status=status.HTTP_201_CREATED
-            )
-
-
- # serialazer = CreateHairdresserSerialazer(
- #            data=request.data,
- #            user=user
- #        )
- #        if serialazer.is_valid(raise_exception=True):
- #            serialazer.save()
- #            user.is_hairdresser = True
- #            user.save()
- #            data = {'successful': 'Портфолио успешно создано!'}
- #            return Response(data, status=status.HTTP_201_CREATED)
+            return Response(data, status=status.HTTP_201_CREATED)
