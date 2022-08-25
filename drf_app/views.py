@@ -19,12 +19,14 @@ from .serialazers import (CreateUserSerialazer,
                           UpdateHairdresserSerialazer,
                           SkillSerialazer,
                           CityWithIDSerialazer,
-                          GetHairdresserCommentsSerialazer, )
+                          GetHairdresserCommentsSerialazer,
+                          CreateCommentSerialazer, )
 
 
 # TODO ДОСТУПЫ!
 # TODO ЗАГРУЗКА ФОТО!
 # TODO CSRF TOKEN!
+# TODO СТАТУСЫ ОТВЕТОВ!
 
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
@@ -316,3 +318,36 @@ class GetCommentsAPIView(APIView):
             serialazer.data,
             status=status.HTTP_200_OK
         )
+
+
+class AddCommentAPIview(APIView):
+    """ Добавить отзыв """
+
+    permission_classes = (
+        IsAuthenticated,
+    )
+
+    def post(self, request, **kwargs):
+        who_do_we_evaluate = (SimpleUser.objects
+                              .filter(slug=kwargs.get('username'))
+                              .first())
+        if not who_do_we_evaluate:
+            return Response(
+                {'errpr': f'Парикмахер {kwargs.get("username")} не найден!'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        who_evaluates = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
+        if who_evaluates.slug == who_do_we_evaluate.slug:
+            return Response(
+                {'error': 'Неверные данные!'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        serialazer = CreateCommentSerialazer(
+            data=request.data,
+            autor=who_evaluates,
+            belong_to=who_do_we_evaluate
+        )
+        if serialazer.is_valid(raise_exception=True):
+            serialazer.save()
+            data = {'successful': 'Отзыв успешно добавлен!'}
+            return Response(data, status=status.HTTP_201_CREATED)

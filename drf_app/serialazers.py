@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
+from rest_framework.response import Response
 
 from users_app.models import (City,
                               SimpleUser,
@@ -9,6 +11,7 @@ from users_app.models import (City,
                               Region)
 from users_app.services import create_new_user, create_new_hairdresser
 from selection_app.models import Comment
+from selection_app.services import create_new_comment
 
 
 class CreateUserSerialazer(serializers.Serializer):
@@ -278,3 +281,41 @@ class GetHairdresserCommentsSerialazer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         exclude = ('id',)
+
+
+class CreateCommentSerialazer(serializers.ModelSerializer):
+    """ Добавить отзыв """
+
+    def __init__(self, data, **kwargs):
+        super().__init__(data=data)
+        self.autor = kwargs.get('autor')
+        self.belong_to = kwargs.get('belong_to')
+
+    class Meta:
+        model = Comment
+        fields = (
+            'text',
+            'rating_value',
+        )
+
+    def create(self, validated_data):
+        comment = create_new_comment(
+            autor=self.autor,
+            belong_to=self.belong_to,
+            data=validated_data
+        )
+        return comment
+
+    def is_valid(self, raise_exception=False):
+        super().is_valid()
+        text = self.validated_data.get('text')
+        if len(text) < 10:
+            raise ValidationError(
+                {'error': 'Текст комментария должен содержать не менее 10 символов!'}
+            )
+        rating = self.validated_data.get('rating_value')
+        if rating < 0 or rating > 5:
+            raise ValidationError(
+                {'error': 'Рейтинг должен быть от 0 до 5 включительно!'}
+            )
+        return text, rating
