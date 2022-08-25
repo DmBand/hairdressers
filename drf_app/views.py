@@ -19,12 +19,14 @@ from .serialazers import (CreateUserSerialazer,
                           UpdateHairdresserSerialazer,
                           SkillSerialazer,
                           CityWithIDSerialazer,
-                          GetHairdresserCommentsSerialazer, )
+                          GetHairdresserCommentsSerialazer, 
+                          CreateCommentSerialazer,)
 
 
 # TODO ДОСТУПЫ!
 # TODO ЗАГРУЗКА ФОТО!
 # TODO CSRF TOKEN!
+# TODO СТАТУСЫ ОТВЕТОВ!
 
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
@@ -316,3 +318,44 @@ class GetCommentsAPIView(APIView):
             serialazer.data,
             status=status.HTTP_200_OK
         )
+
+
+class AddCommentAPIview(APIView):
+    """ Добавить отзыв """
+
+    permission_classes = (
+        IsAuthenticated,
+    )
+
+    def post(self, request, **kwargs):
+        who_do_we_evaluate = SimpleUser.objects.get(slug=kwargs.get('username'))
+        who_evaluates = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
+        if who_evaluates.slug == who_do_we_evaluate.slug:
+            return Response(
+                {'error': 'Неверные данные!'}        
+            )
+
+        serialazer = CreateCommentSerialazer(
+            data=request.data,
+            autor=who_evaluates,
+            belong_to=who_do_we_evaluate
+        )
+        if serialazer.is_valid(raise_exception=True):
+            serialazer.save()
+            data = {'successful': 'Отзыв успешно добавлен!'}
+            return Response(
+                data,
+                status=status.HTTP_201_CREATED
+            )
+
+
+ # serialazer = CreateHairdresserSerialazer(
+ #            data=request.data,
+ #            user=user
+ #        )
+ #        if serialazer.is_valid(raise_exception=True):
+ #            serialazer.save()
+ #            user.is_hairdresser = True
+ #            user.save()
+ #            data = {'successful': 'Портфолио успешно создано!'}
+ #            return Response(data, status=status.HTTP_201_CREATED)

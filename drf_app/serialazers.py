@@ -9,6 +9,7 @@ from users_app.models import (City,
                               Region)
 from users_app.services import create_new_user, create_new_hairdresser
 from selection_app.models import Comment
+from selection_app.services import create_new_comment
 
 
 class CreateUserSerialazer(serializers.Serializer):
@@ -278,3 +279,51 @@ class GetHairdresserCommentsSerialazer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         exclude = ('id',)
+
+
+class CreateCommentSerialazer(serializers.ModelSerializer):
+    """ Добавить отзыв """
+
+    def __init__(self, data, **kwargs):
+        super().__init__(data=data)
+        self.autor = kwargs.get('autor')
+        self.belong_to = kwargs.get('belong_to')
+
+    class Meta:
+        model = Comment
+        fields = (
+            'autor',
+            'belong_to',
+            'text',
+            'rating_value',
+        )
+
+    def create(self, validated_data):
+        comment = create_new_comment(
+            autor=self.autor,
+            belong_to=self.belong_to,
+            data=validated_data
+        )
+        return comment
+
+
+# def create(self, validated_data):
+#         email = validated_data.get('email')
+#         if User.objects.filter(email__iexact=email).exists():
+#             raise serializers.ValidationError({email: 'Пользователь с таким эл. адресом уже существует'})
+
+#         password1 = validated_data.get('password1')
+#         password2 = validated_data.get('password2')
+#         if password1 != password2:
+#             raise serializers.ValidationError({password1: "Пароли не совпадают"})
+
+#         user = User.objects.create_user(
+#             username=validated_data.get('username'),
+#             first_name=validated_data.get('first_name'),
+#             last_name=validated_data.get('last_name'),
+#             email=email,
+#             password=password1,
+#         )
+
+#         simple_user = create_new_user(user=user)
+#         return simple_user
