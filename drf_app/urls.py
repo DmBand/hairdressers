@@ -19,6 +19,7 @@ urlpatterns = [
     path('add_comment/<slug:username>/', AddCommentAPIview.as_view()),
     # other
     path('get_skills/', SkillsAPIView.as_view()),
+    path('get_regions/', RegionsAPIView.as_view()),
     path('get_cities/', CitiesAPIView.as_view()),
     path('get_city/<int:pk>/', GetCityAPIView.as_view()),
     path('get_cities_in_the_region/<int:pk>/', GetAllCitiesInTheRegion.as_view()),

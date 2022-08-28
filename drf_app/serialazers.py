@@ -2,13 +2,12 @@ from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from rest_framework.response import Response
 
 from users_app.models import (City,
                               SimpleUser,
                               Skill,
                               Hairdresser,
-                              Region)
+                              Region,)
 from users_app.services import create_new_user, create_new_hairdresser
 from selection_app.models import Comment
 from selection_app.services import create_new_comment
@@ -134,6 +133,14 @@ class SimpleUserSerialazer(serializers.ModelSerializer):
         )
 
 
+class RegionSerialazer(serializers.ModelSerializer):
+    """ Области """
+
+    class Meta:
+        model = Region
+        fields = '__all__'
+
+
 class CityWithIDSerialazer(serializers.ModelSerializer):
     """ Город со всеми полями """
 
@@ -163,7 +170,7 @@ class CityWithoutIDSerialazer(serializers.ModelSerializer):
 
 
 class SkillSerialazer(serializers.ModelSerializer):
-    """ Простой пользователь """
+    """ Навыки """
 
     class Meta:
         model = Skill
