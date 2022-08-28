@@ -6,7 +6,8 @@ from rest_framework.exceptions import ValidationError
 from users_app.models import (City,
                               SimpleUser,
                               Skill,
-                              Hairdresser,)
+                              Hairdresser,
+                              Region,)
 from users_app.services import create_new_user, create_new_hairdresser
 from selection_app.models import Comment
 from selection_app.services import create_new_comment
@@ -130,6 +131,14 @@ class SimpleUserSerialazer(serializers.ModelSerializer):
             'is_hairdresser',
             'date_of_registration',
         )
+
+
+class RegionSerialazer(serializers.ModelSerializer):
+    """ Области """
+
+    class Meta:
+        model = Region
+        fields = '__all__'
 
 
 class CityWithIDSerialazer(serializers.ModelSerializer):

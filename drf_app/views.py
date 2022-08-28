@@ -9,7 +9,8 @@ from selection_app.services import get_selection_by_filters
 from users_app.models import (Hairdresser,
                               SimpleUser,
                               Skill,
-                              City)
+                              City,
+                              Region, )
 from .permissons import IsOwner, IsHairdresserOwner
 from .serialazers import (CreateUserSerialazer,
                           UpdateUserSerialazer,
@@ -18,6 +19,7 @@ from .serialazers import (CreateUserSerialazer,
                           CreateHairdresserSerialazer,
                           UpdateHairdresserSerialazer,
                           SkillSerialazer,
+                          RegionSerialazer,
                           CityWithIDSerialazer,
                           GetHairdresserCommentsSerialazer,
                           CreateCommentSerialazer, )
@@ -219,6 +221,13 @@ class SkillsAPIView(APIView):
             serialazer.data,
             status=status.HTTP_200_OK
         )
+
+
+class RegionsAPIView(generics.ListAPIView):
+    """ Просмотр всех областей """
+
+    queryset = Region.objects.all().order_by('pk')
+    serializer_class = RegionSerialazer
 
 
 class CitiesAPIView(generics.ListAPIView):
