@@ -256,7 +256,7 @@ def create_portfolio_view(request):
             # Меняем флаг пользователя - он теперь парикмахер
             user.is_hairdresser = True
             user.save()
-            compress_images_in_portfolio(person_slug=user.slug)
+            # compress_images_in_portfolio(person_slug=user.slug)
             # Редирект на страницу портфолио
             return redirect('users_app:get_hairdresser', slug_name=request.user.username)
     context = {'title': 'Создание портфолио', 'form': form, 'files': MAX_COUNT}
