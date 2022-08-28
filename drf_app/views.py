@@ -25,10 +25,8 @@ from .serialazers import (CreateUserSerialazer,
                           CreateCommentSerialazer, )
 
 
-# TODO ДОСТУПЫ!
 # TODO ЗАГРУЗКА ФОТО!
 # TODO CSRF TOKEN!
-# TODO СТАТУСЫ ОТВЕТОВ!
 
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
@@ -153,7 +151,10 @@ class GetHairdresserAPIView(APIView):
         owner = kwargs.get('username')
         hairdresser = Hairdresser.objects.filter(owner__username=owner).first()
         if not hairdresser:
-            return Response({'error': f'Портфолио не найдено. Проверьте имя пользователя'})
+            return Response(
+                {'error': f'Портфолио не найдено! Проверьте username пользователя.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
         serialazer = GetHairdresserSerialazer(hairdresser)
         return Response(serialazer.data, status=status.HTTP_200_OK)
 
@@ -211,16 +212,11 @@ class UpdateDeleteHairdresserAPIView(APIView):
         return Response(data, status=status.HTTP_200_OK)
 
 
-class SkillsAPIView(APIView):
+class SkillsAPIView(generics.ListAPIView):
     """ Просмотр доступных навыков """
 
-    def get(self, request):
-        skills = Skill.objects.all().order_by('id')
-        serialazer = SkillSerialazer(skills, many=True)
-        return Response(
-            serialazer.data,
-            status=status.HTTP_200_OK
-        )
+    queryset = Skill.objects.all().order_by('id')
+    serializer_class = SkillSerialazer
 
 
 class RegionsAPIView(generics.ListAPIView):
@@ -249,10 +245,7 @@ class GetCityAPIView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
         serialazer = CityWithIDSerialazer(city, many=True)
-        return Response(
-            serialazer.data,
-            status=status.HTTP_200_OK
-        )
+        return Response(serialazer.data)
 
 
 class GetAllCitiesInTheRegion(APIView):
@@ -263,15 +256,11 @@ class GetAllCitiesInTheRegion(APIView):
         cities = City.objects.filter(region__pk=pk)
         if not cities:
             return Response(
-                {'error': 'Города не найдены! Проверьте правильность передаваемых данных'},
+                {'error': 'Города не найдены! Проверьте правильность передаваемых данных.'},
                 status=status.HTTP_404_NOT_FOUND
             )
-
         serialazer = CityWithIDSerialazer(cities, many=True)
-        return Response(
-            serialazer.data,
-            status=status.HTTP_200_OK
-        )
+        return Response(serialazer.data)
 
 
 class SelectionAPIView(APIView):
@@ -314,7 +303,8 @@ class GetCommentsAPIView(APIView):
         user = SimpleUser.objects.filter(username=username)
         if not user:
             return Response(
-                {'error': f'Пользователь "{username}" не найден'}
+                {'error': f'Пользователь "{username}" не найден'},
+                status=status.HTTP_404_NOT_FOUND
             )
         comments = Comment.objects.filter(
             belong_to__owner__username=username
@@ -323,10 +313,7 @@ class GetCommentsAPIView(APIView):
             comments,
             many=True
         )
-        return Response(
-            serialazer.data,
-            status=status.HTTP_200_OK
-        )
+        return Response(serialazer.data)
 
 
 class AddCommentAPIview(APIView):
