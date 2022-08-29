@@ -1,6 +1,9 @@
+import os
+
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib.auth.views import (LoginView,
                                        PasswordResetConfirmView,
                                        PasswordResetView,
@@ -12,10 +15,28 @@ from django.utils.decorators import method_decorator
 from django.views.generic import CreateView
 
 from .decorators import user_is_authenticated
-from hairdressers_project.settings import MEDIA_URL
-from .forms import *
-from .models import default_avatar_path
-from .services import *
+from hairdressers_project.settings import (MEDIA_URL,
+                                           MEDIA_ROOT)
+from .forms import (RegistrationUserForm,
+                    AddAvatarForm,
+                    EditProfileForm,
+                    DeleteProfileForm,
+                    LoginUserForm,
+                    ResetPasswordForm,
+                    ChangePasswordForm,
+                    CreatePortfolioForm)
+
+from .models import (default_avatar_path,
+                     Hairdresser,
+                     SimpleUser)
+from .services import (create_new_user,
+                       compress_avatar,
+                       check_number_of_files_in_avatar_directory,
+                       delete_avatar_directory,
+                       delete_portfolio_directory,
+                       create_new_hairdresser,
+                       check_number_of_files_in_portfolio,
+                       compress_images_in_portfolio, MAX_COUNT)
 
 
 def homepage_view(request):
