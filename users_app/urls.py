@@ -1,6 +1,22 @@
 from django.contrib.auth import views as av
 from django.urls import path
-from .views import *
+from .views import (homepage_view,
+                    RegistrationUserView,
+                    LoginUserView,
+                    logout_user_view,
+                    delete_avatar_view,
+                    add_avatar_view,
+                    edit_main_profile_view,
+                    delete_main_profile_view,
+                    get_main_profile_view,
+                    ResetPasswordView,
+                    ResetPasswordConfirmView,
+                    ChangePasswordView,
+                    create_portfolio_view,
+                    edit_portfolio_view,
+                    reset_portfolio_photos_view,
+                    delete_portfolio_view,
+                    get_one_hairdresser_view)
 
 app_name = 'users_app'
 
