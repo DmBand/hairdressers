@@ -2,6 +2,7 @@ import os
 import shutil
 import time
 from PIL import Image, ExifTags
+from django.contrib.auth.models import User
 
 from .models import SimpleUser, Hairdresser
 
@@ -12,7 +13,8 @@ PHOTO_CUALITY = 30
 TIME_TO_COMPRESS = 60
 
 
-def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
+def check_number_of_files_in_portfolio(person_slug: str,
+                                       new_files: list) -> None:
     """
     Проверяет уже имеющееся количество файлов в портфолио пользователя.
     Один пользователь может загружать не более 15 фотографий в портфолио (MAX_COUNT).
@@ -53,7 +55,7 @@ def check_number_of_files_in_portfolio(person_slug: str, new_files: list):
             os.remove(f'{directory}/{f}')
 
 
-def check_number_of_files_in_avatar_directory(person_slug: str):
+def check_number_of_files_in_avatar_directory(person_slug: str) -> None:
     """
     Проверяет наличие аватара в папке пользователя и,
     в случае загрузки нового аватара, удаляет старый из папки хранения
@@ -69,7 +71,7 @@ def check_number_of_files_in_avatar_directory(person_slug: str):
         os.remove(f'{directory}/{files[0]}')
 
 
-def compress_avatar(person_slug: str):
+def compress_avatar(person_slug: str) -> None:
     """ Сжимает главное фото профиля """
     directory = f'{MEDIA_ROOT}/avatars/{person_slug}'
     try:
@@ -89,12 +91,16 @@ def compress_avatar(person_slug: str):
         elif exif[orientation] == 8:
             im = im.rotate(90, expand=True)
     except (TypeError, KeyError):
-        im.save(f'{directory}/{file}', quality=PHOTO_CUALITY, optimize=True)
+        im.save(f'{directory}/{file}',
+                quality=PHOTO_CUALITY,
+                optimize=True)
     else:
-        im.save(f'{directory}/{file}', quality=PHOTO_CUALITY, optimize=True)
+        im.save(f'{directory}/{file}',
+                quality=PHOTO_CUALITY,
+                optimize=True)
 
 
-def compress_images_in_portfolio(person_slug: str):
+def compress_images_in_portfolio(person_slug: str) -> None:
     """ Сжимает изображения в портфолио """
     directory = f'{MEDIA_ROOT}/portfolio/{person_slug}'
     now = time.time()
@@ -117,12 +123,16 @@ def compress_images_in_portfolio(person_slug: str):
             elif exif[orientation] == 8:
                 im = im.rotate(90, expand=True)
         except (TypeError, KeyError):
-            im.save(f'{directory}/{f}', quality=PHOTO_CUALITY, optimize=True)
+            im.save(f'{directory}/{f}',
+                    quality=PHOTO_CUALITY,
+                    optimize=True)
         else:
-            im.save(f'{directory}/{f}', quality=PHOTO_CUALITY, optimize=True)
+            im.save(f'{directory}/{f}',
+                    quality=PHOTO_CUALITY,
+                    optimize=True)
 
 
-def delete_portfolio_directory(person_slug: str):
+def delete_portfolio_directory(person_slug: str) -> None:
     """ Удаляет папку портфолио со всеми фотографиями  """
     directory = f'{MEDIA_ROOT}/portfolio/{person_slug}'
     try:
@@ -132,7 +142,7 @@ def delete_portfolio_directory(person_slug: str):
         return
 
 
-def delete_avatar_directory(person_slug: str):
+def delete_avatar_directory(person_slug: str) -> None:
     """ Удаляет папку аватара с самим аватаром  """
     directory = f'{MEDIA_ROOT}/avatars/{person_slug}'
     try:
@@ -142,7 +152,7 @@ def delete_avatar_directory(person_slug: str):
         return
 
 
-def create_new_user(user: object):
+def create_new_user(user: User) -> SimpleUser:
     """ Создаёт нового пользователя в БД (после регистрации) """
     return SimpleUser.objects.create(
         owner=user,
@@ -154,7 +164,9 @@ def create_new_user(user: object):
     )
 
 
-def create_new_hairdresser(user: object, data: dict, files: list = None):
+def create_new_hairdresser(user: User,
+                           data: dict,
+                           files: list = None) -> Hairdresser:
     """ Создаёт нового парикмахера """
     the_hairdresser = Hairdresser.objects.create(
         city=data.get('city'),
@@ -166,7 +178,8 @@ def create_new_hairdresser(user: object, data: dict, files: list = None):
     all_skills = data.get('skills')
     the_hairdresser.skills.add(*all_skills)
     if files:
-        check_number_of_files_in_portfolio(person_slug=user.slug, new_files=files)
+        check_number_of_files_in_portfolio(person_slug=user.slug,
+                                           new_files=files)
         for f in files:
             the_hairdresser.portfolio = f
             the_hairdresser.save()
