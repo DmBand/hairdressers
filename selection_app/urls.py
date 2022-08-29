@@ -1,5 +1,7 @@
 from django.urls import path
-from .views import *
+from .views import (selection_view,
+                    increase_rating_view,
+                    see_reviews_view)
 
 app_name = 'selection_app'
 
