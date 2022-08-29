@@ -13,7 +13,8 @@ PHOTO_CUALITY = 30
 TIME_TO_COMPRESS = 60
 
 
-def check_number_of_files_in_portfolio(person_slug: str, new_files: list) -> None:
+def check_number_of_files_in_portfolio(person_slug: str,
+                                       new_files: list) -> None:
     """
     Проверяет уже имеющееся количество файлов в портфолио пользователя.
     Один пользователь может загружать не более 15 фотографий в портфолио (MAX_COUNT).
@@ -90,9 +91,13 @@ def compress_avatar(person_slug: str) -> None:
         elif exif[orientation] == 8:
             im = im.rotate(90, expand=True)
     except (TypeError, KeyError):
-        im.save(f'{directory}/{file}', quality=PHOTO_CUALITY, optimize=True)
+        im.save(f'{directory}/{file}',
+                quality=PHOTO_CUALITY,
+                optimize=True)
     else:
-        im.save(f'{directory}/{file}', quality=PHOTO_CUALITY, optimize=True)
+        im.save(f'{directory}/{file}',
+                quality=PHOTO_CUALITY,
+                optimize=True)
 
 
 def compress_images_in_portfolio(person_slug: str) -> None:
@@ -118,9 +123,13 @@ def compress_images_in_portfolio(person_slug: str) -> None:
             elif exif[orientation] == 8:
                 im = im.rotate(90, expand=True)
         except (TypeError, KeyError):
-            im.save(f'{directory}/{f}', quality=PHOTO_CUALITY, optimize=True)
+            im.save(f'{directory}/{f}',
+                    quality=PHOTO_CUALITY,
+                    optimize=True)
         else:
-            im.save(f'{directory}/{f}', quality=PHOTO_CUALITY, optimize=True)
+            im.save(f'{directory}/{f}',
+                    quality=PHOTO_CUALITY,
+                    optimize=True)
 
 
 def delete_portfolio_directory(person_slug: str) -> None:
@@ -155,7 +164,9 @@ def create_new_user(user: User) -> SimpleUser:
     )
 
 
-def create_new_hairdresser(user: User, data: dict, files: list = None) -> Hairdresser:
+def create_new_hairdresser(user: User,
+                           data: dict,
+                           files: list = None) -> Hairdresser:
     """ Создаёт нового парикмахера """
     the_hairdresser = Hairdresser.objects.create(
         city=data.get('city'),
@@ -167,7 +178,8 @@ def create_new_hairdresser(user: User, data: dict, files: list = None) -> Hairdr
     all_skills = data.get('skills')
     the_hairdresser.skills.add(*all_skills)
     if files:
-        check_number_of_files_in_portfolio(person_slug=user.slug, new_files=files)
+        check_number_of_files_in_portfolio(person_slug=user.slug,
+                                           new_files=files)
         for f in files:
             the_hairdresser.portfolio = f
             the_hairdresser.save()

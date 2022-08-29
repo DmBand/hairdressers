@@ -4,7 +4,11 @@ from users_app.models import SimpleUser
 from .models import Comment
 
 
-def get_selection_by_filters(model, context, city=None, skills=None, sort_option='-rating') -> dict:
+def get_selection_by_filters(model,
+                             context,
+                             city=None,
+                             skills=None,
+                             sort_option='-rating') -> dict:
     """Возвращает результат фильтрации парикмахеров по городу и навыкам"""
     if city and skills:
         context['hairdresser'] = (model.objects
@@ -23,7 +27,9 @@ def get_selection_by_filters(model, context, city=None, skills=None, sort_option
     return context
 
 
-def create_new_comment(autor: SimpleUser, belong_to: SimpleUser, data: dict) -> Comment:
+def create_new_comment(autor: SimpleUser,
+                       belong_to: SimpleUser,
+                       data: dict) -> Comment:
     """ Создаёт новый отзыв о парикмахере """
     new_coment = Comment.objects.create(
         autor=autor.username,
