@@ -7,7 +7,7 @@ from .models import (Skill,
 
 
 class SkillAdmin(admin.ModelAdmin):
-    """ ������ ������� """
+    """ Навыки парикмахеров """
     list_display = (
         'id',
         'name'
@@ -15,7 +15,7 @@ class SkillAdmin(admin.ModelAdmin):
 
 
 class HairdresserAdmin(admin.ModelAdmin):
-    """ ������ ����������� """
+    """ Парикмахеры """
     list_display = (
         'id',
         'owner',
@@ -33,7 +33,7 @@ class HairdresserAdmin(admin.ModelAdmin):
 
 
 class SimpleUserAdmin(admin.ModelAdmin):
-    """ ������ �������� ������������ """
+    """ Простые пользователи """
     list_display = (
         'id', 
         'username', 
@@ -56,7 +56,7 @@ class SimpleUserAdmin(admin.ModelAdmin):
 
 
 class CityAdmin(admin.ModelAdmin):
-    """ ������ ������ """
+    """ Город """
     list_display = (
         'id', 
         'name', 
