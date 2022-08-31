@@ -1,3 +1,5 @@
+import base64
+
 from django.contrib.auth.models import User
 from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
@@ -23,10 +25,12 @@ from .serialazers import (CreateUserSerialazer,
                           CityWithIDSerialazer,
                           GetHairdresserCommentsSerialazer,
                           CreateCommentSerialazer, )
-
-
+from .services import get_images
 # TODO ЗАГРУЗКА ФОТО!
 # TODO CSRF TOKEN!
+# TODO Загрузка "битых" фото
+# TODO закрытие изображений после сжатия
+
 
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
@@ -57,7 +61,7 @@ class UpdateDeleteUserAPIView(APIView):
         user = User.objects.filter(username=username).first()
         if not user:
             return Response(
-                {'error': f'Пользователь {username} не найден'},
+                {'detail': f'Пользователь {username} не найден'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -73,7 +77,7 @@ class UpdateDeleteUserAPIView(APIView):
         user = User.objects.filter(username=username).first()
         if not user:
             return Response(
-                {'error': f'Пользователь {username} не найден'},
+                {'detail': f'Пользователь {username} не найден'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -101,7 +105,7 @@ class UpdateDeleteUserAPIView(APIView):
         user = User.objects.filter(username=username).first()
         if not user:
             return Response(
-                {'error': f'Пользователь {username} не найден'},
+                {'detail': f'Пользователь {username} не найден'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -127,7 +131,7 @@ class CreateHairdresserAPIView(APIView):
             hairdresser = Hairdresser.objects.get(owner=user)
             serialazer = GetHairdresserSerialazer(hairdresser)
             data = {
-                'error': f'{user.username}, у Вас уже есть портфолио!',
+                'detail': f'{user.username}, у Вас уже есть портфолио!',
                 'hairdresser': serialazer.data,
             }
             return Response(data)
@@ -144,6 +148,44 @@ class CreateHairdresserAPIView(APIView):
             return Response(data, status=status.HTTP_201_CREATED)
 
 
+class AddPhotoToPortfolioAPIView(APIView):
+    """ Добавить фото в портфолио """
+
+    permission_classes = (
+        IsAuthenticated,
+        IsHairdresserOwner
+    )
+
+    def post(self, request, **kwargs):
+        username = kwargs.get('username')
+        hairdresser = Hairdresser.objects.filter(owner__username=username).first()
+        if not hairdresser:
+            return Response(
+                {'detail': f'Портфолио не найдено. Проверьте username пользователя.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        self.check_object_permissions(
+            request=request,
+            obj=hairdresser
+        )
+        images = request.data.get('images')
+        errors = get_images(
+            images=images,
+            username=username
+        )
+        if errors:
+            return Response(
+                {
+                    'message': 'successful',
+                    'errors': f'{errors.get("message")}. Количество файлов - {errors.get("count")}'
+                }
+            )
+        else:
+            return Response(
+                {'message': 'successful'}
+            )
+
+
 class GetHairdresserAPIView(APIView):
     """ Просмотр портфолио парикмахера """
 
@@ -152,7 +194,7 @@ class GetHairdresserAPIView(APIView):
         hairdresser = Hairdresser.objects.filter(owner__username=owner).first()
         if not hairdresser:
             return Response(
-                {'error': f'Портфолио не найдено! Проверьте username пользователя.'},
+                {'detail': f'Портфолио не найдено! Проверьте username пользователя.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         serialazer = GetHairdresserSerialazer(hairdresser)
@@ -172,7 +214,7 @@ class UpdateDeleteHairdresserAPIView(APIView):
         hairdresser = Hairdresser.objects.filter(owner__username=username).first()
         if not hairdresser:
             return Response(
-                {'error': f'Портфолио не найдено. Проверьте имя пользователя'},
+                {'detail': f'Портфолио не найдено. Проверьте username пользователя.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         if not request.data:
@@ -198,7 +240,7 @@ class UpdateDeleteHairdresserAPIView(APIView):
         simple_user = SimpleUser.objects.filter(owner__username=username).first()
         if not simple_user:
             return Response(
-                {'error': f'Портфолио не найдено. Проверьте имя пользователя'},
+                {'detail': f'Портфолио не найдено. Проверьте имя пользователя'},
                 status=status.HTTP_404_NOT_FOUND
             )
         self.check_object_permissions(
@@ -241,7 +283,7 @@ class GetCityAPIView(APIView):
         city = City.objects.filter(pk=pk)
         if not city:
             return Response(
-                {'error': 'Город не найден!'},
+                {'detail': 'Город не найден!'},
                 status=status.HTTP_404_NOT_FOUND
             )
         serialazer = CityWithIDSerialazer(city, many=True)
@@ -256,7 +298,7 @@ class GetAllCitiesInTheRegion(APIView):
         cities = City.objects.filter(region__pk=pk)
         if not cities:
             return Response(
-                {'error': 'Города не найдены! Проверьте правильность передаваемых данных.'},
+                {'detail': 'Города не найдены! Проверьте правильность передаваемых данных.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         serialazer = CityWithIDSerialazer(cities, many=True)
@@ -272,7 +314,7 @@ class SelectionAPIView(APIView):
         skills_list = [skill for skill in skills] if skills else []
         if not city and not skills_list:
             return Response(
-                {'error': 'Не переданы критерии поиска!'},
+                {'detail': 'Не переданы критерии поиска!'},
                 status=status.HTTP_404_NOT_FOUND
             )
         result = get_selection_by_filters(
@@ -287,7 +329,7 @@ class SelectionAPIView(APIView):
         )
         if not serialazer.data:
             return Response(
-                {'error': 'По Вашему запросу результаты не найдены'}
+                {'detail': 'По Вашему запросу результаты не найдены'}
             )
         return Response(
             serialazer.data,
@@ -303,7 +345,7 @@ class GetCommentsAPIView(APIView):
         user = SimpleUser.objects.filter(username=username)
         if not user:
             return Response(
-                {'error': f'Пользователь "{username}" не найден'},
+                {'detail': f'Пользователь "{username}" не найден'},
                 status=status.HTTP_404_NOT_FOUND
             )
         comments = Comment.objects.filter(
@@ -329,13 +371,13 @@ class AddCommentAPIview(APIView):
                               .first())
         if not who_do_we_evaluate:
             return Response(
-                {'errpr': f'Парикмахер {kwargs.get("username")} не найден!'},
+                {'detail': f'Парикмахер {kwargs.get("username")} не найден!'},
                 status=status.HTTP_404_NOT_FOUND
             )
         who_evaluates = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
         if who_evaluates.slug == who_do_we_evaluate.slug:
             return Response(
-                {'error': 'Неверные данные!'},
+                {'detail': 'Неверные данные!'},
                 status=status.HTTP_403_FORBIDDEN
             )
         serialazer = CreateCommentSerialazer(
