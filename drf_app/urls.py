@@ -2,7 +2,20 @@ from django.urls import path
 from rest_framework_simplejwt.views import (TokenObtainPairView,
                                             TokenRefreshView)
 
-from .views import *
+from .views import (CreateUserAPIView,
+                    UpdateDeleteUserAPIView,
+                    CreateHairdresserAPIView,
+                    AddPhotoToPortfolioAPIView,
+                    GetHairdresserAPIView,
+                    UpdateDeleteHairdresserAPIView,
+                    SelectionAPIView,
+                    GetCommentsAPIView,
+                    AddCommentAPIview,
+                    SkillsAPIView,
+                    RegionsAPIView,
+                    CitiesAPIView,
+                    GetCityAPIView,
+                    GetAllCitiesInTheRegion)
 
 app_name = 'drf_app'
 urlpatterns = [
@@ -10,6 +23,7 @@ urlpatterns = [
     path('create_user/', CreateUserAPIView.as_view()),
     path('update_delete_user/<slug:username>/', UpdateDeleteUserAPIView.as_view()),
     path('create_hairdresser/', CreateHairdresserAPIView.as_view()),
+    path('add_photo_to_portfolio/<slug:username>/', AddPhotoToPortfolioAPIView.as_view()),
     path('get_hairdresser/<slug:username>/', GetHairdresserAPIView.as_view()),
     path('update_delete_hairdresser/<slug:username>/', UpdateDeleteHairdresserAPIView.as_view()),
     # selection
