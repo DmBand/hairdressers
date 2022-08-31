@@ -170,13 +170,21 @@ class AddPhotoToPortfolioAPIView(APIView):
             obj=hairdresser
         )
         images = request.data.get('images')
-        get_images(
+        errors = get_images(
             images=images,
             username=username
         )
-        return Response(
-            {'message': 'successful'}
-        )
+        if errors:
+            return Response(
+                {
+                    'message': 'successful',
+                    'errors': f'{errors.get("message")}. Количество файлов - {errors.get("count")}'
+                }
+            )
+        else:
+            return Response(
+                {'message': 'successful'}
+            )
 
 
 class GetHairdresserAPIView(APIView):

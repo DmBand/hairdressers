@@ -1,6 +1,5 @@
 import base64
 import os
-import shutil
 import random
 
 from hairdressers_project.settings import MEDIA_ROOT
@@ -9,8 +8,12 @@ from users_app.services import (check_number_of_files_in_portfolio,
                                 compress_images_in_portfolio)
 
 
-def get_images(images: list, username: str) -> None:
-    b_images = list(map(str.encode, images))
+def get_images(images: list, username: str) -> None or dict:
+    errors = {
+        'count': 0,
+        'message': 'Сломанный поток данных при чтении файла изображения'
+    }
+    b_images = [str.encode(img) for img in images if img]
     check_number_of_files_in_portfolio(
         person_slug=username,
         new_files=b_images
@@ -24,12 +27,20 @@ def get_images(images: list, username: str) -> None:
             name = f'img_{random.randrange(MAX_COUNT+1)}.jpg'
             if name not in files:
                 break
-        with open(f'{directory}/{name}', 'wb') as img:
-            # try:
+        try:
             img_dec = base64.decodebytes(value)
-            img.write(img_dec)
-            try:
-                compress_images_in_portfolio(person_slug=username)
-            except:
-                print('no...')
-                shutil.rmtree(f'{directory}/{name}')
+        except:
+            errors['count'] += 1
+        else:
+            with open(f'{directory}/{name}', 'wb') as img:
+                img.write(img_dec)
+
+    compresion_errors = compress_images_in_portfolio(person_slug=username)
+    # если есть ошибки при сжатии, то суммируем их
+    # с количеством ошибок при чтении данных файла
+    if compresion_errors:
+        compresion_errors['count'] += errors['count']
+        return compresion_errors
+    else:
+        if errors['count'] > 0:
+            return errors
