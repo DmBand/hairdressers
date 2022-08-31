@@ -1,3 +1,5 @@
+import base64
+
 from django.contrib.auth.models import User
 from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
@@ -11,6 +13,7 @@ from users_app.models import (Hairdresser,
                               Skill,
                               City,
                               Region, )
+from users_app.services import check_number_of_files_in_portfolio
 from .permissons import IsOwner, IsHairdresserOwner
 from .serialazers import (CreateUserSerialazer,
                           UpdateUserSerialazer,
@@ -23,10 +26,12 @@ from .serialazers import (CreateUserSerialazer,
                           CityWithIDSerialazer,
                           GetHairdresserCommentsSerialazer,
                           CreateCommentSerialazer, )
-
-
+from .services import get_images
 # TODO ЗАГРУЗКА ФОТО!
 # TODO CSRF TOKEN!
+# TODO Загрузка "битых" фото
+# TODO закрытие изображений после сжатия
+
 
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
@@ -144,6 +149,36 @@ class CreateHairdresserAPIView(APIView):
             return Response(data, status=status.HTTP_201_CREATED)
 
 
+class AddPhotoToPortfolioAPIView(APIView):
+    """ Добавить фото в портфолио """
+
+    permission_classes = (
+        IsAuthenticated,
+        IsHairdresserOwner
+    )
+
+    def post(self, request, **kwargs):
+        username = kwargs.get('username')
+        hairdresser = Hairdresser.objects.filter(owner__username=username).first()
+        if not hairdresser:
+            return Response(
+                {'error': f'Портфолио не найдено. Проверьте username пользователя.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        self.check_object_permissions(
+            request=request,
+            obj=hairdresser
+        )
+        images = request.data.get('images')
+        get_images(
+            images=images,
+            username=username
+        )
+        return Response(
+            {'message': 'successful'}
+        )
+
+
 class GetHairdresserAPIView(APIView):
     """ Просмотр портфолио парикмахера """
 
@@ -172,7 +207,7 @@ class UpdateDeleteHairdresserAPIView(APIView):
         hairdresser = Hairdresser.objects.filter(owner__username=username).first()
         if not hairdresser:
             return Response(
-                {'error': f'Портфолио не найдено. Проверьте имя пользователя'},
+                {'error': f'Портфолио не найдено. Проверьте username пользователя.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         if not request.data:
