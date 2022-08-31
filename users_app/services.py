@@ -100,8 +100,12 @@ def compress_avatar(person_slug: str) -> None:
                 optimize=True)
 
 
-def compress_images_in_portfolio(person_slug: str) -> None:
+def compress_images_in_portfolio(person_slug: str) -> dict or None:
     """ Сжимает изображения в портфолио """
+    errors = {
+        'count': 0,
+        'message': 'Сломанный поток данных при чтении файла изображения'
+    }
     directory = f'{MEDIA_ROOT}/portfolio/{person_slug}'
     now = time.time()
     try:
@@ -123,13 +127,21 @@ def compress_images_in_portfolio(person_slug: str) -> None:
             elif exif[orientation] == 8:
                 im = im.rotate(90, expand=True)
         except (TypeError, KeyError):
-            im.save(f'{directory}/{f}',
-                    quality=PHOTO_CUALITY,
-                    optimize=True)
+            try:
+                im.save(f'{directory}/{f}',
+                        quality=PHOTO_CUALITY,
+                        optimize=True)
+            # если передано "битое" изображение, то удаляем его
+            except:
+                os.remove(f'{directory}/{f}')
+                errors['count'] += 1
         else:
             im.save(f'{directory}/{f}',
                     quality=PHOTO_CUALITY,
                     optimize=True)
+
+    if errors['count'] > 0:
+        return errors
 
 
 def delete_portfolio_directory(person_slug: str) -> None:
