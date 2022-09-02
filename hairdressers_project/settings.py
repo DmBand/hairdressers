@@ -37,6 +37,9 @@ ALLOWED_HOSTS = [
     'www.hairdressers4you.online'
 ]
 
+# Use in drf_app.services
+HOST_FOR_API = 'https://hairdressers4you.online'
+
 # Application definition
 
 INSTALLED_APPS = [

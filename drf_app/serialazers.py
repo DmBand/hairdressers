@@ -7,7 +7,7 @@ from users_app.models import (City,
                               SimpleUser,
                               Skill,
                               Hairdresser,
-                              Region,)
+                              Region, )
 from users_app.services import create_new_user, create_new_hairdresser
 from selection_app.models import Comment
 from selection_app.services import create_new_comment
@@ -175,6 +175,12 @@ class SkillSerialazer(serializers.ModelSerializer):
     class Meta:
         model = Skill
         fields = '__all__'
+
+
+class PhotoSerialazer(serializers.Serializer):
+    """ Ссылки на фото в портфолио """
+
+    urls = serializers.ListField()
 
 
 class GetHairdresserSerialazer(serializers.ModelSerializer):

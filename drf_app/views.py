@@ -1,5 +1,3 @@
-import base64
-
 from django.contrib.auth.models import User
 from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
@@ -24,12 +22,13 @@ from .serialazers import (CreateUserSerialazer,
                           RegionSerialazer,
                           CityWithIDSerialazer,
                           GetHairdresserCommentsSerialazer,
-                          CreateCommentSerialazer, )
-from .services import get_images
-# TODO ЗАГРУЗКА ФОТО!
+                          CreateCommentSerialazer,
+                          PhotoSerialazer, )
+from .services import get_images, get_photo_urls
+
+
+# TODO Отображение фото
 # TODO CSRF TOKEN!
-# TODO Загрузка "битых" фото
-# TODO закрытие изображений после сжатия
 
 
 class CreateUserAPIView(APIView):
@@ -198,7 +197,16 @@ class GetHairdresserAPIView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
         serialazer = GetHairdresserSerialazer(hairdresser)
-        return Response(serialazer.data, status=status.HTTP_200_OK)
+        data = {
+            'hairdresser': serialazer.data
+        }
+        # Получаем словарь со списком ссылок на фото в портфолио
+        portfolio_urls = get_photo_urls(username=owner)
+        if portfolio_urls:
+            img_serialazer = PhotoSerialazer(portfolio_urls)
+            data['portfolio'] = img_serialazer.data
+
+        return Response(data, status=status.HTTP_200_OK)
 
 
 class UpdateDeleteHairdresserAPIView(APIView):
