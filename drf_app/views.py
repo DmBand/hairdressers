@@ -168,6 +168,10 @@ class AddPhotoToPortfolioAPIView(APIView):
             obj=hairdresser
         )
         images = request.data.get('images')
+        if not isinstance(images, list):
+            return Response(
+                {'detail': 'Не выполнено! Ожидатся список файлов.'}
+            )
         errors = get_images(
             images=images,
             username=username
@@ -183,6 +187,25 @@ class AddPhotoToPortfolioAPIView(APIView):
             return Response(
                 {'message': 'successful'}
             )
+
+
+class RemovePhotoFromPortfolio(APIView):
+    permission_classes = (
+        IsAuthenticated,
+        IsHairdresserOwner,
+    )
+
+    def delete(self, request, **kwargs):
+        username = kwargs.get('username')
+        hairdresser = Hairdresser.objects.filter(owner__username=username)
+        if not hairdresser:
+            return Response(
+                {'detail': f'Портфолио не найдено! Проверьте username пользователя.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+
+
 
 
 class GetHairdresserAPIView(APIView):
