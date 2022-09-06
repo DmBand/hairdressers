@@ -12,6 +12,11 @@ from users_app.services import (check_number_of_files_in_portfolio,
 
 
 def get_images(images: list, username: str) -> None or dict:
+    """
+    Получает список файлов, декодирует их и сохраняет
+    в портфолио пользователя или возвращает словарь с ошибками
+    """
+
     errors = {
         'count': 0,
         'message': 'Поврежденный поток данных при чтении файла изображения'
