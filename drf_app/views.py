@@ -172,6 +172,10 @@ class AddPhotoToPortfolioAPIView(APIView):
             return Response(
                 {'detail': 'Не выполнено! Ожидатся список файлов.'}
             )
+        if len(images) == 0:
+            return Response(
+                {'detail': 'Передан пустой список.'}
+            )
         errors = get_images(
             images=images,
             username=username
@@ -181,11 +185,13 @@ class AddPhotoToPortfolioAPIView(APIView):
                 {
                     'message': 'successful',
                     'errors': f'{errors.get("message")}. Количество файлов - {errors.get("count")}'
-                }
+                },
+                status=status.HTTP_201_CREATED
             )
         else:
             return Response(
-                {'message': 'successful'}
+                {'message': 'successful'},
+                status=status.HTTP_201_CREATED
             )
 
 
