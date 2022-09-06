@@ -11,6 +11,7 @@ from users_app.models import (Hairdresser,
                               Skill,
                               City,
                               Region, )
+from users_app.services import delete_portfolio_directory
 from .permissons import IsOwner, IsHairdresserOwner
 from .serialazers import (CreateUserSerialazer,
                           UpdateUserSerialazer,
@@ -196,6 +197,8 @@ class AddPhotoToPortfolioAPIView(APIView):
 
 
 class RemovePhotoFromPortfolio(APIView):
+    """ Удаление всех фото в портфолио """
+
     permission_classes = (
         IsAuthenticated,
         IsHairdresserOwner,
@@ -203,15 +206,20 @@ class RemovePhotoFromPortfolio(APIView):
 
     def delete(self, request, **kwargs):
         username = kwargs.get('username')
-        hairdresser = Hairdresser.objects.filter(owner__username=username)
+        hairdresser = Hairdresser.objects.filter(owner__username=username).first()
         if not hairdresser:
             return Response(
                 {'detail': f'Портфолио не найдено! Проверьте username пользователя.'},
                 status=status.HTTP_404_NOT_FOUND
             )
-
-
-
+        self.check_object_permissions(
+            request=request,
+            obj=hairdresser
+        )
+        delete_portfolio_directory(person_slug=username)
+        return Response(
+            {'message': 'successful'}
+        )
 
 
 class GetHairdresserAPIView(APIView):
