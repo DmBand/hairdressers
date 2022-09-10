@@ -54,14 +54,18 @@ class CreateUserSerialazer(serializers.Serializer):
     )
 
     def create(self, validated_data):
+        username = validated_data.get('username')
+        if User.objects.filter(username__iexact=username).exists():
+            raise serializers.ValidationError({'detail': f'Логин {username} уже испльзуется!'})
+
         email = validated_data.get('email')
         if User.objects.filter(email__iexact=email).exists():
-            raise serializers.ValidationError({email: 'Пользователь с таким эл. адресом уже существует'})
+            raise serializers.ValidationError({'detail': 'Пользователь с таким эл. адресом уже существует!'})
 
         password1 = validated_data.get('password1')
         password2 = validated_data.get('password2')
         if password1 != password2:
-            raise serializers.ValidationError({password1: "Пароли не совпадают"})
+            raise serializers.ValidationError({'detail': "Пароли не совпадают!"})
 
         user = User.objects.create_user(
             username=validated_data.get('username'),
