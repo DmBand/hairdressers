@@ -28,10 +28,6 @@ from .serialazers import (CreateUserSerialazer,
 from .services import get_images, get_photo_urls
 
 
-# TODO Отображение фото
-# TODO CSRF TOKEN!
-
-
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
 
