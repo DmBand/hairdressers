@@ -28,10 +28,16 @@ from .serialazers import (CreateUserSerialazer,
 from .services import get_images, get_photo_urls
 
 
+# TODO Изменение пароля
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
 
     def post(self, request, **kwargs):
+        if request.user.is_authenticated:
+            return Response(
+                {'detail': 'Выйдите из аккаунта, чтобы создать нового пользователя.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
         serialazer = CreateUserSerialazer(data=request.data)
         data = {}
         if serialazer.is_valid(raise_exception=True):
