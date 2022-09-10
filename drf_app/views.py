@@ -28,14 +28,16 @@ from .serialazers import (CreateUserSerialazer,
 from .services import get_images, get_photo_urls
 
 
-# TODO Отображение фото
-# TODO CSRF TOKEN!
-
-
+# TODO Изменение пароля
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
 
     def post(self, request, **kwargs):
+        if request.user.is_authenticated:
+            return Response(
+                {'detail': 'Выйдите из аккаунта, чтобы создать нового пользователя.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
         serialazer = CreateUserSerialazer(data=request.data)
         data = {}
         if serialazer.is_valid(raise_exception=True):
@@ -94,7 +96,7 @@ class UpdateDeleteUserAPIView(APIView):
             data = {
                 'message': 'Передайте значения параметроа first_name и/или last_name'
             }
-            return Response(data, status=status.HTTP_200_OK)
+            return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
         serialazer.save()
         data = {'successful': 'first_name и/или last_name успешно изменены!'}
@@ -134,7 +136,7 @@ class CreateHairdresserAPIView(APIView):
                 'detail': f'{user.username}, у Вас уже есть портфолио!',
                 'hairdresser': serialazer.data,
             }
-            return Response(data)
+            return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
         serialazer = CreateHairdresserSerialazer(
             data=request.data,
@@ -171,11 +173,13 @@ class AddPhotoToPortfolioAPIView(APIView):
         images = request.data.get('images')
         if not isinstance(images, list):
             return Response(
-                {'detail': 'Не выполнено! Ожидатся список файлов.'}
+                {'detail': 'Не выполнено! Ожидатся список файлов.'},
+                status=status.HTTP_400_BAD_REQUEST
             )
         if len(images) == 0:
             return Response(
-                {'detail': 'Передан пустой список.'}
+                {'detail': 'Передан пустой список.'},
+                status=status.HTTP_400_BAD_REQUEST
             )
         errors = get_images(
             images=images,
@@ -264,8 +268,8 @@ class UpdateDeleteHairdresserAPIView(APIView):
             )
         if not request.data:
             return Response(
-                {'message': 'Данные не переданы'},
-                status=status.HTTP_200_OK
+                {'message': 'Данные не переданы.'},
+                status=status.HTTP_400_BAD_REQUEST
             )
         self.check_object_permissions(
             request=request,
@@ -360,7 +364,7 @@ class SelectionAPIView(APIView):
         if not city and not skills_list:
             return Response(
                 {'detail': 'Не переданы критерии поиска!'},
-                status=status.HTTP_404_NOT_FOUND
+                status=status.HTTP_400_BAD_REQUEST
             )
         result = get_selection_by_filters(
             model=Hairdresser,
