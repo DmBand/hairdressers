@@ -252,6 +252,9 @@ class GetHairdresserAPIView(APIView):
         if portfolio_urls:
             img_serialazer = PhotoSerialazer(portfolio_urls)
             data['portfolio'] = img_serialazer.data
+            data['portfolio']['count'] = len(portfolio_urls.get('urls'))
+        else:
+            data['portfolio'] = {'count': 0}
 
         return Response(data, status=status.HTTP_200_OK)
 
