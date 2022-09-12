@@ -11,7 +11,8 @@ from users_app.models import (Hairdresser,
                               Skill,
                               City,
                               Region, )
-from users_app.services import delete_portfolio_directory
+from users_app.services import (delete_portfolio_directory,
+                                MAX_COUNT)
 from .permissons import IsOwner, IsHairdresserOwner
 from .serialazers import (CreateUserSerialazer,
                           UpdateUserSerialazer,
@@ -179,6 +180,11 @@ class AddPhotoToPortfolioAPIView(APIView):
         if len(images) == 0:
             return Response(
                 {'detail': 'Передан пустой список.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        elif len(images) > MAX_COUNT:
+            return Response(
+                {'detail': f'Лимит загрузки - {MAX_COUNT} файлов за один раз!'},
                 status=status.HTTP_400_BAD_REQUEST
             )
         errors = get_images(
