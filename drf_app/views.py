@@ -33,7 +33,7 @@ from .services import get_images, get_photo_urls
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
 
-    def post(self, request, **kwargs):
+    def post(self, request):
         if request.user.is_authenticated:
             return Response(
                 {'detail': 'Выйдите из аккаунта, чтобы создать нового пользователя.'},
