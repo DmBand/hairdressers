@@ -368,7 +368,19 @@ class SelectionAPIView(APIView):
 
     def get(self, request):
         city = request.data.get('city')
-        skills = request.data.get('skill')
+        if city:
+            if not isinstance(city, (int, str)):
+                return Response(
+                    {'detail': 'Передан неверный тип данных!'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        skills = request.data.get('skills')
+        if skills:
+            if not isinstance(skills, (list, tuple)):
+                return Response(
+                    {'detail': 'Передан неверный тип данных!'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
         skills_list = [skill for skill in skills] if skills else []
         if not city and not skills_list:
             return Response(
