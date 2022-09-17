@@ -14,18 +14,18 @@ from users_app.models import (Hairdresser,
 from users_app.services import (delete_portfolio_directory,
                                 MAX_COUNT)
 from .permissons import IsOwner, IsHairdresserOwner
-from .serialazers import (CreateUserSerialazer,
-                          UpdateUserSerialazer,
-                          SimpleUserSerialazer,
-                          GetHairdresserSerialazer,
-                          CreateHairdresserSerialazer,
-                          UpdateHairdresserSerialazer,
-                          SkillSerialazer,
-                          RegionSerialazer,
-                          CityWithIDSerialazer,
-                          GetHairdresserCommentsSerialazer,
-                          CreateCommentSerialazer,
-                          PhotoSerialazer, )
+from .serialazers import (CreateUserSerializer,
+                          UpdateUserSerializer,
+                          SimpleUserSerializer,
+                          GetHairdresserSerializer,
+                          CreateHairdresserSerializer,
+                          UpdateHairdresserSerializer,
+                          SkillSerializer,
+                          RegionSerializer,
+                          CityWithIDSerializer,
+                          GetHairdresserCommentsSerializer,
+                          CreateCommentSerializer,
+                          PhotoSerializer, )
 from .services import get_images, get_photo_urls
 
 
@@ -39,7 +39,7 @@ class CreateUserAPIView(APIView):
                 {'detail': 'Выйдите из аккаунта, чтобы создать нового пользователя.'},
                 status=status.HTTP_403_FORBIDDEN
             )
-        serializer = CreateUserSerialazer(data=request.data)
+        serializer = CreateUserSerializer(data=request.data)
         data = {}
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -72,7 +72,7 @@ class UpdateDeleteUserAPIView(APIView):
             request=request,
             obj=user
         )
-        data = SimpleUserSerialazer(user.simpleuser)
+        data = SimpleUserSerializer(user.simpleuser)
         return Response(data.data)
 
     def put(self, request, **kwargs):
@@ -88,7 +88,7 @@ class UpdateDeleteUserAPIView(APIView):
             request=request,
             obj=user
         )
-        serializer = UpdateUserSerialazer(
+        serializer = UpdateUserSerializer(
             data=request.data,
             instance=user
         )
@@ -132,14 +132,14 @@ class CreateHairdresserAPIView(APIView):
         user = request.user.simpleuser
         if user.is_hairdresser:
             hairdresser = Hairdresser.objects.get(owner=user)
-            serializer = GetHairdresserSerialazer(hairdresser)
+            serializer = GetHairdresserSerializer(hairdresser)
             data = {
                 'detail': f'{user.username}, у Вас уже есть портфолио!',
                 'hairdresser': serializer.data,
             }
             return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = CreateHairdresserSerialazer(
+        serializer = CreateHairdresserSerializer(
             data=request.data,
             user=user
         )
@@ -243,14 +243,14 @@ class GetHairdresserAPIView(APIView):
                 {'detail': f'Портфолио не найдено! Проверьте username пользователя.'},
                 status=status.HTTP_404_NOT_FOUND
             )
-        serializer = GetHairdresserSerialazer(hairdresser)
+        serializer = GetHairdresserSerializer(hairdresser)
         data = {
             'hairdresser': serializer.data
         }
         # Получаем словарь со списком ссылок на фото в портфолио
         portfolio_urls = get_photo_urls(username=owner)
         if portfolio_urls:
-            img_serializer = PhotoSerialazer(portfolio_urls)
+            img_serializer = PhotoSerializer(portfolio_urls)
             data['portfolio'] = img_serializer.data
             data['portfolio']['count'] = len(portfolio_urls.get('urls'))
         else:
@@ -284,7 +284,7 @@ class UpdateDeleteHairdresserAPIView(APIView):
             request=request,
             obj=hairdresser
         )
-        serializer = UpdateHairdresserSerialazer(
+        serializer = UpdateHairdresserSerializer(
             instance=hairdresser,
             data=request.data,
         )
@@ -316,21 +316,21 @@ class SkillsAPIView(generics.ListAPIView):
     """ Просмотр доступных навыков """
 
     queryset = Skill.objects.all().order_by('id')
-    serializer_class = SkillSerialazer
+    serializer_class = SkillSerializer
 
 
 class RegionsAPIView(generics.ListAPIView):
     """ Просмотр всех областей """
 
     queryset = Region.objects.all().order_by('pk')
-    serializer_class = RegionSerialazer
+    serializer_class = RegionSerializer
 
 
 class CitiesAPIView(generics.ListAPIView):
     """ Просмотр всех городов """
 
     queryset = City.objects.all().order_by('region')
-    serializer_class = CityWithIDSerialazer
+    serializer_class = CityWithIDSerializer
 
 
 class GetCityAPIView(APIView):
@@ -344,7 +344,7 @@ class GetCityAPIView(APIView):
                 {'detail': 'Город не найден!'},
                 status=status.HTTP_404_NOT_FOUND
             )
-        serializer = CityWithIDSerialazer(city, many=True)
+        serializer = CityWithIDSerializer(city, many=True)
         return Response(serializer.data)
 
 
@@ -359,7 +359,7 @@ class GetAllCitiesInTheRegion(APIView):
                 {'detail': 'Города не найдены! Проверьте правильность передаваемых данных.'},
                 status=status.HTTP_404_NOT_FOUND
             )
-        serializer = CityWithIDSerialazer(cities, many=True)
+        serializer = CityWithIDSerializer(cities, many=True)
         return Response(serializer.data)
 
 
@@ -393,7 +393,7 @@ class SelectionAPIView(APIView):
             city=city,
             skills=skills_list,
         )
-        serializer = GetHairdresserSerialazer(
+        serializer = GetHairdresserSerializer(
             result.get('hairdresser'),
             many=True
         )
@@ -409,7 +409,7 @@ class SelectionAPIView(APIView):
             data[owner] = hairdresser
             portfolio_urls = get_photo_urls(username=owner)
             if portfolio_urls:
-                img_serializer = PhotoSerialazer(portfolio_urls)
+                img_serializer = PhotoSerializer(portfolio_urls)
                 data[owner]['portfolio'] = img_serializer.data
                 data[owner]['portfolio']['count'] = len(portfolio_urls.get('urls'))
             else:
@@ -435,7 +435,7 @@ class GetCommentsAPIView(APIView):
         comments = Comment.objects.filter(
             belong_to__owner__username=username
         )
-        serializer = GetHairdresserCommentsSerialazer(
+        serializer = GetHairdresserCommentsSerializer(
             comments,
             many=True
         )
@@ -464,9 +464,9 @@ class AddCommentAPIview(APIView):
                 {'detail': 'Неверные данные!'},
                 status=status.HTTP_403_FORBIDDEN
             )
-        serializer = CreateCommentSerialazer(
+        serializer = CreateCommentSerializer(
             data=request.data,
-            autor=who_evaluates,
+            author=who_evaluates,
             belong_to=who_do_we_evaluate
         )
         if serializer.is_valid(raise_exception=True):

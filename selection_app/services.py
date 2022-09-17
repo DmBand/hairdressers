@@ -27,12 +27,12 @@ def get_selection_by_filters(model,
     return context
 
 
-def create_new_comment(autor: SimpleUser,
+def create_new_comment(author: SimpleUser,
                        belong_to: SimpleUser,
                        data: dict) -> Comment:
     """ Создаёт новый отзыв о парикмахере """
     new_coment = Comment.objects.create(
-        autor=autor.username,
+        autor=author.username,
         belong_to=belong_to.hairdresser,
         text=data.get('text'),
         rating_value=data.get('rating_value')
