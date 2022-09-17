@@ -30,6 +30,7 @@ from .services import get_images, get_photo_urls
 
 
 # TODO Изменение пароля
+# TODO фото в selection
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
 
@@ -401,8 +402,22 @@ class SelectionAPIView(APIView):
             return Response(
                 {'detail': 'По Вашему запросу результаты не найдены'}
             )
+
+        # добавляем к общим данных фото в портфолио, если они есть
+        data = {}
+        for hairdresser in serialazer.data:
+            owner = hairdresser.get('owner')
+            data[owner] = hairdresser
+            portfolio_urls = get_photo_urls(username=owner)
+            if portfolio_urls:
+                img_serialazer = PhotoSerialazer(portfolio_urls)
+                data[owner]['portfolio'] = img_serialazer.data
+                data[owner]['portfolio']['count'] = len(portfolio_urls.get('urls'))
+            else:
+                data[owner]['portfolio'] = {'count': 0}
+
         return Response(
-            serialazer.data,
+            data,
             status=status.HTTP_200_OK
         )
 
