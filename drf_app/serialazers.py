@@ -13,7 +13,7 @@ from selection_app.models import Comment
 from selection_app.services import create_new_comment
 
 
-class CreateUserSerialazer(serializers.Serializer):
+class CreateUserSerializer(serializers.Serializer):
     """ Регистрация пользователя """
 
     username_validator = RegexValidator(
@@ -56,7 +56,7 @@ class CreateUserSerialazer(serializers.Serializer):
     def create(self, validated_data):
         username = validated_data.get('username')
         if User.objects.filter(username__iexact=username).exists():
-            raise serializers.ValidationError({'detail': f'Логин {username} уже испльзуется!'})
+            raise serializers.ValidationError({'detail': f'Логин {username} уже используется!'})
 
         email = validated_data.get('email')
         if User.objects.filter(email__iexact=email).exists():
@@ -79,7 +79,7 @@ class CreateUserSerialazer(serializers.Serializer):
         return simple_user
 
 
-class UpdateUserSerialazer(serializers.Serializer):
+class UpdateUserSerializer(serializers.Serializer):
     """ Изменение или удаление пользователя """
 
     first_and_last_name_validator = RegexValidator(
@@ -115,7 +115,7 @@ class UpdateUserSerialazer(serializers.Serializer):
         return instance
 
 
-class SimpleUserSerialazer(serializers.ModelSerializer):
+class SimpleUserSerializer(serializers.ModelSerializer):
     """ Простой пользователь """
 
     owner = serializers.SlugRelatedField(
@@ -137,7 +137,7 @@ class SimpleUserSerialazer(serializers.ModelSerializer):
         )
 
 
-class RegionSerialazer(serializers.ModelSerializer):
+class RegionSerializer(serializers.ModelSerializer):
     """ Области """
 
     class Meta:
@@ -145,7 +145,7 @@ class RegionSerialazer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CityWithIDSerialazer(serializers.ModelSerializer):
+class CityWithIDSerializer(serializers.ModelSerializer):
     """ Город со всеми полями """
 
     region = serializers.SlugRelatedField(
@@ -158,7 +158,7 @@ class CityWithIDSerialazer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CityWithoutIDSerialazer(serializers.ModelSerializer):
+class CityWithoutIDSerializer(serializers.ModelSerializer):
     """ Город без поля ID """
 
     region = serializers.SlugRelatedField(
@@ -173,7 +173,7 @@ class CityWithoutIDSerialazer(serializers.ModelSerializer):
         )
 
 
-class SkillSerialazer(serializers.ModelSerializer):
+class SkillSerializer(serializers.ModelSerializer):
     """ Навыки """
 
     class Meta:
@@ -181,20 +181,20 @@ class SkillSerialazer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class PhotoSerialazer(serializers.Serializer):
+class PhotoSerializer(serializers.Serializer):
     """ Ссылки на фото в портфолио """
 
     urls = serializers.ListField()
 
 
-class GetHairdresserSerialazer(serializers.ModelSerializer):
+class GetHairdresserSerializer(serializers.ModelSerializer):
     """ Парикмахер """
 
     owner = serializers.SlugRelatedField(
         slug_field='username',
         read_only=True,
     )
-    city = CityWithoutIDSerialazer()
+    city = CityWithoutIDSerializer()
     skills = serializers.SlugRelatedField(
         slug_field='name',
         read_only=True,
@@ -209,7 +209,7 @@ class GetHairdresserSerialazer(serializers.ModelSerializer):
         )
 
 
-class GetHairdresserOnlyUsername(serializers.ModelSerializer):
+class GetHairdresserOnlyUsernameSerializer(serializers.ModelSerializer):
     """ Никнейм парикмахера """
 
     owner = serializers.SlugRelatedField(
@@ -224,7 +224,7 @@ class GetHairdresserOnlyUsername(serializers.ModelSerializer):
         )
 
 
-class CreateHairdresserSerialazer(serializers.ModelSerializer):
+class CreateHairdresserSerializer(serializers.ModelSerializer):
     """ Создать парикмахера """
 
     def __init__(self, data, **kwargs):
@@ -249,7 +249,7 @@ class CreateHairdresserSerialazer(serializers.ModelSerializer):
         return hairdresser
 
 
-class UpdateHairdresserSerialazer(serializers.ModelSerializer):
+class UpdateHairdresserSerializer(serializers.ModelSerializer):
     """ Обновить портфолио парикмахера """
 
     class Meta:
@@ -290,22 +290,22 @@ class UpdateHairdresserSerialazer(serializers.ModelSerializer):
         return instance
 
 
-class GetHairdresserCommentsSerialazer(serializers.ModelSerializer):
+class GetHairdresserCommentsSerializer(serializers.ModelSerializer):
     """ Отзывы о парикмахере """
 
-    belong_to = GetHairdresserOnlyUsername()
+    belong_to = GetHairdresserOnlyUsernameSerializer()
 
     class Meta:
         model = Comment
         exclude = ('id',)
 
 
-class CreateCommentSerialazer(serializers.ModelSerializer):
+class CreateCommentSerializer(serializers.ModelSerializer):
     """ Добавить отзыв """
 
     def __init__(self, data, **kwargs):
         super().__init__(data=data)
-        self.autor = kwargs.get('autor')
+        self.author = kwargs.get('author')
         self.belong_to = kwargs.get('belong_to')
 
     class Meta:
@@ -317,7 +317,7 @@ class CreateCommentSerialazer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         comment = create_new_comment(
-            autor=self.autor,
+            author=self.author,
             belong_to=self.belong_to,
             data=validated_data
         )

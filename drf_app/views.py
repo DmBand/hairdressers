@@ -14,18 +14,18 @@ from users_app.models import (Hairdresser,
 from users_app.services import (delete_portfolio_directory,
                                 MAX_COUNT)
 from .permissons import IsOwner, IsHairdresserOwner
-from .serialazers import (CreateUserSerialazer,
-                          UpdateUserSerialazer,
-                          SimpleUserSerialazer,
-                          GetHairdresserSerialazer,
-                          CreateHairdresserSerialazer,
-                          UpdateHairdresserSerialazer,
-                          SkillSerialazer,
-                          RegionSerialazer,
-                          CityWithIDSerialazer,
-                          GetHairdresserCommentsSerialazer,
-                          CreateCommentSerialazer,
-                          PhotoSerialazer, )
+from .serialazers import (CreateUserSerializer,
+                          UpdateUserSerializer,
+                          SimpleUserSerializer,
+                          GetHairdresserSerializer,
+                          CreateHairdresserSerializer,
+                          UpdateHairdresserSerializer,
+                          SkillSerializer,
+                          RegionSerializer,
+                          CityWithIDSerializer,
+                          GetHairdresserCommentsSerializer,
+                          CreateCommentSerializer,
+                          PhotoSerializer, )
 from .services import get_images, get_photo_urls
 
 
@@ -39,15 +39,15 @@ class CreateUserAPIView(APIView):
                 {'detail': 'Выйдите из аккаунта, чтобы создать нового пользователя.'},
                 status=status.HTTP_403_FORBIDDEN
             )
-        serialazer = CreateUserSerialazer(data=request.data)
+        serializer = CreateUserSerializer(data=request.data)
         data = {}
-        if serialazer.is_valid(raise_exception=True):
-            serialazer.save()
-            username = serialazer.validated_data.get('username')
-            data['successful'] = f'Пользователь {username} успешно зарегестрирован!'
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            username = serializer.validated_data.get('username')
+            data['successful'] = f'Пользователь {username} успешно зарегистрирован!'
             return Response(data, status=status.HTTP_201_CREATED)
         else:
-            data = serialazer.errors
+            data = serializer.errors
             return Response(data)
 
 
@@ -72,7 +72,7 @@ class UpdateDeleteUserAPIView(APIView):
             request=request,
             obj=user
         )
-        data = SimpleUserSerialazer(user.simpleuser)
+        data = SimpleUserSerializer(user.simpleuser)
         return Response(data.data)
 
     def put(self, request, **kwargs):
@@ -88,18 +88,18 @@ class UpdateDeleteUserAPIView(APIView):
             request=request,
             obj=user
         )
-        serialazer = UpdateUserSerialazer(
+        serializer = UpdateUserSerializer(
             data=request.data,
             instance=user
         )
-        serialazer.is_valid(raise_exception=True)
-        if 'first_name' not in serialazer.validated_data and 'last_name' not in serialazer.validated_data:
+        serializer.is_valid(raise_exception=True)
+        if 'first_name' not in serializer.validated_data and 'last_name' not in serializer.validated_data:
             data = {
-                'message': 'Передайте значения параметроа first_name и/или last_name'
+                'message': 'Передайте значения параметров first_name и/или last_name'
             }
             return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
-        serialazer.save()
+        serializer.save()
         data = {'successful': 'first_name и/или last_name успешно изменены!'}
         return Response(data, status=status.HTTP_200_OK)
 
@@ -132,19 +132,19 @@ class CreateHairdresserAPIView(APIView):
         user = request.user.simpleuser
         if user.is_hairdresser:
             hairdresser = Hairdresser.objects.get(owner=user)
-            serialazer = GetHairdresserSerialazer(hairdresser)
+            serializer = GetHairdresserSerializer(hairdresser)
             data = {
                 'detail': f'{user.username}, у Вас уже есть портфолио!',
-                'hairdresser': serialazer.data,
+                'hairdresser': serializer.data,
             }
             return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
-        serialazer = CreateHairdresserSerialazer(
+        serializer = CreateHairdresserSerializer(
             data=request.data,
             user=user
         )
-        if serialazer.is_valid(raise_exception=True):
-            serialazer.save()
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
             user.is_hairdresser = True
             user.save()
             data = {'successful': 'Портфолио успешно создано!'}
@@ -174,7 +174,7 @@ class AddPhotoToPortfolioAPIView(APIView):
         images = request.data.get('images')
         if not isinstance(images, list):
             return Response(
-                {'detail': 'Не выполнено! Ожидатся список файлов.'},
+                {'detail': 'Не выполнено! Ожидается список файлов.'},
                 status=status.HTTP_400_BAD_REQUEST
             )
         if len(images) == 0:
@@ -243,15 +243,15 @@ class GetHairdresserAPIView(APIView):
                 {'detail': f'Портфолио не найдено! Проверьте username пользователя.'},
                 status=status.HTTP_404_NOT_FOUND
             )
-        serialazer = GetHairdresserSerialazer(hairdresser)
+        serializer = GetHairdresserSerializer(hairdresser)
         data = {
-            'hairdresser': serialazer.data
+            'hairdresser': serializer.data
         }
         # Получаем словарь со списком ссылок на фото в портфолио
         portfolio_urls = get_photo_urls(username=owner)
         if portfolio_urls:
-            img_serialazer = PhotoSerialazer(portfolio_urls)
-            data['portfolio'] = img_serialazer.data
+            img_serializer = PhotoSerializer(portfolio_urls)
+            data['portfolio'] = img_serializer.data
             data['portfolio']['count'] = len(portfolio_urls.get('urls'))
         else:
             data['portfolio'] = {'count': 0}
@@ -284,12 +284,12 @@ class UpdateDeleteHairdresserAPIView(APIView):
             request=request,
             obj=hairdresser
         )
-        serialazer = UpdateHairdresserSerialazer(
+        serializer = UpdateHairdresserSerializer(
             instance=hairdresser,
             data=request.data,
         )
-        serialazer.is_valid(raise_exception=True)
-        serialazer.save()
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
         data = {'successful': 'Данные успешно изменены!'}
         return Response(data, status=status.HTTP_200_OK)
 
@@ -316,21 +316,21 @@ class SkillsAPIView(generics.ListAPIView):
     """ Просмотр доступных навыков """
 
     queryset = Skill.objects.all().order_by('id')
-    serializer_class = SkillSerialazer
+    serializer_class = SkillSerializer
 
 
 class RegionsAPIView(generics.ListAPIView):
     """ Просмотр всех областей """
 
     queryset = Region.objects.all().order_by('pk')
-    serializer_class = RegionSerialazer
+    serializer_class = RegionSerializer
 
 
 class CitiesAPIView(generics.ListAPIView):
     """ Просмотр всех городов """
 
     queryset = City.objects.all().order_by('region')
-    serializer_class = CityWithIDSerialazer
+    serializer_class = CityWithIDSerializer
 
 
 class GetCityAPIView(APIView):
@@ -344,8 +344,8 @@ class GetCityAPIView(APIView):
                 {'detail': 'Город не найден!'},
                 status=status.HTTP_404_NOT_FOUND
             )
-        serialazer = CityWithIDSerialazer(city, many=True)
-        return Response(serialazer.data)
+        serializer = CityWithIDSerializer(city, many=True)
+        return Response(serializer.data)
 
 
 class GetAllCitiesInTheRegion(APIView):
@@ -359,8 +359,8 @@ class GetAllCitiesInTheRegion(APIView):
                 {'detail': 'Города не найдены! Проверьте правильность передаваемых данных.'},
                 status=status.HTTP_404_NOT_FOUND
             )
-        serialazer = CityWithIDSerialazer(cities, many=True)
-        return Response(serialazer.data)
+        serializer = CityWithIDSerializer(cities, many=True)
+        return Response(serializer.data)
 
 
 class SelectionAPIView(APIView):
@@ -393,16 +393,30 @@ class SelectionAPIView(APIView):
             city=city,
             skills=skills_list,
         )
-        serialazer = GetHairdresserSerialazer(
+        serializer = GetHairdresserSerializer(
             result.get('hairdresser'),
             many=True
         )
-        if not serialazer.data:
+        if not serializer.data:
             return Response(
                 {'detail': 'По Вашему запросу результаты не найдены'}
             )
+
+        # добавляем к общим данных фото в портфолио, если они есть
+        data = {}
+        for hairdresser in serializer.data:
+            owner = hairdresser.get('owner')
+            data[owner] = hairdresser
+            portfolio_urls = get_photo_urls(username=owner)
+            if portfolio_urls:
+                img_serializer = PhotoSerializer(portfolio_urls)
+                data[owner]['portfolio'] = img_serializer.data
+                data[owner]['portfolio']['count'] = len(portfolio_urls.get('urls'))
+            else:
+                data[owner]['portfolio'] = {'count': 0}
+
         return Response(
-            serialazer.data,
+            data,
             status=status.HTTP_200_OK
         )
 
@@ -421,11 +435,11 @@ class GetCommentsAPIView(APIView):
         comments = Comment.objects.filter(
             belong_to__owner__username=username
         )
-        serialazer = GetHairdresserCommentsSerialazer(
+        serializer = GetHairdresserCommentsSerializer(
             comments,
             many=True
         )
-        return Response(serialazer.data)
+        return Response(serializer.data)
 
 
 class AddCommentAPIview(APIView):
@@ -450,12 +464,12 @@ class AddCommentAPIview(APIView):
                 {'detail': 'Неверные данные!'},
                 status=status.HTTP_403_FORBIDDEN
             )
-        serialazer = CreateCommentSerialazer(
+        serializer = CreateCommentSerializer(
             data=request.data,
-            autor=who_evaluates,
+            author=who_evaluates,
             belong_to=who_do_we_evaluate
         )
-        if serialazer.is_valid(raise_exception=True):
-            serialazer.save()
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
             data = {'successful': 'Отзыв успешно добавлен!'}
             return Response(data, status=status.HTTP_201_CREATED)
