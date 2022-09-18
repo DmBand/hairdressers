@@ -1,4 +1,5 @@
 import base64
+import datetime
 import os
 import random
 
@@ -6,9 +7,12 @@ from hairdressers_project.settings import (MEDIA_ROOT,
                                            MEDIA_URL,
                                            HOST_FOR_API,
                                            DEBUG)
+from users_app.models import SimpleUser
 from users_app.services import (check_number_of_files_in_portfolio,
                                 MAX_COUNT,
                                 compress_images_in_portfolio)
+
+NUMBER_OF_CHANGES_PER_DAY = 1
 
 
 def get_images(images: list, username: str) -> None or dict:
@@ -71,3 +75,17 @@ def get_photo_urls(username: str) -> dict or None:
         urls_list = [f'{host}{MEDIA_URL}portfolio/{username}/{f}' for f in files]
         urls = {'urls': urls_list}
         return urls
+
+
+def check_comments_count(who_evaluates: SimpleUser, who_do_we_evaluate: SimpleUser) -> bool:
+    """
+    Проверяет, комментировал ли сегодня
+    пользователь выбранного парикмахера
+    """
+
+    now = datetime.datetime.today()
+    return (who_do_we_evaluate
+            .hairdresser
+            .comments
+            .filter(autor=who_evaluates, date_added__date=now)
+            .exists())
