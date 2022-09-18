@@ -26,10 +26,13 @@ from .serialazers import (CreateUserSerializer,
                           GetHairdresserCommentsSerializer,
                           CreateCommentSerializer,
                           PhotoSerializer, )
-from .services import get_images, get_photo_urls
+from .services import (get_images,
+                       get_photo_urls,
+                       check_comments_count)
 
 
 # TODO Изменение пароля
+# TODO Отображение отзывов в selection
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
 
@@ -462,6 +465,11 @@ class AddCommentAPIview(APIView):
         if who_evaluates.slug == who_do_we_evaluate.slug:
             return Response(
                 {'detail': 'Неверные данные!'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        if check_comments_count(who_evaluates, who_do_we_evaluate):
+            return Response(
+                {'detail': f'На сегодня превышен лимит отзывов к пользователю {who_do_we_evaluate.username}!'},
                 status=status.HTTP_403_FORBIDDEN
             )
         serializer = CreateCommentSerializer(
