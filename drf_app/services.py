@@ -82,6 +82,7 @@ def check_comments_count(who_evaluates: SimpleUser, who_do_we_evaluate: SimpleUs
     Проверяет, комментировал ли сегодня
     пользователь выбранного парикмахера
     """
+
     now = datetime.datetime.today()
     return (who_do_we_evaluate
             .hairdresser
