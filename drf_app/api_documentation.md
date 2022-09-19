@@ -99,7 +99,7 @@ URL: ```/api/v1/update_delete_hairdresser/hairdresser_username/```
 2. Удаление портфолио  
 Отправьте ```DELETE-запрос``` без передачи дополнительных данных.
 ### 8. Подбор парикмахеров
-URL: ```/api/v1/get_hairdresser/selection/```
+URL: ```/api/v1/selection/```
 Разрешенные методы: ```GET```  
 Доступ: ```Все пользователи```  
 Тело запроса
