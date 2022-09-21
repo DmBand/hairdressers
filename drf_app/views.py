@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import status, generics
+from rest_framework.generics import UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -25,14 +26,14 @@ from .serialazers import (CreateUserSerializer,
                           CityWithIDSerializer,
                           GetHairdresserCommentsSerializer,
                           CreateCommentSerializer,
-                          PhotoSerializer, )
+                          PhotoSerializer,
+                          ChangePasswordSerializer, )
 from .services import (get_images,
                        get_photo_urls,
                        check_comments_count)
 
 
-# TODO Изменение пароля
-# TODO Отображение отзывов в selection
+# TODO Русские символы в пароле
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
 
@@ -52,6 +53,39 @@ class CreateUserAPIView(APIView):
         else:
             data = serializer.errors
             return Response(data)
+
+
+class ChangePasswordView(UpdateAPIView):
+    serializer_class = ChangePasswordSerializer
+    model = User
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def update(self, request, *args, **kwargs):
+        self.user = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            # Check old password
+            if not self.user.check_password(serializer.data.get("old_password")):
+                return Response(
+                    {'error': 'Неверный пароль!'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            # set_password also hashes the password that the user will get
+            self.user.set_password(serializer.data.get("new_password"))
+            self.user.save()
+            return Response(
+                {'detail': 'Пароль успешно изменен!'},
+                status=status.HTTP_200_OK
+            )
+
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
 
 class UpdateDeleteUserAPIView(APIView):

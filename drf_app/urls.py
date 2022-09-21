@@ -16,7 +16,8 @@ from .views import (CreateUserAPIView,
                     CitiesAPIView,
                     GetCityAPIView,
                     GetAllCitiesInTheRegion,
-                    RemovePhotoFromPortfolio)
+                    RemovePhotoFromPortfolio,
+                    ChangePasswordView)
 
 app_name = 'drf_app'
 urlpatterns = [
@@ -28,6 +29,8 @@ urlpatterns = [
     path('remove_all_photo_from_portfolio/<slug:username>/', RemovePhotoFromPortfolio.as_view()),
     path('get_hairdresser/<slug:username>/', GetHairdresserAPIView.as_view()),
     path('update_delete_hairdresser/<slug:username>/', UpdateDeleteHairdresserAPIView.as_view()),
+    # change password
+    path('change_password/', ChangePasswordView.as_view()),
     # selection
     path('selection/', SelectionAPIView.as_view()),
     # comments
