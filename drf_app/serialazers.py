@@ -115,6 +115,12 @@ class UpdateUserSerializer(serializers.Serializer):
         return instance
 
 
+class ChangePasswordSerializer(serializers.Serializer):
+    """ Смена пароля """
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+
 class SimpleUserSerializer(serializers.ModelSerializer):
     """ Простой пользователь """
 
