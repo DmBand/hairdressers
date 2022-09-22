@@ -117,8 +117,18 @@ class UpdateUserSerializer(serializers.Serializer):
 
 class ChangePasswordSerializer(serializers.Serializer):
     """ Смена пароля """
-    old_password = serializers.CharField(required=True)
-    new_password = serializers.CharField(required=True)
+    password_validator = RegexValidator(
+        regex=r'^[^а-яёА-ЯЁ]+$',
+        message='Символы кириллицы (а-яА-Я) не допускаются.'
+    )
+
+    old_password = serializers.CharField(
+        required=True
+    )
+    new_password = serializers.CharField(
+        required=True,
+        validators=[password_validator]
+    )
 
 
 class SimpleUserSerializer(serializers.ModelSerializer):

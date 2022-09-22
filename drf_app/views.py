@@ -33,7 +33,6 @@ from .services import (get_images,
                        check_comments_count)
 
 
-# TODO Русские символы в пароле
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
 
