@@ -28,9 +28,11 @@ from .serialazers import (CreateUserSerializer,
                           CreateCommentSerializer,
                           PhotoSerializer,
                           ChangePasswordSerializer, )
-from .services import (get_images,
+from .services import (convert_and_save_photo_to_portfolio,
                        get_photo_urls,
-                       check_comments_count)
+                       check_comments_count,
+                       convert_and_save_avatar)
+
 
 # TODO смена аватара, рейтинг при просмотре портфолио
 class CreateUserAPIView(APIView):
@@ -54,7 +56,53 @@ class CreateUserAPIView(APIView):
             return Response(data)
 
 
+class AddAvatarAPIView(APIView):
+    """ Загрузить аватар """
+
+    permission_classes = (
+        IsAuthenticated,
+        IsOwner
+    )
+
+    def post(self, request):
+        user = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
+        self.check_object_permissions(
+            request=request,
+            obj=user
+        )
+        image = request.data.get('avatar')
+        if not image:
+            return Response(
+                {'error': 'Не передано фото для загрузки!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        if not isinstance(image, str):
+            return Response(
+                {'error': 'Не выполнено! Ожидается тип данных - строка.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        errors = convert_and_save_avatar(
+            image=image,
+            user=user
+        )
+        if errors:
+            return Response(
+                {
+                    'error': 'Фото не загружено!',
+                    'info': f'{errors.get("message")} Количество файлов - {errors.get("count")}'
+                },
+                status=status.HTTP_201_CREATED
+            )
+        else:
+            return Response(
+                {'successful': 'Фото успешно загружено!'},
+                status=status.HTTP_201_CREATED
+            )
+
+
 class ChangePasswordView(UpdateAPIView):
+    """ Изменение пароля """
+
     serializer_class = ChangePasswordSerializer
     model = User
     permission_classes = (IsAuthenticated,)
@@ -223,15 +271,15 @@ class AddPhotoToPortfolioAPIView(APIView):
                 {'error': f'Лимит загрузки - {MAX_COUNT} файлов за один раз!'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        errors = get_images(
+        errors = convert_and_save_photo_to_portfolio(
             images=images,
             username=username
         )
         if errors:
             return Response(
                 {
-                    'successful': 'Фото успешно загружены!',
-                    'info': f'{errors.get("message")}. Количество файлов - {errors.get("count")}'
+                    'warning': 'Не все фото были загружены!',
+                    'info': f'{errors.get("message")} Количество файлов - {errors.get("count")}'
                 },
                 status=status.HTTP_201_CREATED
             )
