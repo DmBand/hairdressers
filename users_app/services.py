@@ -68,15 +68,21 @@ def check_number_of_files_in_avatar_directory(person_slug: str) -> None:
     except FileNotFoundError:
         return
     else:
-        os.remove(f'{directory}/{files[0]}')
+        # os.remove(f'{directory}/{files[0]}')
+        shutil.rmtree(directory)
 
 
-def compress_avatar(person_slug: str) -> None:
+def compress_avatar(person_slug: str) -> dict or None:
     """ Сжимает главное фото профиля """
+
+    errors = {
+        'count': 0,
+        'message': 'Поврежденный поток данных при чтении файла изображения.'
+    }
     directory = f'{MEDIA_ROOT}/avatars/{person_slug}'
     try:
         file = os.listdir(directory)[0]
-    except FileNotFoundError:
+    except (FileNotFoundError, IndexError):
         return
     im = Image.open(f'{directory}/{file}')
     for orientation in ExifTags.TAGS.keys():
@@ -91,20 +97,28 @@ def compress_avatar(person_slug: str) -> None:
         elif exif[orientation] == 8:
             im = im.rotate(90, expand=True)
     except (TypeError, KeyError):
-        im.save(f'{directory}/{file}',
-                quality=PHOTO_CUALITY,
-                optimize=True)
+        try:
+            im.save(f'{directory}/{file}',
+                    quality=PHOTO_CUALITY,
+                    optimize=True)
+        # если передано "битое" изображение, то удаляем его вместе с папкой
+        except:
+            shutil.rmtree(directory)
+            errors['count'] += 1
     else:
         im.save(f'{directory}/{file}',
                 quality=PHOTO_CUALITY,
                 optimize=True)
+
+    if errors['count'] > 0:
+        return errors
 
 
 def compress_images_in_portfolio(person_slug: str) -> dict or None:
     """ Сжимает изображения в портфолио """
     errors = {
         'count': 0,
-        'message': 'Сломанный поток данных при чтении файла изображения'
+        'message': 'Поврежденный поток данных при чтении файла изображения.'
     }
     directory = f'{MEDIA_ROOT}/portfolio/{person_slug}'
     now = time.time()

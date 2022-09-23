@@ -28,18 +28,20 @@ from .serialazers import (CreateUserSerializer,
                           CreateCommentSerializer,
                           PhotoSerializer,
                           ChangePasswordSerializer, )
-from .services import (get_images,
+from .services import (convert_and_save_photo_to_portfolio,
                        get_photo_urls,
-                       check_comments_count)
+                       check_comments_count,
+                       convert_and_save_avatar)
 
 
+# TODO смена аватара, рейтинг при просмотре портфолио
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
 
     def post(self, request):
         if request.user.is_authenticated:
             return Response(
-                {'detail': 'Выйдите из аккаунта, чтобы создать нового пользователя.'},
+                {'error': 'Выйдите из аккаунта, чтобы создать нового пользователя.'},
                 status=status.HTTP_403_FORBIDDEN
             )
         serializer = CreateUserSerializer(data=request.data)
@@ -54,7 +56,53 @@ class CreateUserAPIView(APIView):
             return Response(data)
 
 
+class AddAvatarAPIView(APIView):
+    """ Загрузить аватар """
+
+    permission_classes = (
+        IsAuthenticated,
+        IsOwner
+    )
+
+    def post(self, request):
+        user = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
+        self.check_object_permissions(
+            request=request,
+            obj=user
+        )
+        image = request.data.get('avatar')
+        if not image:
+            return Response(
+                {'error': 'Не передано фото для загрузки!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        if not isinstance(image, str):
+            return Response(
+                {'error': 'Не выполнено! Ожидается тип данных - строка.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        errors = convert_and_save_avatar(
+            image=image,
+            user=user
+        )
+        if errors:
+            return Response(
+                {
+                    'error': 'Фото не загружено!',
+                    'info': f'{errors.get("message")} Количество файлов - {errors.get("count")}'
+                },
+                status=status.HTTP_201_CREATED
+            )
+        else:
+            return Response(
+                {'successful': 'Фото успешно загружено!'},
+                status=status.HTTP_201_CREATED
+            )
+
+
 class ChangePasswordView(UpdateAPIView):
+    """ Изменение пароля """
+
     serializer_class = ChangePasswordSerializer
     model = User
     permission_classes = (IsAuthenticated,)
@@ -77,7 +125,7 @@ class ChangePasswordView(UpdateAPIView):
             self.user.set_password(serializer.data.get("new_password"))
             self.user.save()
             return Response(
-                {'detail': 'Пароль успешно изменен!'},
+                {'successful': 'Пароль успешно изменен!'},
                 status=status.HTTP_200_OK
             )
 
@@ -100,7 +148,7 @@ class UpdateDeleteUserAPIView(APIView):
         user = User.objects.filter(username=username).first()
         if not user:
             return Response(
-                {'detail': f'Пользователь {username} не найден'},
+                {'error': f'Пользователь {username} не найден'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -116,7 +164,7 @@ class UpdateDeleteUserAPIView(APIView):
         user = User.objects.filter(username=username).first()
         if not user:
             return Response(
-                {'detail': f'Пользователь {username} не найден'},
+                {'error': f'Пользователь {username} не найден'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -131,7 +179,7 @@ class UpdateDeleteUserAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         if 'first_name' not in serializer.validated_data and 'last_name' not in serializer.validated_data:
             data = {
-                'message': 'Передайте значения параметров first_name и/или last_name'
+                'error': 'Передайте значения параметров first_name и/или last_name'
             }
             return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
@@ -144,7 +192,7 @@ class UpdateDeleteUserAPIView(APIView):
         user = User.objects.filter(username=username).first()
         if not user:
             return Response(
-                {'detail': f'Пользователь {username} не найден'},
+                {'error': f'Пользователь {username} не найден'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -170,7 +218,7 @@ class CreateHairdresserAPIView(APIView):
             hairdresser = Hairdresser.objects.get(owner=user)
             serializer = GetHairdresserSerializer(hairdresser)
             data = {
-                'detail': f'{user.username}, у Вас уже есть портфолио!',
+                'info': f'{user.username}, у Вас уже есть портфолио!',
                 'hairdresser': serializer.data,
             }
             return Response(data, status=status.HTTP_400_BAD_REQUEST)
@@ -200,7 +248,7 @@ class AddPhotoToPortfolioAPIView(APIView):
         hairdresser = Hairdresser.objects.filter(owner__username=username).first()
         if not hairdresser:
             return Response(
-                {'detail': f'Портфолио не найдено. Проверьте username пользователя.'},
+                {'error': f'Портфолио не найдено. Проверьте username пользователя.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         self.check_object_permissions(
@@ -210,34 +258,34 @@ class AddPhotoToPortfolioAPIView(APIView):
         images = request.data.get('images')
         if not isinstance(images, list):
             return Response(
-                {'detail': 'Не выполнено! Ожидается список файлов.'},
+                {'error': 'Не выполнено! Ожидается список файлов.'},
                 status=status.HTTP_400_BAD_REQUEST
             )
         if len(images) == 0:
             return Response(
-                {'detail': 'Передан пустой список.'},
+                {'error': 'Передан пустой список.'},
                 status=status.HTTP_400_BAD_REQUEST
             )
         elif len(images) > MAX_COUNT:
             return Response(
-                {'detail': f'Лимит загрузки - {MAX_COUNT} файлов за один раз!'},
+                {'error': f'Лимит загрузки - {MAX_COUNT} файлов за один раз!'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        errors = get_images(
+        errors = convert_and_save_photo_to_portfolio(
             images=images,
             username=username
         )
         if errors:
             return Response(
                 {
-                    'message': 'successful',
-                    'errors': f'{errors.get("message")}. Количество файлов - {errors.get("count")}'
+                    'warning': 'Не все фото были загружены!',
+                    'info': f'{errors.get("message")} Количество файлов - {errors.get("count")}'
                 },
                 status=status.HTTP_201_CREATED
             )
         else:
             return Response(
-                {'message': 'successful'},
+                {'successful': 'Фото успешно загружены!'},
                 status=status.HTTP_201_CREATED
             )
 
@@ -255,7 +303,7 @@ class RemovePhotoFromPortfolio(APIView):
         hairdresser = Hairdresser.objects.filter(owner__username=username).first()
         if not hairdresser:
             return Response(
-                {'detail': f'Портфолио не найдено! Проверьте username пользователя.'},
+                {'error': f'Портфолио не найдено! Проверьте username пользователя.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         self.check_object_permissions(
@@ -264,7 +312,7 @@ class RemovePhotoFromPortfolio(APIView):
         )
         delete_portfolio_directory(person_slug=username)
         return Response(
-            {'message': 'successful'}
+            {'successful': 'Фото с портфолио успешно удалены!'}
         )
 
 
@@ -276,7 +324,7 @@ class GetHairdresserAPIView(APIView):
         hairdresser = Hairdresser.objects.filter(owner__username=owner).first()
         if not hairdresser:
             return Response(
-                {'detail': f'Портфолио не найдено! Проверьте username пользователя.'},
+                {'error': f'Портфолио не найдено! Проверьте username пользователя.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         serializer = GetHairdresserSerializer(hairdresser)
@@ -308,12 +356,12 @@ class UpdateDeleteHairdresserAPIView(APIView):
         hairdresser = Hairdresser.objects.filter(owner__username=username).first()
         if not hairdresser:
             return Response(
-                {'detail': f'Портфолио не найдено. Проверьте username пользователя.'},
+                {'error': f'Портфолио не найдено. Проверьте username пользователя.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         if not request.data:
             return Response(
-                {'message': 'Данные не переданы.'},
+                {'error': 'Данные не переданы.'},
                 status=status.HTTP_400_BAD_REQUEST
             )
         self.check_object_permissions(
@@ -334,7 +382,7 @@ class UpdateDeleteHairdresserAPIView(APIView):
         simple_user = SimpleUser.objects.filter(owner__username=username).first()
         if not simple_user:
             return Response(
-                {'detail': f'Портфолио не найдено. Проверьте имя пользователя'},
+                {'error': f'Портфолио не найдено. Проверьте имя пользователя'},
                 status=status.HTTP_404_NOT_FOUND
             )
         self.check_object_permissions(
@@ -377,7 +425,7 @@ class GetCityAPIView(APIView):
         city = City.objects.filter(pk=pk)
         if not city:
             return Response(
-                {'detail': 'Город не найден!'},
+                {'error': 'Город не найден!'},
                 status=status.HTTP_404_NOT_FOUND
             )
         serializer = CityWithIDSerializer(city, many=True)
@@ -392,7 +440,7 @@ class GetAllCitiesInTheRegion(APIView):
         cities = City.objects.filter(region__pk=pk)
         if not cities:
             return Response(
-                {'detail': 'Города не найдены! Проверьте правильность передаваемых данных.'},
+                {'error': 'Города не найдены! Проверьте правильность передаваемых данных.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         serializer = CityWithIDSerializer(cities, many=True)
@@ -407,20 +455,20 @@ class SelectionAPIView(APIView):
         if city:
             if not isinstance(city, (int, str)):
                 return Response(
-                    {'detail': 'Передан неверный тип данных!'},
+                    {'error': 'Передан неверный тип данных!'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
         skills = request.data.get('skills')
         if skills:
             if not isinstance(skills, (list, tuple)):
                 return Response(
-                    {'detail': 'Передан неверный тип данных!'},
+                    {'error': 'Передан неверный тип данных!'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
         skills_list = [skill for skill in skills] if skills else []
         if not city and not skills_list:
             return Response(
-                {'detail': 'Не переданы критерии поиска!'},
+                {'error': 'Не переданы критерии поиска!'},
                 status=status.HTTP_400_BAD_REQUEST
             )
         result = get_selection_by_filters(
@@ -435,7 +483,7 @@ class SelectionAPIView(APIView):
         )
         if not serializer.data:
             return Response(
-                {'detail': 'По Вашему запросу результаты не найдены'}
+                {'info': 'По Вашему запросу результаты не найдены.'}
             )
 
         # добавляем к общим данных фото в портфолио, если они есть
@@ -465,7 +513,7 @@ class GetCommentsAPIView(APIView):
         user = SimpleUser.objects.filter(username=username)
         if not user:
             return Response(
-                {'detail': f'Пользователь "{username}" не найден'},
+                {'error': f'Пользователь "{username}" не найден!'},
                 status=status.HTTP_404_NOT_FOUND
             )
         comments = Comment.objects.filter(
@@ -491,18 +539,18 @@ class AddCommentAPIview(APIView):
                               .first())
         if not who_do_we_evaluate:
             return Response(
-                {'detail': f'Парикмахер {kwargs.get("username")} не найден!'},
+                {'error': f'Парикмахер {kwargs.get("username")} не найден!'},
                 status=status.HTTP_404_NOT_FOUND
             )
         who_evaluates = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
         if who_evaluates.slug == who_do_we_evaluate.slug:
             return Response(
-                {'detail': 'Неверные данные!'},
+                {'error': 'Неверные данные!'},
                 status=status.HTTP_403_FORBIDDEN
             )
         if check_comments_count(who_evaluates, who_do_we_evaluate):
             return Response(
-                {'detail': f'На сегодня превышен лимит отзывов к пользователю {who_do_we_evaluate.username}!'},
+                {'error': f'На сегодня превышен лимит отзывов к пользователю {who_do_we_evaluate.username}!'},
                 status=status.HTTP_403_FORBIDDEN
             )
         serializer = CreateCommentSerializer(

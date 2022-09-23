@@ -76,7 +76,7 @@ URL: ```/api/v1/remove_all_photo_from_portfolio/hairdresser_username/```
 Доступ: ```Авторизированнные пользователи, владелец```  
 Данный запрос ```удаляет все фото``` в портфолио.
 ### 6. Просмотр портфолио парикмахера
-URL: ```/api/v1/get_hairdresser/hairdresser_username/```
+URL: ```/api/v1/get_hairdresser/hairdresser_username/```  
 ```hairdresser_username``` - username парикмахера, чье портфолио необходимо посмотреть.  
 Разрешенные методы: ```GET```  
 Доступ: ```Все пользователи```  
