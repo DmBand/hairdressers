@@ -71,6 +71,7 @@ def check_number_of_files_in_avatar_directory(person_slug: str) -> None:
         # os.remove(f'{directory}/{files[0]}')
         shutil.rmtree(directory)
 
+
 def compress_avatar(person_slug: str) -> dict or None:
     """ Сжимает главное фото профиля """
 
