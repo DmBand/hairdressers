@@ -516,8 +516,13 @@ class SelectionAPIView(APIView):
 class GetCommentsAPIView(APIView):
     """ Отзывы о парикмахере """
 
-    def get(self, request, **kwargs):
-        username = kwargs.get('username')
+    def get(self, request):
+        username = request.data.get('username')
+        if not username:
+            return Response(
+                {'error': 'Не передан username!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         user = SimpleUser.objects.filter(username=username)
         if not user:
             return Response(
