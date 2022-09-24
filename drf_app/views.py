@@ -306,12 +306,12 @@ class RemovePhotoFromPortfolio(APIView):
         IsHairdresserOwner,
     )
 
-    def delete(self, request, **kwargs):
-        username = kwargs.get('username')
+    def delete(self, request):
+        username = request.user.username
         hairdresser = Hairdresser.objects.filter(owner__username=username).first()
         if not hairdresser:
             return Response(
-                {'error': f'Портфолио не найдено! Проверьте username пользователя.'},
+                {'error': 'У вас нет портфолио парикмахера.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         self.check_object_permissions(
@@ -320,7 +320,7 @@ class RemovePhotoFromPortfolio(APIView):
         )
         delete_portfolio_directory(person_slug=username)
         return Response(
-            {'successful': 'Фото с портфолио успешно удалены!'}
+            {'successful': 'Фото успешно удалены!'}
         )
 
 
