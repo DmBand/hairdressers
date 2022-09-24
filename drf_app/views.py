@@ -36,7 +36,6 @@ from .services import (convert_and_save_photo_to_portfolio,
                        set_default_avatar)
 
 
-# TODO смена аватара, рейтинг при просмотре портфолио, валидатор имени и фамилии
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
 
@@ -170,15 +169,9 @@ class UpdateDeleteUserAPIView(APIView):
         IsOwner,
     )
 
-    def get(self, request, **kwargs):
-        username = kwargs.get('username')
+    def get(self, request):
+        username = request.user.username
         user = User.objects.filter(username=username).first()
-        if not user:
-            return Response(
-                {'error': f'Пользователь {username} не найден'},
-                status=status.HTTP_404_NOT_FOUND
-            )
-
         self.check_object_permissions(
             request=request,
             obj=user
@@ -186,15 +179,9 @@ class UpdateDeleteUserAPIView(APIView):
         data = SimpleUserSerializer(user.simpleuser)
         return Response(data.data)
 
-    def put(self, request, **kwargs):
-        username = kwargs.get('username')
+    def put(self, request):
+        username = request.user.username
         user = User.objects.filter(username=username).first()
-        if not user:
-            return Response(
-                {'error': f'Пользователь {username} не найден'},
-                status=status.HTTP_404_NOT_FOUND
-            )
-
         self.check_object_permissions(
             request=request,
             obj=user
@@ -214,15 +201,9 @@ class UpdateDeleteUserAPIView(APIView):
         data = {'successful': 'first_name и/или last_name успешно изменены!'}
         return Response(data, status=status.HTTP_200_OK)
 
-    def delete(self, request, **kwargs):
-        username = kwargs.get('username')
+    def delete(self, request):
+        username = request.user.username
         user = User.objects.filter(username=username).first()
-        if not user:
-            return Response(
-                {'error': f'Пользователь {username} не найден'},
-                status=status.HTTP_404_NOT_FOUND
-            )
-
         self.check_object_permissions(
             request=request,
             obj=user

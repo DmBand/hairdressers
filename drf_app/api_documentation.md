@@ -18,8 +18,7 @@ URL: ```/api/v1/create_user/```
 Обязательные поля: ```username```, ```first_name```, ```last_name```, ```email```, ```password1```, ```password2```
 
 ### 2. Получение, изменение и удаление данных пользователя
-URL: ```/api/v1/update_delete_user/username/```    
-```username``` - username пользователя, чьи данные необходимо изменить.   
+URL: ```/api/v1/update_delete_user/```     
 Разрешенные методы: ```GET, PUT, DELETE```  
 Доступы: ```Авторизированнные пользователи, владелец``` 
 1. Получение текущих данных пользователя  

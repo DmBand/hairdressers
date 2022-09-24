@@ -27,7 +27,7 @@ urlpatterns = [
     path('create_user/', CreateUserAPIView.as_view()),
     path('add_avatar/', AddAvatarAPIView.as_view()),
     path('delete_avatar/', DeleteAvatarAPIView.as_view()),
-    path('update_delete_user/<slug:username>/', UpdateDeleteUserAPIView.as_view()),
+    path('update_delete_user/', UpdateDeleteUserAPIView.as_view()),
     path('create_hairdresser/', CreateHairdresserAPIView.as_view()),
     path('add_photo_to_portfolio/<slug:username>/', AddPhotoToPortfolioAPIView.as_view()),
     path('remove_all_photo_from_portfolio/<slug:username>/', RemovePhotoFromPortfolio.as_view()),
