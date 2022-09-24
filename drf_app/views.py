@@ -13,7 +13,8 @@ from users_app.models import (Hairdresser,
                               City,
                               Region, )
 from users_app.services import (delete_portfolio_directory,
-                                MAX_COUNT)
+                                MAX_COUNT,
+                                delete_avatar_directory)
 from .permissons import IsOwner, IsHairdresserOwner
 from .serialazers import (CreateUserSerializer,
                           UpdateUserSerializer,
@@ -31,10 +32,11 @@ from .serialazers import (CreateUserSerializer,
 from .services import (convert_and_save_photo_to_portfolio,
                        get_photo_urls,
                        check_comments_count,
-                       convert_and_save_avatar)
+                       convert_and_save_avatar,
+                       set_default_avatar)
 
 
-# TODO смена аватара, рейтинг при просмотре портфолио
+# TODO смена аватара, рейтинг при просмотре портфолио, валидатор имени и фамилии
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
 
@@ -98,6 +100,31 @@ class AddAvatarAPIView(APIView):
                 {'successful': 'Фото успешно загружено!'},
                 status=status.HTTP_201_CREATED
             )
+
+
+class DeleteAvatarAPIView(APIView):
+    """ Удаление аватара """
+
+    permission_classes = (
+        IsAuthenticated,
+        IsOwner
+    )
+
+    def delete(self, request):
+        user = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
+        if user.default_avatar:
+            return Response(
+                {'error': 'У Вас установлен стандартный аватар!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        self.check_object_permissions(
+            request=request,
+            obj=user
+        )
+        delete_avatar_directory(person_slug=user.slug)
+        set_default_avatar(user=user)
+
+        return Response({'successful': 'Фото успешно удалено!'})
 
 
 class ChangePasswordView(UpdateAPIView):

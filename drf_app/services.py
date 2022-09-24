@@ -2,7 +2,6 @@ import base64
 import datetime
 import os
 import random
-import shutil
 
 from hairdressers_project.settings import (MEDIA_ROOT,
                                            MEDIA_URL,
