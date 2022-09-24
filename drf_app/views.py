@@ -546,26 +546,38 @@ class AddCommentAPIview(APIView):
         IsAuthenticated,
     )
 
-    def post(self, request, **kwargs):
+    def post(self, request):
+        belong_to = request.data.get('belong_to')
+        if not belong_to:
+            return Response(
+                {'error': 'Не передан параметр "belong_to"!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         who_do_we_evaluate = (SimpleUser.objects
-                              .filter(slug=kwargs.get('username'))
+                              .filter(slug=belong_to)
                               .first())
         if not who_do_we_evaluate:
             return Response(
-                {'error': f'Парикмахер {kwargs.get("username")} не найден!'},
+                {'error': f'Парикмахер не найден!'},
                 status=status.HTTP_404_NOT_FOUND
             )
-        who_evaluates = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
+        who_evaluates = SimpleUser.objects.get(
+            slug=request.user.simpleuser.slug
+        )
+
         if who_evaluates.slug == who_do_we_evaluate.slug:
             return Response(
                 {'error': 'Неверные данные!'},
                 status=status.HTTP_403_FORBIDDEN
             )
+        # защита от спама
         if check_comments_count(who_evaluates, who_do_we_evaluate):
             return Response(
-                {'error': f'На сегодня превышен лимит отзывов к пользователю {who_do_we_evaluate.username}!'},
+                {'error': f'На сегодня превышен лимит отзывов к пользователю '
+                          f'{who_do_we_evaluate.username}!'},
                 status=status.HTTP_403_FORBIDDEN
             )
+
         serializer = CreateCommentSerializer(
             data=request.data,
             author=who_evaluates,
@@ -573,5 +585,7 @@ class AddCommentAPIview(APIView):
         )
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            data = {'successful': 'Отзыв успешно добавлен!'}
-            return Response(data, status=status.HTTP_201_CREATED)
+            return Response(
+                {'successful': 'Отзыв успешно добавлен!'},
+                status=status.HTTP_201_CREATED
+            )
