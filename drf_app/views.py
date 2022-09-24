@@ -359,17 +359,17 @@ class UpdateDeleteHairdresserAPIView(APIView):
         IsHairdresserOwner,
     )
 
-    def put(self, request, **kwargs):
-        username = kwargs.get('username')
+    def put(self, request):
+        username = request.user.username
         hairdresser = Hairdresser.objects.filter(owner__username=username).first()
         if not hairdresser:
             return Response(
-                {'error': f'Портфолио не найдено. Проверьте username пользователя.'},
+                {'error': 'У вас нет портфолио парикмахера.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         if not request.data:
             return Response(
-                {'error': 'Данные не переданы.'},
+                {'error': 'Данные для изменения не переданы.'},
                 status=status.HTTP_400_BAD_REQUEST
             )
         self.check_object_permissions(
@@ -385,12 +385,12 @@ class UpdateDeleteHairdresserAPIView(APIView):
         data = {'successful': 'Данные успешно изменены!'}
         return Response(data, status=status.HTTP_200_OK)
 
-    def delete(self, request, **kwargs):
-        username = kwargs.get('username')
+    def delete(self, request):
+        username = request.user.username
         simple_user = SimpleUser.objects.filter(owner__username=username).first()
         if not simple_user:
             return Response(
-                {'error': f'Портфолио не найдено. Проверьте имя пользователя'},
+                {'error': f'У вас нет портфолио парикмахера.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         self.check_object_permissions(

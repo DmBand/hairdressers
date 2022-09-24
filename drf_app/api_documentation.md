@@ -79,8 +79,7 @@ URL: ```/api/v1/get_hairdresser/hairdresser_username/```
 Доступ: ```Все пользователи```  
 
 ### 7. Изменение или удаление портфолио парикмахера
-URL: ```/api/v1/update_delete_hairdresser/hairdresser_username/```  
-```hairdresser_username``` - username парикмахера, чье портфолио необходимо изменить / удалить.  
+URL: ```/api/v1/update_delete_hairdresser/```   
 Разрешенные методы: ```PUT, DELETE```   
 Доступ: ```Авторизированнные пользователи, владелец```  
 1. Изменение портфолио  
