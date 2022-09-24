@@ -18,26 +18,28 @@ from .views import (CreateUserAPIView,
                     GetAllCitiesInTheRegion,
                     RemovePhotoFromPortfolio,
                     ChangePasswordView,
-                    AddAvatarAPIView)
+                    AddAvatarAPIView,
+                    DeleteAvatarAPIView)
 
 app_name = 'drf_app'
 urlpatterns = [
     # users
     path('create_user/', CreateUserAPIView.as_view()),
     path('add_avatar/', AddAvatarAPIView.as_view()),
-    path('update_delete_user/<slug:username>/', UpdateDeleteUserAPIView.as_view()),
+    path('delete_avatar/', DeleteAvatarAPIView.as_view()),
+    path('update_delete_user/', UpdateDeleteUserAPIView.as_view()),
     path('create_hairdresser/', CreateHairdresserAPIView.as_view()),
-    path('add_photo_to_portfolio/<slug:username>/', AddPhotoToPortfolioAPIView.as_view()),
-    path('remove_all_photo_from_portfolio/<slug:username>/', RemovePhotoFromPortfolio.as_view()),
+    path('add_photo_to_portfolio/', AddPhotoToPortfolioAPIView.as_view()),
+    path('remove_all_photo_from_portfolio/', RemovePhotoFromPortfolio.as_view()),
     path('get_hairdresser/<slug:username>/', GetHairdresserAPIView.as_view()),
-    path('update_delete_hairdresser/<slug:username>/', UpdateDeleteHairdresserAPIView.as_view()),
+    path('update_delete_hairdresser/', UpdateDeleteHairdresserAPIView.as_view()),
     # change password
     path('change_password/', ChangePasswordView.as_view()),
     # selection
     path('selection/', SelectionAPIView.as_view()),
     # comments
-    path('comments/<slug:username>/', GetCommentsAPIView.as_view()),
-    path('add_comment/<slug:username>/', AddCommentAPIview.as_view()),
+    path('get_comments/', GetCommentsAPIView.as_view()),
+    path('add_comment/', AddCommentAPIview.as_view()),
     # other
     path('get_skills/', SkillsAPIView.as_view()),
     path('get_regions/', RegionsAPIView.as_view()),

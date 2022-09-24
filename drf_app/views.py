@@ -13,7 +13,8 @@ from users_app.models import (Hairdresser,
                               City,
                               Region, )
 from users_app.services import (delete_portfolio_directory,
-                                MAX_COUNT)
+                                MAX_COUNT,
+                                delete_avatar_directory)
 from .permissons import IsOwner, IsHairdresserOwner
 from .serialazers import (CreateUserSerializer,
                           UpdateUserSerializer,
@@ -31,10 +32,10 @@ from .serialazers import (CreateUserSerializer,
 from .services import (convert_and_save_photo_to_portfolio,
                        get_photo_urls,
                        check_comments_count,
-                       convert_and_save_avatar)
+                       convert_and_save_avatar,
+                       set_default_avatar)
 
 
-# TODO смена аватара, рейтинг при просмотре портфолио
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
 
@@ -100,6 +101,31 @@ class AddAvatarAPIView(APIView):
             )
 
 
+class DeleteAvatarAPIView(APIView):
+    """ Удаление аватара """
+
+    permission_classes = (
+        IsAuthenticated,
+        IsOwner
+    )
+
+    def delete(self, request):
+        user = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
+        if user.default_avatar:
+            return Response(
+                {'error': 'У Вас установлен стандартный аватар!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        self.check_object_permissions(
+            request=request,
+            obj=user
+        )
+        delete_avatar_directory(person_slug=user.slug)
+        set_default_avatar(user=user)
+
+        return Response({'successful': 'Фото успешно удалено!'})
+
+
 class ChangePasswordView(UpdateAPIView):
     """ Изменение пароля """
 
@@ -143,15 +169,9 @@ class UpdateDeleteUserAPIView(APIView):
         IsOwner,
     )
 
-    def get(self, request, **kwargs):
-        username = kwargs.get('username')
+    def get(self, request):
+        username = request.user.username
         user = User.objects.filter(username=username).first()
-        if not user:
-            return Response(
-                {'error': f'Пользователь {username} не найден'},
-                status=status.HTTP_404_NOT_FOUND
-            )
-
         self.check_object_permissions(
             request=request,
             obj=user
@@ -159,15 +179,9 @@ class UpdateDeleteUserAPIView(APIView):
         data = SimpleUserSerializer(user.simpleuser)
         return Response(data.data)
 
-    def put(self, request, **kwargs):
-        username = kwargs.get('username')
+    def put(self, request):
+        username = request.user.username
         user = User.objects.filter(username=username).first()
-        if not user:
-            return Response(
-                {'error': f'Пользователь {username} не найден'},
-                status=status.HTTP_404_NOT_FOUND
-            )
-
         self.check_object_permissions(
             request=request,
             obj=user
@@ -187,15 +201,9 @@ class UpdateDeleteUserAPIView(APIView):
         data = {'successful': 'first_name и/или last_name успешно изменены!'}
         return Response(data, status=status.HTTP_200_OK)
 
-    def delete(self, request, **kwargs):
-        username = kwargs.get('username')
+    def delete(self, request):
+        username = request.user.username
         user = User.objects.filter(username=username).first()
-        if not user:
-            return Response(
-                {'error': f'Пользователь {username} не найден'},
-                status=status.HTTP_404_NOT_FOUND
-            )
-
         self.check_object_permissions(
             request=request,
             obj=user
@@ -243,12 +251,12 @@ class AddPhotoToPortfolioAPIView(APIView):
         IsHairdresserOwner
     )
 
-    def post(self, request, **kwargs):
-        username = kwargs.get('username')
+    def post(self, request):
+        username = request.user.username
         hairdresser = Hairdresser.objects.filter(owner__username=username).first()
         if not hairdresser:
             return Response(
-                {'error': f'Портфолио не найдено. Проверьте username пользователя.'},
+                {'error': 'У вас нет портфолио парикмахера.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         self.check_object_permissions(
@@ -298,12 +306,12 @@ class RemovePhotoFromPortfolio(APIView):
         IsHairdresserOwner,
     )
 
-    def delete(self, request, **kwargs):
-        username = kwargs.get('username')
+    def delete(self, request):
+        username = request.user.username
         hairdresser = Hairdresser.objects.filter(owner__username=username).first()
         if not hairdresser:
             return Response(
-                {'error': f'Портфолио не найдено! Проверьте username пользователя.'},
+                {'error': 'У вас нет портфолио парикмахера.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         self.check_object_permissions(
@@ -312,7 +320,7 @@ class RemovePhotoFromPortfolio(APIView):
         )
         delete_portfolio_directory(person_slug=username)
         return Response(
-            {'successful': 'Фото с портфолио успешно удалены!'}
+            {'successful': 'Фото успешно удалены!'}
         )
 
 
@@ -351,17 +359,17 @@ class UpdateDeleteHairdresserAPIView(APIView):
         IsHairdresserOwner,
     )
 
-    def put(self, request, **kwargs):
-        username = kwargs.get('username')
+    def put(self, request):
+        username = request.user.username
         hairdresser = Hairdresser.objects.filter(owner__username=username).first()
         if not hairdresser:
             return Response(
-                {'error': f'Портфолио не найдено. Проверьте username пользователя.'},
+                {'error': 'У вас нет портфолио парикмахера.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         if not request.data:
             return Response(
-                {'error': 'Данные не переданы.'},
+                {'error': 'Данные для изменения не переданы.'},
                 status=status.HTTP_400_BAD_REQUEST
             )
         self.check_object_permissions(
@@ -377,12 +385,12 @@ class UpdateDeleteHairdresserAPIView(APIView):
         data = {'successful': 'Данные успешно изменены!'}
         return Response(data, status=status.HTTP_200_OK)
 
-    def delete(self, request, **kwargs):
-        username = kwargs.get('username')
+    def delete(self, request):
+        username = request.user.username
         simple_user = SimpleUser.objects.filter(owner__username=username).first()
         if not simple_user:
             return Response(
-                {'error': f'Портфолио не найдено. Проверьте имя пользователя'},
+                {'error': f'У вас нет портфолио парикмахера.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         self.check_object_permissions(
@@ -508,8 +516,13 @@ class SelectionAPIView(APIView):
 class GetCommentsAPIView(APIView):
     """ Отзывы о парикмахере """
 
-    def get(self, request, **kwargs):
-        username = kwargs.get('username')
+    def get(self, request):
+        username = request.data.get('username')
+        if not username:
+            return Response(
+                {'error': 'Не передан username!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         user = SimpleUser.objects.filter(username=username)
         if not user:
             return Response(
@@ -533,26 +546,38 @@ class AddCommentAPIview(APIView):
         IsAuthenticated,
     )
 
-    def post(self, request, **kwargs):
+    def post(self, request):
+        belong_to = request.data.get('belong_to')
+        if not belong_to:
+            return Response(
+                {'error': 'Не передан параметр "belong_to"!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         who_do_we_evaluate = (SimpleUser.objects
-                              .filter(slug=kwargs.get('username'))
+                              .filter(slug=belong_to)
                               .first())
         if not who_do_we_evaluate:
             return Response(
-                {'error': f'Парикмахер {kwargs.get("username")} не найден!'},
+                {'error': f'Парикмахер не найден!'},
                 status=status.HTTP_404_NOT_FOUND
             )
-        who_evaluates = SimpleUser.objects.get(slug=request.user.simpleuser.slug)
+        who_evaluates = SimpleUser.objects.get(
+            slug=request.user.simpleuser.slug
+        )
+
         if who_evaluates.slug == who_do_we_evaluate.slug:
             return Response(
                 {'error': 'Неверные данные!'},
                 status=status.HTTP_403_FORBIDDEN
             )
+        # защита от спама
         if check_comments_count(who_evaluates, who_do_we_evaluate):
             return Response(
-                {'error': f'На сегодня превышен лимит отзывов к пользователю {who_do_we_evaluate.username}!'},
+                {'error': f'На сегодня превышен лимит отзывов к пользователю '
+                          f'{who_do_we_evaluate.username}!'},
                 status=status.HTTP_403_FORBIDDEN
             )
+
         serializer = CreateCommentSerializer(
             data=request.data,
             author=who_evaluates,
@@ -560,5 +585,7 @@ class AddCommentAPIview(APIView):
         )
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            data = {'successful': 'Отзыв успешно добавлен!'}
-            return Response(data, status=status.HTTP_201_CREATED)
+            return Response(
+                {'successful': 'Отзыв успешно добавлен!'},
+                status=status.HTTP_201_CREATED
+            )

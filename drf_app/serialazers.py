@@ -340,15 +340,27 @@ class CreateCommentSerializer(serializers.ModelSerializer):
         return comment
 
     def is_valid(self, raise_exception=False):
-        super().is_valid()
-        text = self.validated_data.get('text')
+        text = self.initial_data.get('text')
+        if not text:
+            raise ValidationError(
+                {'error': 'Не передан текст комментария!'}
+            )
         if len(text) < 10:
             raise ValidationError(
                 {'error': 'Текст комментария должен содержать не менее 10 символов!'}
             )
-        rating = self.validated_data.get('rating_value')
+        rating = self.initial_data.get('rating_value')
+        if rating is None:
+            raise ValidationError(
+                {'error': 'Не передано значение рейтинга!'}
+            )
+        if not isinstance(rating, int):
+            raise ValidationError(
+                {'error': 'Значение рейтинга должно быть числом!'}
+            )
         if rating < 0 or rating > 5:
             raise ValidationError(
                 {'error': 'Рейтинг должен быть от 0 до 5 включительно!'}
             )
+        super().is_valid()
         return text, rating
