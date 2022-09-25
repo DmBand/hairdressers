@@ -181,4 +181,10 @@ Value: Token eyJ0...uvWk
     "city_id": id
 }
 ```
-3. URL: ```/api/v1/get_cities_in_the_region/region_id/``` - возвращает перечень всех городов, входящих в область ```region_id```.
+3. URL: ```/api/v1/get_cities_in_the_region/``` - возвращает перечень всех городов, входящих в область ```region_id```.  
+Тело запроса:
+```
+{
+    "region_id": id
+}
+```

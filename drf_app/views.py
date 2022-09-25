@@ -458,8 +458,18 @@ class GetCityAPIView(APIView):
 class GetAllCitiesInTheRegion(APIView):
     """ Просмотр всех городов одной области """
 
-    def get(self, request, **kwargs):
-        pk = kwargs.get('pk')
+    def get(self, request):
+        pk = request.data.get('region_id')
+        if not pk:
+            return Response(
+                {'error': 'Не передан параметр "region_id"!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        if not isinstance(pk, int):
+            return Response(
+                {'error': 'Параметр "region_id" должен быть числом!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         cities = City.objects.filter(region__pk=pk)
         if not cities:
             return Response(

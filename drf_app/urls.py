@@ -45,7 +45,7 @@ urlpatterns = [
     path('get_regions/', RegionsAPIView.as_view()),
     path('get_cities/', CitiesAPIView.as_view()),
     path('get_city/', GetCityAPIView.as_view()),
-    path('get_cities_in_the_region/<int:pk>/', GetAllCitiesInTheRegion.as_view()),
+    path('get_cities_in_the_region/', GetAllCitiesInTheRegion.as_view()),
     # jwt
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
