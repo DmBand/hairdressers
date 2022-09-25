@@ -331,7 +331,7 @@ class GetHairdresserAPIView(APIView):
         owner = request.data.get('hairdresser')
         if not owner:
             return Response(
-                {'error': 'Не передан параметр "hairdresser"'},
+                {'error': 'Не передан параметр "hairdresser"!'},
                 status=status.HTTP_400_BAD_REQUEST
             )
         hairdresser = Hairdresser.objects.filter(owner__username=owner).first()
@@ -433,12 +433,22 @@ class CitiesAPIView(generics.ListAPIView):
 class GetCityAPIView(APIView):
     """ Просмотр конкретного города """
 
-    def get(self, request, **kwargs):
-        pk = kwargs.get('pk')
+    def get(self, request):
+        pk = request.data.get('city_id')
+        if not pk:
+            return Response(
+                {'error': 'Не передан параметр "city_id"!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        if not isinstance(pk, int):
+            return Response(
+                {'error': 'Параметр "city_id" должен быть числом!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         city = City.objects.filter(pk=pk)
         if not city:
             return Response(
-                {'error': 'Город не найден!'},
+                {'error': 'Город не найден! Уточните "city_id".'},
                 status=status.HTTP_404_NOT_FOUND
             )
         serializer = CityWithIDSerializer(city, many=True)
