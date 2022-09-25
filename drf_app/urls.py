@@ -31,7 +31,7 @@ urlpatterns = [
     path('create_hairdresser/', CreateHairdresserAPIView.as_view()),
     path('add_photo_to_portfolio/', AddPhotoToPortfolioAPIView.as_view()),
     path('remove_all_photo_from_portfolio/', RemovePhotoFromPortfolio.as_view()),
-    path('get_hairdresser/<slug:username>/', GetHairdresserAPIView.as_view()),
+    path('get_hairdresser/', GetHairdresserAPIView.as_view()),
     path('update_delete_hairdresser/', UpdateDeleteHairdresserAPIView.as_view()),
     # change password
     path('change_password/', ChangePasswordView.as_view()),

@@ -327,8 +327,13 @@ class RemovePhotoFromPortfolio(APIView):
 class GetHairdresserAPIView(APIView):
     """ Просмотр портфолио парикмахера """
 
-    def get(self, request, **kwargs):
-        owner = kwargs.get('username')
+    def get(self, request):
+        owner = request.data.get('hairdresser')
+        if not owner:
+            return Response(
+                {'error': 'Не передан параметр "hairdresser"'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         hairdresser = Hairdresser.objects.filter(owner__username=owner).first()
         if not hairdresser:
             return Response(
