@@ -17,6 +17,9 @@ def path_to_user_avatar_directory(instance, filename):
 
 class Skill(models.Model):
     """ Модель навыков парикмахеров """
+
+    objects = models.Manager()
+
     name = models.CharField(
         max_length=150,
         verbose_name='навык',
@@ -34,6 +37,9 @@ class Skill(models.Model):
 
 class Region(models.Model):
     """ Модель областей """
+
+    objects = models.Manager()
+
     name = models.CharField(
         max_length=30,
         verbose_name='область',
@@ -50,6 +56,9 @@ class Region(models.Model):
 
 class City(models.Model):
     """Модель городов"""
+
+    objects = models.Manager()
+
     region = models.ForeignKey(
         Region,
         on_delete=models.PROTECT,
@@ -74,6 +83,9 @@ class City(models.Model):
 
 class SimpleUser(models.Model):
     """ Модель пользователя """
+
+    objects = models.Manager()
+
     username = models.CharField(
         max_length=30,
         verbose_name='логин'
@@ -100,21 +112,21 @@ class SimpleUser(models.Model):
         default=True,
     )
     slug = models.SlugField(
-        max_length=50, 
-        unique=True, 
-        db_index=True, 
+        max_length=50,
+        unique=True,
+        db_index=True,
         verbose_name='URL',
     )
     is_hairdresser = models.BooleanField(
-        default=False, 
+        default=False,
         verbose_name='парикмахер',
     )
     date_of_registration = models.DateField(
-        auto_now_add=True, 
+        auto_now_add=True,
         verbose_name='дата регистрации',
     )
     owner = models.OneToOneField(
-        User, 
+        User,
         on_delete=models.CASCADE,
         related_name='simpleuser'
     )
@@ -129,6 +141,9 @@ class SimpleUser(models.Model):
 
 class Hairdresser(models.Model):
     """ Модель парикмахера """
+
+    objects = models.Manager()
+
     city = models.ForeignKey(
         City,
         on_delete=models.PROTECT,

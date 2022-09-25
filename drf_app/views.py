@@ -327,8 +327,13 @@ class RemovePhotoFromPortfolio(APIView):
 class GetHairdresserAPIView(APIView):
     """ Просмотр портфолио парикмахера """
 
-    def get(self, request, **kwargs):
-        owner = kwargs.get('username')
+    def get(self, request):
+        owner = request.data.get('hairdresser')
+        if not owner:
+            return Response(
+                {'error': 'Не передан параметр "hairdresser"!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         hairdresser = Hairdresser.objects.filter(owner__username=owner).first()
         if not hairdresser:
             return Response(
@@ -428,12 +433,22 @@ class CitiesAPIView(generics.ListAPIView):
 class GetCityAPIView(APIView):
     """ Просмотр конкретного города """
 
-    def get(self, request, **kwargs):
-        pk = kwargs.get('pk')
+    def get(self, request):
+        pk = request.data.get('city_id')
+        if not pk:
+            return Response(
+                {'error': 'Не передан параметр "city_id"!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        if not isinstance(pk, int):
+            return Response(
+                {'error': 'Параметр "city_id" должен быть числом!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         city = City.objects.filter(pk=pk)
         if not city:
             return Response(
-                {'error': 'Город не найден!'},
+                {'error': 'Город не найден! Уточните "city_id".'},
                 status=status.HTTP_404_NOT_FOUND
             )
         serializer = CityWithIDSerializer(city, many=True)
@@ -443,8 +458,18 @@ class GetCityAPIView(APIView):
 class GetAllCitiesInTheRegion(APIView):
     """ Просмотр всех городов одной области """
 
-    def get(self, request, **kwargs):
-        pk = kwargs.get('pk')
+    def get(self, request):
+        pk = request.data.get('region_id')
+        if not pk:
+            return Response(
+                {'error': 'Не передан параметр "region_id"!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        if not isinstance(pk, int):
+            return Response(
+                {'error': 'Параметр "region_id" должен быть числом!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         cities = City.objects.filter(region__pk=pk)
         if not cities:
             return Response(

@@ -4,6 +4,9 @@ from users_app.models import Hairdresser
 
 class Comment(models.Model):
     """ Модель комментария """
+
+    objects = models.Manager()
+
     autor = models.CharField(
         max_length=50, 
         verbose_name='автор',

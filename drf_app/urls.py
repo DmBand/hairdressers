@@ -31,7 +31,7 @@ urlpatterns = [
     path('create_hairdresser/', CreateHairdresserAPIView.as_view()),
     path('add_photo_to_portfolio/', AddPhotoToPortfolioAPIView.as_view()),
     path('remove_all_photo_from_portfolio/', RemovePhotoFromPortfolio.as_view()),
-    path('get_hairdresser/<slug:username>/', GetHairdresserAPIView.as_view()),
+    path('get_hairdresser/', GetHairdresserAPIView.as_view()),
     path('update_delete_hairdresser/', UpdateDeleteHairdresserAPIView.as_view()),
     # change password
     path('change_password/', ChangePasswordView.as_view()),
@@ -44,8 +44,8 @@ urlpatterns = [
     path('get_skills/', SkillsAPIView.as_view()),
     path('get_regions/', RegionsAPIView.as_view()),
     path('get_cities/', CitiesAPIView.as_view()),
-    path('get_city/<int:pk>/', GetCityAPIView.as_view()),
-    path('get_cities_in_the_region/<int:pk>/', GetAllCitiesInTheRegion.as_view()),
+    path('get_city/', GetCityAPIView.as_view()),
+    path('get_cities_in_the_region/', GetAllCitiesInTheRegion.as_view()),
     # jwt
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
