@@ -485,31 +485,26 @@ class SelectionAPIView(APIView):
     """ Подбор парикмахеров по критериям """
 
     def get(self, request):
-        city = request.data.get('city')
-        if city:
-            if not isinstance(city, (int, str)):
-                return Response(
-                    {'error': 'Передан неверный тип данных!'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-        skills = request.data.get('skills')
-        if skills:
-            if not isinstance(skills, (list, tuple)):
-                return Response(
-                    {'error': 'Передан неверный тип данных!'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-        skills_list = [skill for skill in skills] if skills else []
-        if not city and not skills_list:
+        city = request.query_params.getlist('city')
+        if len(city) > 1:
+            return Response(
+                {'error': 'Параметр "city" передан более 1 (одного) раза!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        # проверка на случай, если не передан город
+        city = city[0] if city else None
+        skills = request.query_params.getlist('skill')
+        if not city and not skills:
             return Response(
                 {'error': 'Не переданы критерии поиска!'},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
         result = get_selection_by_filters(
             model=Hairdresser,
             context={},
             city=city,
-            skills=skills_list,
+            skills=skills,
         )
         serializer = GetHairdresserSerializer(
             result.get('hairdresser'),
