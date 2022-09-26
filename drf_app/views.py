@@ -327,8 +327,8 @@ class RemovePhotoFromPortfolio(APIView):
 class GetHairdresserAPIView(APIView):
     """ Просмотр портфолио парикмахера """
 
-    def get(self, request):
-        owner = request.data.get('hairdresser')
+    def get(self, request, **kwargs):
+        owner = kwargs.get('username')
         if not owner:
             return Response(
                 {'error': 'Не передан параметр "hairdresser"!'},
@@ -433,8 +433,8 @@ class CitiesAPIView(generics.ListAPIView):
 class GetCityAPIView(APIView):
     """ Просмотр конкретного города """
 
-    def get(self, request):
-        pk = request.data.get('city_id')
+    def get(self, request, **kwargs):
+        pk = kwargs.get('city_id')
         if not pk:
             return Response(
                 {'error': 'Не передан параметр "city_id"!'},
@@ -458,8 +458,8 @@ class GetCityAPIView(APIView):
 class GetAllCitiesInTheRegion(APIView):
     """ Просмотр всех городов одной области """
 
-    def get(self, request):
-        pk = request.data.get('region_id')
+    def get(self, request, **kwargs):
+        pk = kwargs.get('region_id')
         if not pk:
             return Response(
                 {'error': 'Не передан параметр "region_id"!'},
@@ -484,31 +484,25 @@ class SelectionAPIView(APIView):
     """ Подбор парикмахеров по критериям """
 
     def get(self, request):
-        city = request.data.get('city')
-        if city:
-            if not isinstance(city, (int, str)):
-                return Response(
-                    {'error': 'Передан неверный тип данных!'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-        skills = request.data.get('skills')
-        if skills:
-            if not isinstance(skills, (list, tuple)):
-                return Response(
-                    {'error': 'Передан неверный тип данных!'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-        skills_list = [skill for skill in skills] if skills else []
-        if not city and not skills_list:
+        city = request.query_params.getlist('city')
+        if len(city) > 1:
+            return Response(
+                {'error': 'Параметр "city" передан более 1 (одного) раза!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        city = city[0] if city else None
+        skills = request.query_params.getlist('skill')
+        if not city and not skills:
             return Response(
                 {'error': 'Не переданы критерии поиска!'},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
         result = get_selection_by_filters(
             model=Hairdresser,
             context={},
             city=city,
-            skills=skills_list,
+            skills=skills,
         )
         serializer = GetHairdresserSerializer(
             result.get('hairdresser'),
@@ -541,8 +535,8 @@ class SelectionAPIView(APIView):
 class GetCommentsAPIView(APIView):
     """ Отзывы о парикмахере """
 
-    def get(self, request):
-        username = request.data.get('username')
+    def get(self, request, **kwargs):
+        username = kwargs.get('username')
         if not username:
             return Response(
                 {'error': 'Не передан username!'},
