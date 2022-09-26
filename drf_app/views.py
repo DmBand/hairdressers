@@ -491,7 +491,6 @@ class SelectionAPIView(APIView):
                 {'error': 'Параметр "city" передан более 1 (одного) раза!'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        # проверка на случай, если не передан город
         city = city[0] if city else None
         skills = request.query_params.getlist('skill')
         if not city and not skills:
