@@ -36,6 +36,7 @@ from .services import (convert_and_save_photo_to_portfolio,
                        set_default_avatar)
 
 
+# TODO GET-запрос в selection
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
 
@@ -327,8 +328,8 @@ class RemovePhotoFromPortfolio(APIView):
 class GetHairdresserAPIView(APIView):
     """ Просмотр портфолио парикмахера """
 
-    def get(self, request):
-        owner = request.data.get('hairdresser')
+    def get(self, request, **kwargs):
+        owner = kwargs.get('username')
         if not owner:
             return Response(
                 {'error': 'Не передан параметр "hairdresser"!'},
@@ -433,8 +434,8 @@ class CitiesAPIView(generics.ListAPIView):
 class GetCityAPIView(APIView):
     """ Просмотр конкретного города """
 
-    def get(self, request):
-        pk = request.data.get('city_id')
+    def get(self, request, **kwargs):
+        pk = kwargs.get('city_id')
         if not pk:
             return Response(
                 {'error': 'Не передан параметр "city_id"!'},
@@ -458,8 +459,8 @@ class GetCityAPIView(APIView):
 class GetAllCitiesInTheRegion(APIView):
     """ Просмотр всех городов одной области """
 
-    def get(self, request):
-        pk = request.data.get('region_id')
+    def get(self, request, **kwargs):
+        pk = kwargs.get('region_id')
         if not pk:
             return Response(
                 {'error': 'Не передан параметр "region_id"!'},
@@ -541,8 +542,8 @@ class SelectionAPIView(APIView):
 class GetCommentsAPIView(APIView):
     """ Отзывы о парикмахере """
 
-    def get(self, request):
-        username = request.data.get('username')
+    def get(self, request, **kwargs):
+        username = kwargs.get('username')
         if not username:
             return Response(
                 {'error': 'Не передан username!'},
