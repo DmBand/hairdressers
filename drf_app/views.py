@@ -36,7 +36,6 @@ from .services import (convert_and_save_photo_to_portfolio,
                        set_default_avatar)
 
 
-# TODO GET-запрос в selection
 class CreateUserAPIView(APIView):
     """ Регистрация пользователя """
 
